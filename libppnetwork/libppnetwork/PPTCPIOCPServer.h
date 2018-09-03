@@ -2,14 +2,14 @@
 #include "PPAcceptor.h"
 #include "PPIOCP.h"
 
-class PPIOCPTCPServer : public PPServerObject {
+class PPTCPIOCPServer : public PPServerObject {
 public:
 	PPAcceptor Acceptor;
 	PPSender Sender;
 	int m_iThread;
 public:
-	PPIOCPTCPServer();
-	virtual ~PPIOCPTCPServer();
+	PPTCPIOCPServer();
+	virtual ~PPTCPIOCPServer();
 public:
 	virtual int Init();
 	virtual int Run();

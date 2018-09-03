@@ -1,13 +1,13 @@
-#include "PPIOCPTCPServer.h"
+#include "PPTCPIOCPServer.h"
 #include "PPSessionManager.h"
 #include "PPReceivePacketPool.h"
 #include "PPSendPacketPool.h"
 #include "PPIOCP.h"
 
-PPIOCPTCPServer::PPIOCPTCPServer() {}
-PPIOCPTCPServer::~PPIOCPTCPServer() {}
+PPTCPIOCPServer::PPTCPIOCPServer() {}
+PPTCPIOCPServer::~PPTCPIOCPServer() {}
 
-int PPIOCPTCPServer::Init() {
+int PPTCPIOCPServer::Init() {
 	Acceptor.Init();
 	PPIOCP::GetInstance().Init();
 	Acceptor.LaunchThread();
@@ -15,7 +15,7 @@ int PPIOCPTCPServer::Init() {
 	return 0;
 }
 
-int PPIOCPTCPServer::Run() {
+int PPTCPIOCPServer::Run() {
 	while (!m_isShutdown) {
 		if (PPSendPacketPool::GetInstance().size() != 0) {
 			Sender.Broadcast();
@@ -25,7 +25,7 @@ int PPIOCPTCPServer::Run() {
 	return 0;
 }
 
-int PPIOCPTCPServer::Release() {
+int PPTCPIOCPServer::Release() {
 	PPServerObject::m_isShutdown = true;
 	PPIOCP::GetInstance().Release();
 	Acceptor.Release();
@@ -36,7 +36,7 @@ int PPIOCPTCPServer::Release() {
 	return 0;
 }
 
-int PPIOCPTCPServer::Startup(short iPort, short iThread) {
+int PPTCPIOCPServer::Startup(short iPort, short iThread) {
 	PPServerObject::m_isShutdown = false;
 	PPIOCP::GetInstance().Set(iThread);
 	Acceptor.Set(iPort);
@@ -48,7 +48,7 @@ int PPIOCPTCPServer::Startup(short iPort, short iThread) {
 	return 0;
 }
 
-int PPIOCPTCPServer::Shutdown() {
+int PPTCPIOCPServer::Shutdown() {
 	Release();
 
 	return 0;
