@@ -50,8 +50,7 @@ int PPSender::Send() {
 	return 0;
 }
 
-int PPSender::Broadcast()
-{
+int PPSender::Broadcast() {
 	if (PPSendPacketPool::GetInstance().size()) {
 		std::lock_guard<std::mutex> lock(m_mutexThis);
 		int iResult = 0;
