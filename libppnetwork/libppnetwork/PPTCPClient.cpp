@@ -1,27 +1,16 @@
 #include "PPTCPClient.h"
 
+PPTCPClient::PPTCPClient() {}
+PPTCPClient::~PPTCPClient() {}
 
-
-PPTCPClient::PPTCPClient()
-{
-}
-
-
-PPTCPClient::~PPTCPClient()
-{
-}
-
-int PPTCPClient::Init()
-{
+int PPTCPClient::Init() {
 	return 0;
 }
 
-int PPTCPClient::Run()
-{
+int PPTCPClient::Run() {
 	return 0;
 }
 
-int PPTCPClient::Release()
-{
+int PPTCPClient::Release() {
 	return 0;
 }

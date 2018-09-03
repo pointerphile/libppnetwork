@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PPTCPIOCPServer", "PPTCPIOC
 		{398A5316-FE7D-410B-8AF9-C1244FA78AC5} = {398A5316-FE7D-410B-8AF9-C1244FA78AC5}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PPTCPIOCPClient", "PPTCPIOCPClient\PPTCPIOCPClient.vcxproj", "{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +36,14 @@ Global
 		{18AE0492-26D1-4EF3-BCA2-1F8DEBF0E99C}.Release|x64.Build.0 = Release|x64
 		{18AE0492-26D1-4EF3-BCA2-1F8DEBF0E99C}.Release|x86.ActiveCfg = Release|Win32
 		{18AE0492-26D1-4EF3-BCA2-1F8DEBF0E99C}.Release|x86.Build.0 = Release|Win32
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Debug|x64.ActiveCfg = Debug|x64
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Debug|x64.Build.0 = Debug|x64
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Debug|x86.Build.0 = Debug|Win32
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Release|x64.ActiveCfg = Release|x64
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Release|x64.Build.0 = Release|x64
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Release|x86.ActiveCfg = Release|Win32
+		{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

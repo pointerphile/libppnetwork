@@ -1,31 +1,25 @@
-#include "PPIOCPTCPClient.h"
+#include "PPTCPIOCPClient.h"
 #include "PPSessionManager.h"
 #include "PPReceivePacketPool.h"
 #include "PPSendPacketPool.h"
 #include "PPIOCP.h"
 
-PPIOCPTCPClient::PPIOCPTCPClient() {}
+PPTCPIOCPClient::PPTCPIOCPClient() {}
+PPTCPIOCPClient::~PPTCPIOCPClient() {}
 
-
-PPIOCPTCPClient::~PPIOCPTCPClient() {}
-
-int PPIOCPTCPClient::Init()
-{
+int PPTCPIOCPClient::Init() {
 	return 0;
 }
 
-int PPIOCPTCPClient::Run()
-{
+int PPTCPIOCPClient::Run() {
 	return 0;
 }
 
-int PPIOCPTCPClient::Release()
-{
+int PPTCPIOCPClient::Release() {
 	return 0;
 }
 
-int PPIOCPTCPClient::Startup(std::string strAddress, short iPort)
-{
+int PPTCPIOCPClient::Startup(std::string strAddress, short iPort) {
 	PPServerObject::m_isShutdown = false;
 	PPIOCP::GetInstance().Set(1);
 	Connector.Set(strAddress, iPort);
@@ -35,10 +29,8 @@ int PPIOCPTCPClient::Startup(std::string strAddress, short iPort)
 	Run();
 
 	return 0;
-	return 0;
 }
 
-int PPIOCPTCPClient::Shutdown()
-{
+int PPTCPIOCPClient::Shutdown() {
 	return 0;
 }

@@ -3,14 +3,14 @@
 #include "PPConnector.h"
 #include "PPReceiver.h"
 #include "PPSender.h"
-class PPIOCPTCPClient : public PPServerObject
+class PPTCPIOCPClient : public PPServerObject
 {
 private:
 	PPConnector Connector;
 	PPSender Sender;
 public:
-	PPIOCPTCPClient();
-	virtual ~PPIOCPTCPClient();
+	PPTCPIOCPClient();
+	virtual ~PPTCPIOCPClient();
 public:
 	virtual int Init();
 	virtual int Run();
