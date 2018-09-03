@@ -11,6 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PPTCPIOCPServer", "PPTCPIOC
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PPTCPIOCPClient", "PPTCPIOCPClient\PPTCPIOCPClient.vcxproj", "{7AAD5486-51D5-473E-8AA4-02388AB6A7E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{398A5316-FE7D-410B-8AF9-C1244FA78AC5} = {398A5316-FE7D-410B-8AF9-C1244FA78AC5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

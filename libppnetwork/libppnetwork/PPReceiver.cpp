@@ -10,7 +10,7 @@ int PPReceiver::Release() { return 0; }
 
 int PPReceiver::Run(PPSession* pSession, DWORD dwTransferred)
 {
-	if (pSession->m_socketClient == INVALID_SOCKET) {
+	if (pSession->m_socketSession == INVALID_SOCKET) {
 		DisplayError("PPReceiver.Run()");
 		return -1;
 	}
@@ -20,7 +20,7 @@ int PPReceiver::Run(PPSession* pSession, DWORD dwTransferred)
 	pSession->m_wsabufRecv.buf = pSession->m_bufRecv;
 	pSession->m_wsabufRecv.len = 2048;
 	iResult = WSARecv(
-		pSession->m_socketClient,
+		pSession->m_socketSession,
 		&pSession->m_wsabufRecv,
 		1,
 		nullptr,
@@ -36,7 +36,7 @@ int PPReceiver::Run(PPSession* pSession, DWORD dwTransferred)
 		}
 	}
 	if (pSession->m_bufRecv != '\0') {
-		//std::cout << "socket " << pSession->m_socketClient
+		//std::cout << "socket " << pSession->m_socketSession
 		//	<< " Received : " << pSession->m_bufRecv << std::endl;
 		UPACKET packet = { 0 };
 		if (strlen(pSession->m_bufRecv) > 0) {

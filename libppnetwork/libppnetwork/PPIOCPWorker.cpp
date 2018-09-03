@@ -28,7 +28,7 @@ int PPIOCPWorker::Run() {
 
 		if (isReturn == true) {
 			if (dwTransferred == 0) {
-				PPSessionManager::GetInstance().erase(pSession->m_socketClient);
+				PPSessionManager::GetInstance().erase(pSession->m_socketSession);
 			}
 			if (dwTransferred != 0 && lpOverlapped != 0) {
 				Receiver.Run(pSession, dwTransferred);
@@ -37,7 +37,7 @@ int PPIOCPWorker::Run() {
 		else {
 			if (GetLastError() != ERROR_OPERATION_ABORTED) {
 				if (dwTransferred == 0) {
-					PPSessionManager::GetInstance().erase(pSession->m_socketClient);
+					PPSessionManager::GetInstance().erase(pSession->m_socketSession);
 				}
 			}
 		}

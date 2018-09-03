@@ -23,7 +23,7 @@ int PPSender::Send() {
 		if (packet.m_pSession == nullptr) {
 			return -1;
 		}
-		strTemp = std::to_string(packet.m_pSession->m_socketClient);
+		strTemp = std::to_string(packet.m_pSession->m_socketSession);
 		strTemp.append(" : ");
 		strTemp.append(packet.m_packet.m_msg);
 
@@ -65,7 +65,7 @@ int PPSender::Broadcast()
 		if (packet.m_pSession == nullptr) {
 			return -1;
 		}
-		strTemp = std::to_string(packet.m_pSession->m_socketClient);
+		strTemp = std::to_string(packet.m_pSession->m_socketSession);
 		strTemp.append(" : ");
 		strTemp.append(packet.m_packet.m_msg);
 

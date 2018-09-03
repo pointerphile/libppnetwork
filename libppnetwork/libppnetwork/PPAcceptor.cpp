@@ -66,23 +66,23 @@ int PPAcceptor::Run() {
 		int iResult = 0;
 		DWORD flags = 0;
 		PPSession session = { 0 };
-		int addrlen = sizeof(session.m_saClient);
-		session.m_socketClient = accept(m_socketListen, (sockaddr*)&session.m_saClient, &addrlen);
-		if (session.m_socketClient == INVALID_SOCKET) {
+		int addrlen = sizeof(session.m_saSession);
+		session.m_socketSession = accept(m_socketListen, (sockaddr*)&session.m_saSession, &addrlen);
+		if (session.m_socketSession == INVALID_SOCKET) {
 			DisplayError("accept()");
 			break;
 		}
-		PPSessionManager::GetInstance().push_back(session.m_socketClient, session);
-		PPSession* pSession = &PPSessionManager::GetInstance().find(session.m_socketClient)->second;
+		PPSessionManager::GetInstance().push_back(session.m_socketSession, session);
+		PPSession* pSession = &PPSessionManager::GetInstance().find(session.m_socketSession)->second;
 		//CreateIoCompletionPort()
-		PPIOCP::GetInstance().BindSocket((HANDLE)pSession->m_socketClient, (ULONG_PTR)pSession);
+		PPIOCP::GetInstance().BindSocket((HANDLE)pSession->m_socketSession, (ULONG_PTR)pSession);
 
 		UPACKET packet;
 		sprintf_s(packet.m_msg, "À¸¾Æ¾Ç");
 		pSession->m_wsabufSend.buf = packet.m_msg;
 		pSession->m_wsabufSend.len = (ULONG)strlen(packet.m_msg);
 
-		iResult = WSASend(pSession->m_socketClient, &pSession->m_wsabufSend, 1, nullptr, 0, &pSession->m_ov, nullptr);
+		iResult = WSASend(pSession->m_socketSession, &pSession->m_wsabufSend, 1, nullptr, 0, &pSession->m_ov, nullptr);
 		if (iResult == SOCKET_ERROR) {
 			DisplayError("WSASend()");
 		}

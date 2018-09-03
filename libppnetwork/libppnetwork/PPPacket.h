@@ -4,8 +4,8 @@ class PPSession {
 public:
 	enum mode { MODE_RECV, MODE_SEND };
 	OVERLAPPED m_ov;
-	SOCKET m_socketClient = 0;
-	sockaddr_in m_saClient = { 0 };
+	SOCKET m_socketSession = 0;
+	sockaddr_in m_saSession = { 0 };
 	mode m_modeSession = MODE_RECV;
 	char m_bufRecv[2048] = { 0 };
 	char m_bufSend[2048] = { 0 };

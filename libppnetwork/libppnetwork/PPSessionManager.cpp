@@ -51,8 +51,8 @@ bool PPSessionManager::erase(SOCKET socket) {
 bool PPSessionManager::clear() {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
 	for (auto &i : m_mapSession) {
-		shutdown(i.second.m_socketClient, SD_BOTH);
-		closesocket(i.second.m_socketClient);
+		shutdown(i.second.m_socketSession, SD_BOTH);
+		closesocket(i.second.m_socketSession);
 	}
 	m_mapSession.clear();
 

@@ -35,8 +35,9 @@ int PPConnector::Init()
 }
 
 int PPConnector::Run() {
-	int iResult = 0;
 	//connenct()
+	int iResult = 0;
+	std::cout << "connenct()..." << std::endl;
 	SOCKADDR_IN saServer;
 	saServer = { 0 };
 	saServer.sin_family = AF_INET;
@@ -55,4 +56,11 @@ int PPConnector::Run() {
 
 	return 0;
 }
-int PPConnector::Release() { return 0; }
+int PPConnector::Release() {
+	shutdown(m_socketClient, SD_BOTH);
+	closesocket(m_socketClient);
+	m_socketClient = 0;
+	WSACleanup();
+
+	return 0;
+}
