@@ -14,3 +14,8 @@
 #pragma comment(lib, "ws2_32")
 
 #define BUFFER_SIZE 2048
+#if defined(UNICODE) || defined(_UNICODE)
+#define TCOUT wcout
+#else
+#define TCOUT cout
+#endif

@@ -24,6 +24,6 @@ void PPServerObject::DisplayError(const TCHAR * strParam)
 		0,
 		nullptr
 	);
-	std::wcout << strParam << _TEXT(" : ") << (LPCTSTR)lpMsgBuf;
+	std::TCOUT << strParam << _TEXT(" : ") << (LPCTSTR)lpMsgBuf;
 	LocalFree(lpMsgBuf);
 }

@@ -31,7 +31,7 @@ int PPSender::Send() {
 			iter != PPSessionManager::GetInstance().end();
 			++iter) {
 			//iResult = send(iter->first, packet.m_packet.m_msg, (int)strlen(packet.m_packet.m_msg) + 1, 0);
-			iResult = send(iter->first, strTemp.c_str(), strTemp.length(), 0);
+			iResult = send(iter->first, strTemp.c_str(), (int)strTemp.length(), 0);
 			if (iResult == SOCKET_ERROR) {
 				DisplayError(_TEXT("send()"));
 				return -1;
@@ -73,7 +73,7 @@ int PPSender::Broadcast()
 			iter != PPSessionManager::GetInstance().end();
 			++iter) {
 			//iResult = send(iter->first, packet.m_packet.m_msg, (int)strlen(packet.m_packet.m_msg) + 1, 0);
-			iResult = send(iter->first, strTemp.c_str(), strTemp.length(), 0);
+			iResult = send(iter->first, strTemp.c_str(), (int)strTemp.length(), 0);
 			if (iResult == SOCKET_ERROR) {
 				DisplayError(_TEXT("send()"));
 				return -1;
