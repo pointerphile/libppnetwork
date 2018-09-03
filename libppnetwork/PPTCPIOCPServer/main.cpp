@@ -11,7 +11,7 @@ void process() {
 	}
 }
 
-int main() {
+int _tmain() {
 	PPTCPIOCPServer Server;
 	std::thread threadServer;
 	//startup
@@ -28,8 +28,6 @@ int main() {
 			break;
 		}
 	}
-
-	Sleep(1000);
 	system("pause");
 
 	threadServer = std::thread(&PPTCPIOCPServer::Startup, &Server, 10000, 2);

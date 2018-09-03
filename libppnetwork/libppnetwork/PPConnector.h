@@ -4,7 +4,6 @@
 
 class PPConnector : public PPServerObject {
 private:
-	SOCKET m_socketClient;
 	std::string m_strAddress;
 	short m_iPort;
 public:

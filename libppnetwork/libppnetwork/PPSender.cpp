@@ -33,7 +33,7 @@ int PPSender::Send() {
 			//iResult = send(iter->first, packet.m_packet.m_msg, (int)strlen(packet.m_packet.m_msg) + 1, 0);
 			iResult = send(iter->first, strTemp.c_str(), strTemp.length(), 0);
 			if (iResult == SOCKET_ERROR) {
-				DisplayError("send()");
+				DisplayError(_TEXT("send()"));
 				return -1;
 			}
 		}
@@ -75,7 +75,7 @@ int PPSender::Broadcast()
 			//iResult = send(iter->first, packet.m_packet.m_msg, (int)strlen(packet.m_packet.m_msg) + 1, 0);
 			iResult = send(iter->first, strTemp.c_str(), strTemp.length(), 0);
 			if (iResult == SOCKET_ERROR) {
-				DisplayError("send()");
+				DisplayError(_TEXT("send()"));
 				return -1;
 			}
 		}

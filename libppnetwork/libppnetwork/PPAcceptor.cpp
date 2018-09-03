@@ -13,12 +13,12 @@ int PPAcceptor::Set(short iPort) {
 int PPAcceptor::Init() {
 	WSADATA wsa;
 	int iResult = 0;
-	// std::locale::global(std::locale("Korean"));
+	std::locale::global(std::locale("Korean"));
 	//WSAStartup()
 	std::cout << "WSAStartup()..." << std::endl;
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsa);
 	if (iResult != 0) {
-		DisplayError("WSAStartup()");
+		DisplayError(_TEXT("WSAStartup()"));
 		return iResult;
 	}
 	//socket()
@@ -26,7 +26,7 @@ int PPAcceptor::Init() {
 	m_socketListen = socket(AF_INET, SOCK_STREAM, 0);
 	if (m_socketListen == INVALID_SOCKET)
 	{
-		DisplayError("socket()");
+		DisplayError(_TEXT("socket()"));
 		return iResult;
 	}
 	//setsockopt
@@ -45,14 +45,14 @@ int PPAcceptor::Init() {
 	m_saListen.sin_port = htons(m_iPort);
 	iResult = bind(m_socketListen, (sockaddr*)&m_saListen, sizeof(sockaddr));
 	if (iResult != 0) {
-		DisplayError("bind()");
+		DisplayError(_TEXT("bind()"));
 		return iResult;
 	}
 	//listen()
 	std::cout << "listen()..." << std::endl;
 	iResult = listen(m_socketListen, SOMAXCONN);
 	if (iResult != 0) {
-		DisplayError("listen()");
+		DisplayError(_TEXT("listen()"));
 		return iResult;
 	}
 	
@@ -69,7 +69,7 @@ int PPAcceptor::Run() {
 		int addrlen = sizeof(session.m_saSession);
 		session.m_socketSession = accept(m_socketListen, (sockaddr*)&session.m_saSession, &addrlen);
 		if (session.m_socketSession == INVALID_SOCKET) {
-			DisplayError("accept()");
+			DisplayError(_TEXT("accept()"));
 			break;
 		}
 		PPSessionManager::GetInstance().push_back(session.m_socketSession, session);
@@ -84,7 +84,7 @@ int PPAcceptor::Run() {
 
 		iResult = WSASend(pSession->m_socketSession, &pSession->m_wsabufSend, 1, nullptr, 0, &pSession->m_ov, nullptr);
 		if (iResult == SOCKET_ERROR) {
-			DisplayError("WSASend()");
+			DisplayError(_TEXT("WSASend()"));
 		}
 	}
 	return 0;

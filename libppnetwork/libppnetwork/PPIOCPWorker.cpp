@@ -13,9 +13,9 @@ int PPIOCPWorker::Run() {
 	std::cout << "PPIOCPWorker::Run()" << std::endl;
 	while (!m_isShutdown) {
 		bool isReturn = 0;
-		DWORD dwTransferred;
-		ULONG_PTR lpCompletionKey;
-		LPOVERLAPPED lpOverlapped;
+		DWORD dwTransferred = 0;
+		ULONG_PTR lpCompletionKey = 0;
+		LPOVERLAPPED lpOverlapped = nullptr;
 		
 		isReturn = GetQueuedCompletionStatus(
 			PPIOCP::GetInstance().m_hIOCP,
@@ -31,12 +31,12 @@ int PPIOCPWorker::Run() {
 				PPSessionManager::GetInstance().erase(pSession->m_socketSession);
 			}
 			if (dwTransferred != 0 && lpOverlapped != 0) {
-				Receiver.Run(pSession, dwTransferred);
+				Receiver.Receive(pSession, dwTransferred);
 			}
 		}
 		else {
 			if (GetLastError() != ERROR_OPERATION_ABORTED) {
-				if (dwTransferred == 0) {
+				if (dwTransferred == 0 && pSession != nullptr) {
 					PPSessionManager::GetInstance().erase(pSession->m_socketSession);
 				}
 			}

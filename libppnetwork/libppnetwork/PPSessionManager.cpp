@@ -53,6 +53,7 @@ bool PPSessionManager::clear() {
 	for (auto &i : m_mapSession) {
 		shutdown(i.second.m_socketSession, SD_BOTH);
 		closesocket(i.second.m_socketSession);
+		i.second.m_socketSession = 0;
 	}
 	m_mapSession.clear();
 

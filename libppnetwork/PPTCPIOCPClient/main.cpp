@@ -6,7 +6,7 @@
 void process() {
 }
 
-int main() {
+int _tmain() {
 	PPTCPIOCPClient Client;
 	std::thread threadClient;
 	//startup
@@ -23,8 +23,6 @@ int main() {
 			break;
 		}
 	}
-
-	Sleep(1000);
 	system("pause");
 
 	threadClient = std::thread(&PPTCPIOCPClient::Startup, &Client, "127.0.0.1", 10000);

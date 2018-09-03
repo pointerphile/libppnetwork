@@ -18,6 +18,6 @@ public:
 	virtual int Release() = 0;
 
 	int LaunchThread();
-	void DisplayError(const char* strParam);
+	void DisplayError(const TCHAR* strParam);
 };
 

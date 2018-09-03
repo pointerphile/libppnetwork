@@ -12,7 +12,7 @@ int PPServerObject::LaunchThread()
 	return 0;
 }
 
-void PPServerObject::DisplayError(const char * strParam)
+void PPServerObject::DisplayError(const TCHAR * strParam)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(
@@ -24,6 +24,6 @@ void PPServerObject::DisplayError(const char * strParam)
 		0,
 		nullptr
 	);
-	std::wcout << strParam << " : " << (LPCTSTR)lpMsgBuf;
+	std::wcout << strParam << _TEXT(" : ") << (LPCTSTR)lpMsgBuf;
 	LocalFree(lpMsgBuf);
 }

@@ -8,10 +8,10 @@ int PPReceiver::Init() { return 0; }
 int PPReceiver::Run() { return 0; }
 int PPReceiver::Release() { return 0; }
 
-int PPReceiver::Run(PPSession* pSession, DWORD dwTransferred)
+int PPReceiver::Receive(PPSession* pSession, DWORD dwTransferred)
 {
 	if (pSession->m_socketSession == INVALID_SOCKET) {
-		DisplayError("PPReceiver.Run()");
+		DisplayError(_TEXT("PPReceiver.Run()"));
 		return -1;
 	}
 	int iResult = 0;
@@ -31,7 +31,7 @@ int PPReceiver::Run(PPSession* pSession, DWORD dwTransferred)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			DisplayError("WSARecv()");
+			DisplayError(_TEXT("WSARecv()"));
 			return -1;
 		}
 	}

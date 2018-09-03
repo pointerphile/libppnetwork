@@ -9,7 +9,8 @@ public:
 public:
 	int Init();
 	int Run();
-	int Run(PPSession* pSession, DWORD dwTransferred);
 	int Release();
+public:
+	int Receive(PPSession* pSession, DWORD dwTransferred);
 };
 
