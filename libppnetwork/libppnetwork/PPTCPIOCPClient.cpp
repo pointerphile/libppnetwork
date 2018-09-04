@@ -18,7 +18,7 @@ int PPTCPIOCPClient::Init() {
 int PPTCPIOCPClient::Run() {
 	while (!m_isShutdown) {
 		if (PPSendPacketPool::GetInstance().size() != 0) {
-			Sender.Send();
+			Sender.SendFromSendPacketPool();
 		}
 	}
 

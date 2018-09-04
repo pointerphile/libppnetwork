@@ -18,7 +18,7 @@ int PPTCPIOCPServer::Init() {
 int PPTCPIOCPServer::Run() {
 	while (!m_isShutdown) {
 		if (PPSendPacketPool::GetInstance().size() != 0) {
-			Sender.Broadcast();
+			Sender.BroadcastFromSendPacketPool();
 		}
 	}
 

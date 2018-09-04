@@ -9,7 +9,9 @@ int PPSender::Init() { return 0; }
 int PPSender::Run() { return 0; }
 int PPSender::Release() { return 0; }
 
-int PPSender::Send() {
+int PPSender::Send() { return 0; }
+
+int PPSender::SendFromSendPacketPool() {
 	if (PPSendPacketPool::GetInstance().size()) {
 		std::lock_guard<std::mutex> lock(m_mutexThis);
 		int iResult = 0;
@@ -50,7 +52,9 @@ int PPSender::Send() {
 	return 0;
 }
 
-int PPSender::Broadcast() {
+int PPSender::Broadcast() { return 0; }
+
+int PPSender::BroadcastFromSendPacketPool() {
 	if (PPSendPacketPool::GetInstance().size()) {
 		std::lock_guard<std::mutex> lock(m_mutexThis);
 		int iResult = 0;
