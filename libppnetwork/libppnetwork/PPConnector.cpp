@@ -12,8 +12,7 @@ int PPConnector::Set(std::string strAddress, short iPort) {
 	return 0;
 }
 
-int PPConnector::Init()
-{
+int PPConnector::Init() {
 	WSADATA wsa;
 	int iResult = 0;
 	std::locale::global(std::locale("Korean"));

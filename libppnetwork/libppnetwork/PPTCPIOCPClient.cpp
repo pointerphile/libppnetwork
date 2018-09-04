@@ -9,8 +9,8 @@ PPTCPIOCPClient::~PPTCPIOCPClient() {}
 
 int PPTCPIOCPClient::Init() {
 	Connector.Init();
+	Connector.Run();
 	PPIOCP::GetInstance().Init();
-	Connector.LaunchThread();
 
 	return 0;
 }
