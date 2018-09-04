@@ -8,6 +8,8 @@ PPTCPIOCPServer::PPTCPIOCPServer() {}
 PPTCPIOCPServer::~PPTCPIOCPServer() {}
 
 int PPTCPIOCPServer::Init() {
+	PPReceivePacketPool::GetInstance().Init();
+	PPSendPacketPool::GetInstance().Init();
 	Acceptor.Init();
 	PPIOCP::GetInstance().Init();
 	Acceptor.LaunchThread();
@@ -30,8 +32,8 @@ int PPTCPIOCPServer::Release() {
 	PPIOCP::GetInstance().Release();
 	Acceptor.Release();
 	PPSessionManager::GetInstance().clear();
-	PPSendPacketPool::GetInstance().clear();
-	PPReceivePacketPool::GetInstance().clear();
+	PPReceivePacketPool::GetInstance().Release();
+	PPSendPacketPool::GetInstance().Release();
 
 	return 0;
 }

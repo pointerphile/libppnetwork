@@ -4,64 +4,106 @@
 PPPacketPool::PPPacketPool() {}
 PPPacketPool::~PPPacketPool() {}
 
+int PPPacketPool::Init() {
+	this->SetEnable();
+
+	return 0;
+};
+int PPPacketPool::Run() { return 0; };
+int PPPacketPool::Release() {
+	this->SetDisable();
+	this->clear();
+
+	return 0;
+};
+
 PP_PACKET& PPPacketPool::front() {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
 	static PP_PACKET packetNull = { 0 };
-	if (m_PacketList.empty()) {
-		return packetNull;
+	if (m_PacketList.size() && m_isEnable) {
+		return m_PacketList.front();
 	}
 	else {
-		return m_PacketList.front();
+		return packetNull;
 	}
 }
 
 bool PPPacketPool::push_back(UPACKET packet, PPSession* pSession) {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
-	//std::cout << "PPPacketPool : push_back(UPACKET, PPSession*)..." << packet.m_msg << std::endl;
-	PP_PACKET temp;
-	temp.m_packet = packet;
-	temp.m_pSession = pSession;
-
-	m_PacketList.push_back(temp);
+	if (m_isEnable) {
+		PP_PACKET temp;
+		temp.m_packet = packet;
+		temp.m_pSession = pSession;
+		if (pSession == nullptr) {
+			return false;
+		}
+		m_PacketList.push_back(temp);
+	}
 
 	return true;
 }
 
 bool PPPacketPool::push_back(PP_PACKET packet) {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
-	//std::cout << "PPPacketPool : push_back(packet) count " << m_PacketList.size() << " : " << packet.m_packet.m_msg << std::endl;
-
-	m_PacketList.push_back(packet);
-
-	return true;
+	if (m_isEnable) {
+		if (packet.m_pSession == nullptr) {
+			return false;
+		}
+		else {
+			m_PacketList.push_back(packet);
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 bool PPPacketPool::pop_front() {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
-	if (m_PacketList.empty()) {
-		//std::cout << "PPPacketPool is empty..." << std::endl;
-		return false;
-	}
-	else {
-		m_PacketList.front() = { 0 };
-		m_PacketList.pop_front();
-		//std::cout << "PPPacketPool : pop_front()..." << std::endl;
-		return true;
+	if (m_isEnable) {
+		if (m_PacketList.empty()) {
+			return false;
+		}
+		else {
+			m_PacketList.front() = { 0 };
+			m_PacketList.pop_front();
+			return true;
+		}
 	}
 
-	return true;
+	return false;
 }
 
 size_t PPPacketPool::size() {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
-	return m_PacketList.size();
+	if (m_isEnable) {
+		return m_PacketList.size();
+	}
+	else {
+		return -1;
+	}
 }
 
 bool PPPacketPool::empty() {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
-	return m_PacketList.empty();
+	if (m_isEnable) {
+		m_PacketList.empty();
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void PPPacketPool::clear() {
+	std::lock_guard<std::mutex> lock(m_mutexThis);
 	m_PacketList.clear();
+}
+
+void PPPacketPool::SetEnable() {
+	m_isEnable = true;
+}
+
+void PPPacketPool::SetDisable() {
+	m_isEnable = false;
 }
