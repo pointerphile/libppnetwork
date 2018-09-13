@@ -1,5 +1,5 @@
 #pragma once
-#define BUFFER_SIZE 2048
+constexpr auto BUFFER_SIZE = 2048;
 #pragma pack(push, 1)
 class PACKET_HEADER {
 public:
@@ -14,13 +14,13 @@ public:
 };
 #pragma pack(pop)
 
-#define PACKET_HEADER_SIZE 4
+constexpr auto PACKET_HEADER_SIZE = 4;
 
-#define PACKET_CHAT_WELCOME_REQ 0000
-#define PACKET_CHAT_WELCOME_ACK 0001
-#define PACKET_CHAT_USERNAME_REQ 1000
-#define PACKET_CHAT_USERNAME_ACK 1001
-#define PACKET_CHAT_PASSWORD_REQ 2000
-#define PACKET_CHAT_PASSWORD_ACK 2001
+constexpr auto PACKET_WELCOME_REQ = 1000;
+constexpr auto PACKET_WELCOME_ACK = 1001;
+constexpr auto PACKET_USERNAME_REQ = 2000;
+constexpr auto PACKET_USERNAME_ACK = 2001;
+constexpr auto PACKET_PASSWORD_REQ = 3000;
+constexpr auto PACKET_PASSWORD_ACK = 3001;
 
-#define PACKET_CHAT_MSG 3000
+constexpr auto PACKET_CHAT_MSG = 4000;

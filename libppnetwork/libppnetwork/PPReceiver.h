@@ -11,6 +11,6 @@ public:
 	int Run();
 	int Release();
 public:
-	int Receive(PPSession* pSession, DWORD dwTransferred);
+	int Receive(PPSession Session, DWORD dwTransferred);
 };
 

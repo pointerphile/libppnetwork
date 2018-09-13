@@ -3,7 +3,7 @@
 PPSessionManager::PPSessionManager() {}
 PPSessionManager::~PPSessionManager() {}
 
-bool PPSessionManager::push_back(SOCKET socket, PPSession session) {
+bool PPSessionManager::insert(SOCKET socket, PPSession session) {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
 	m_mapSession.insert(std::make_pair(socket, session));
 	std::cout << "session : push_back()..." << std::endl;
@@ -34,7 +34,7 @@ bool PPSessionManager::erase(SOCKET socket) {
 	if (m_mapSession.size() != 0) {
 		shutdown(socket, SD_BOTH);
 		closesocket(socket);
-		m_mapSession.find(socket)->second = { 0 };
+		m_mapSession.find(socket)->second = {};
 		m_mapSession.erase(socket);
 		socket = 0;
 		std::cout << "session : erase()..." << std::endl;

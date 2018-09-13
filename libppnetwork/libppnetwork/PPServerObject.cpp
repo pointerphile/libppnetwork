@@ -12,18 +12,18 @@ int PPServerObject::LaunchThread()
 	return 0;
 }
 
-void PPServerObject::DisplayError(const TCHAR * strParam)
+void PPServerObject::DisplayError(const wchar_t * strParam)
 {
 	LPVOID lpMsgBuf;
-	FormatMessage(
+	FormatMessageW(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
 		nullptr,
 		WSAGetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR)&lpMsgBuf,
+		(LPWSTR)&lpMsgBuf,
 		0,
 		nullptr
 	);
-	std::TCOUT << strParam << _TEXT(" : ") << (LPCTSTR)lpMsgBuf;
+	std::wcout << strParam << L" : " << (LPCWSTR)lpMsgBuf;
 	LocalFree(lpMsgBuf);
 }

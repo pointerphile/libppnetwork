@@ -1,18 +1,17 @@
 #pragma once
 #include "PPInclude.h"
+
 class PPSession {
 public:
-	enum mode { MODE_RECV, MODE_SEND };
-	OVERLAPPED m_ov;
+	PPOVERLAPPED m_ovRecv;
+	PPOVERLAPPED m_ovSend;
 	SOCKET m_socketSession = 0;
-	sockaddr_in m_saSession = { 0 };
-	mode m_modeSession = MODE_RECV;
-	char m_bufRecv[2048] = { 0 };
-	char m_bufSend[2048] = { 0 };
-	WSABUF m_wsabufRecv = { 0 };
-	WSABUF m_wsabufSend = { 0 };
+	sockaddr_in m_saSession = {};
+	char m_bufRead[2048] = {};
+	char m_bufWrite[2048] = {};
+	WSABUF m_wsabufRecv = {};
+	WSABUF m_wsabufSend = {};
 	bool m_isAccoutAck = false;
-	std::string m_strSessionName;
 };
 
 class PP_PACKET {

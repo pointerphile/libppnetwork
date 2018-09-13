@@ -9,7 +9,7 @@ public:
 	int Run();
 	int Release();
 public:
-	int Send();
+	int Send(PPSession Session, DWORD dwBytesToWrite);
 	//PPSendPacketPool에 있는 패킷을 보낸 세션들에게 Send합니다.
 	int SendFromSendPacketPool();
 	int Broadcast();

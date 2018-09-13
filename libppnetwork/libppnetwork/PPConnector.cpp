@@ -29,24 +29,25 @@ int PPConnector::Init() {
 
 int PPConnector::Run() {
 	int iResult = 0;
-	PPSession session = { 0 };
-	int addrlen = sizeof(session.m_saSession);
+	PPSession Session = {};
+
+	int addrlen = sizeof(Session.m_saSession);
 	//socket()
 	std::cout << "socket()..." << std::endl;
-	session.m_socketSession = socket(AF_INET, SOCK_STREAM, 0);
-	if (session.m_socketSession == INVALID_SOCKET)
+	Session.m_socketSession = socket(AF_INET, SOCK_STREAM, 0);
+	if (Session.m_socketSession == INVALID_SOCKET)
 	{
 		DisplayError(_TEXT("socket()"));
 		return iResult;
 	}
 	//connenct()
 	std::cout << "connenct()..." << std::endl;
-	session.m_saSession.sin_family = AF_INET;
-	session.m_saSession.sin_port = htons(m_iPort);
-	session.m_saSession.sin_addr.s_addr = inet_addr(m_strAddress.c_str());
+	Session.m_saSession.sin_family = AF_INET;
+	Session.m_saSession.sin_port = htons(m_iPort);
+	Session.m_saSession.sin_addr.s_addr = inet_addr(m_strAddress.c_str());
 
 	//std::cout << "Connecting to " << SERVER_IPV4 << ":" << SERVER_PORT << "..." << std::endl;
-	iResult = connect(session.m_socketSession, (SOCKADDR*)&session.m_saSession, addrlen);
+	iResult = connect(Session.m_socketSession, (SOCKADDR*)&Session.m_saSession, addrlen);
 	if (iResult == SOCKET_ERROR) {
 		std::cout << "Connection failed." << std::endl;
 		DisplayError(_TEXT("connect()"));
@@ -56,8 +57,8 @@ int PPConnector::Run() {
 	else {
 		std::cout << "Connected" << std::endl;
 	}
-	PPSessionManager::GetInstance().push_back(session.m_socketSession, session);
-	PPSession* pSession = &PPSessionManager::GetInstance().find(session.m_socketSession)->second;
+	PPSessionManager::GetInstance().insert(Session.m_socketSession, Session);
+	PPSession* pSession = &PPSessionManager::GetInstance().find(Session.m_socketSession)->second;
 	//CreateIoCompletionPort()
 	PPIOCP::GetInstance().BindSocket((HANDLE)pSession->m_socketSession, (ULONG_PTR)pSession);
 

@@ -65,26 +65,27 @@ int PPAcceptor::Run() {
 	while (!m_isShutdown) {
 		int iResult = 0;
 		DWORD flags = 0;
-		PPSession session = { 0 };
-		int addrlen = sizeof(session.m_saSession);
-		session.m_socketSession = accept(m_socketListen, (sockaddr*)&session.m_saSession, &addrlen);
-		if (session.m_socketSession == INVALID_SOCKET) {
-			DisplayError(_TEXT("accept()"));
+		PPSession Session = {};
+		Session.m_ovRecv.dwFlag = ASYNCFLAG_RECV;
+		Session.m_ovSend.dwFlag = ASYNCFLAG_SEND;
+
+		int addrlen = sizeof(Session.m_saSession);
+		Session.m_socketSession = accept(m_socketListen, (sockaddr*)&Session.m_saSession, &addrlen);
+		if (Session.m_socketSession == INVALID_SOCKET) {
+			DisplayError(L"accept()");
 			break;
 		}
-		PPSessionManager::GetInstance().push_back(session.m_socketSession, session);
-		PPSession* pSession = &PPSessionManager::GetInstance().find(session.m_socketSession)->second;
+		PPSessionManager::GetInstance().insert(Session.m_socketSession, Session);
+		std::map<SOCKET, PPSession>::iterator iter = PPSessionManager::GetInstance().find(Session.m_socketSession);
 		//CreateIoCompletionPort()
-		PPIOCP::GetInstance().BindSocket((HANDLE)pSession->m_socketSession, (ULONG_PTR)pSession);
+		CreateIoCompletionPort((HANDLE)iter->second.m_socketSession, PPIOCP::GetInstance().m_hIOCP, iter->second.m_socketSession, 0);
+		
+		iter->second.m_wsabufRecv.buf = iter->second.m_bufRead;
+		iter->second.m_wsabufRecv.len = BUFFER_SIZE;
 
-		UPACKET packet;
-		sprintf_s(packet.m_msg, "À¸¾Æ¾Ç");
-		pSession->m_wsabufSend.buf = packet.m_msg;
-		pSession->m_wsabufSend.len = (ULONG)strlen(packet.m_msg);
-
-		iResult = WSASend(pSession->m_socketSession, &pSession->m_wsabufSend, 1, nullptr, 0, &pSession->m_ov, nullptr);
+		iResult = WSARecv(iter->second.m_socketSession, &iter->second.m_wsabufRecv, 1, nullptr, &flags, &iter->second.m_ovRecv, nullptr);
 		if (iResult == SOCKET_ERROR) {
-			DisplayError(_TEXT("WSASend()"));
+			DisplayError(L"WSARecv()");
 		}
 	}
 	return 0;

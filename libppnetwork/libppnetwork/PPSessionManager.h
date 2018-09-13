@@ -14,7 +14,7 @@ public:
 	virtual int Run() { return 0; };
 	virtual int Release() { return 0; };
 public:
-	bool push_back(SOCKET socket, PPSession session);
+	bool insert(SOCKET socket, PPSession session);
 	std::map<SOCKET, PPSession>::iterator begin();
 	std::map<SOCKET, PPSession>::iterator end();
 	std::map<SOCKET, PPSession>::iterator find(SOCKET socket);

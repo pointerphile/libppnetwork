@@ -9,7 +9,27 @@ int PPSender::Init() { return 0; }
 int PPSender::Run() { return 0; }
 int PPSender::Release() { return 0; }
 
-int PPSender::Send() { return 0; }
+int PPSender::Send(PPSession Session, DWORD dwBytesToWrite) {
+	bool isReturn = false;
+	DWORD dwBytesWritten = 0;
+	DWORD dwError = 0;
+	memcpy(Session.m_bufWrite, Session.m_bufRead, dwBytesToWrite);
+	Session.m_wsabufSend.buf = Session.m_bufWrite;
+	Session.m_wsabufSend.len = dwBytesToWrite;
+
+	//isReturn = WriteFile(m_hFileWrite, m_bufData, dwBytesToWrite, &dwBytesWritten, (LPOVERLAPPED)&m_ovWrite);
+	isReturn = WSASend(Session.m_socketSession, &Session.m_wsabufSend, 1, nullptr, 0, &Session.m_ovSend, nullptr);
+	if (isReturn == false) {
+		dwError = WSAGetLastError();
+		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+			DisplayError(L"WriteFile()");
+
+			return -1;
+		}
+	}
+
+	return 0;
+}
 
 int PPSender::SendFromSendPacketPool() {
 	if (PPSendPacketPool::GetInstance().size()) {
@@ -35,7 +55,7 @@ int PPSender::SendFromSendPacketPool() {
 			//iResult = send(iter->first, packet.m_packet.m_msg, (int)strlen(packet.m_packet.m_msg) + 1, 0);
 			iResult = send(iter->first, strTemp.c_str(), (int)strTemp.length(), 0);
 			if (iResult == SOCKET_ERROR) {
-				DisplayError(_TEXT("send()"));
+				DisplayError(L"send()");
 				return -1;
 			}
 		}
@@ -78,16 +98,12 @@ int PPSender::BroadcastFromSendPacketPool() {
 			//iResult = send(iter->first, packet.m_packet.m_msg, (int)strlen(packet.m_packet.m_msg) + 1, 0);
 			iResult = send(iter->first, strTemp.c_str(), (int)strTemp.length(), 0);
 			if (iResult == SOCKET_ERROR) {
-				DisplayError(_TEXT("send()"));
+				DisplayError(L"send()");
 				return -1;
 			}
 		}
 		
 		PPSendPacketPool::GetInstance().pop_front();
-		//if (packet.m_pSession->m_socketClient != INVALID_SOCKET) {
-		//	std::cout << "socket " << packet.m_pSession->m_socketClient
-		//		<< " Sended : " << packet.m_packet.m_msg << std::endl;
-		//}
 	}
 	else {
 		std::cout << "PPSendPacketPool is empty." << std::endl;

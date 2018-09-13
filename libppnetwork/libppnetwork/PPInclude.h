@@ -13,7 +13,13 @@
 
 #pragma comment(lib, "ws2_32")
 
-#define BUFFER_SIZE 2048
+constexpr auto ASYNCFLAG_RECV = 0x01;
+constexpr auto ASYNCFLAG_SEND = 0x02;
+
+struct PPOVERLAPPED : OVERLAPPED {
+	DWORD dwFlag;
+};
+
 #if defined(UNICODE) || defined(_UNICODE)
 #define TCOUT wcout
 #else
