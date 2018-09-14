@@ -12,15 +12,19 @@ public:
 	PACKET_HEADER m_ph;
 	char m_msg[BUFFER_SIZE];
 };
+
+class PACKET_ACCOUNT {
+public:
+	char m_strUsername[16];
+	char m_strPassword[16];
+};
 #pragma pack(pop)
 
 constexpr auto PACKET_HEADER_SIZE = 4;
 
 constexpr auto PACKET_WELCOME_REQ = 1000;
 constexpr auto PACKET_WELCOME_ACK = 1001;
-constexpr auto PACKET_USERNAME_REQ = 2000;
-constexpr auto PACKET_USERNAME_ACK = 2001;
-constexpr auto PACKET_PASSWORD_REQ = 3000;
-constexpr auto PACKET_PASSWORD_ACK = 3001;
+constexpr auto PACKET_ACCOUNT_REQ = 2000;
+constexpr auto PACKET_ACCOUNT_ACK = 2001;
 
 constexpr auto PACKET_CHAT_MSG = 4000;

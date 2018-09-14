@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "PPIOCPWorker.h"
 #include "PPIOCP.h"
 #include "PPSessionManager.h"
@@ -79,8 +80,20 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 
 	PP_PACKET packetRecv = {};
 	packetRecv.m_socketSession = Session.m_socketSession;
-	memcpy(packetRecv.m_packet.m_msg, Session.m_wsabufRecv.buf, dwTransferred);
+	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
 	std::cout << packetRecv.m_packet.m_msg << std::endl;
+
+	PP_PACKET packetSend = {};
+	switch (packetRecv.m_packet.m_ph.m_type) {
+	case PACKET_WELCOME_REQ:
+		packetSend.m_packet.m_ph.m_type = PACKET_WELCOME_ACK;
+		sprintf(packetSend.m_packet.m_msg, "Hello, Client!");
+		break;
+	case PACKET_ACCOUNT_REQ:
+		break;
+
+	}
+	memcpy(Session.m_bufWrite, (void*)&packetSend, PACKET_HEADER_SIZE + s);
 
 	iReturn = Sender.Send(Session, dwTransferred);
 	if (iReturn != 0) {
