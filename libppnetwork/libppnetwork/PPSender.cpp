@@ -13,7 +13,6 @@ int PPSender::Send(PPSession Session, DWORD dwBytesToWrite) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
-	memcpy(Session.m_bufWrite, Session.m_bufRead, dwBytesToWrite);
 	Session.m_wsabufSend.buf = Session.m_bufWrite;
 	Session.m_wsabufSend.len = dwBytesToWrite;
 

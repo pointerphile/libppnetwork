@@ -25,6 +25,10 @@ int PPIOCPWorker::Run() {
 
 		isReturn = GetQueuedCompletionStatus(PPIOCP::GetInstance().m_hIOCP, &dwTransferred, &lpCompletionKey, (LPOVERLAPPED*)&overlapped, INFINITE);
 		std::map<SOCKET, PPSession>::iterator iter = PPSessionManager::GetInstance().find((SOCKET)lpCompletionKey);
+		if (iter == PPSessionManager::GetInstance().end()) {
+			DisplayError(L"GetQueuedCompletionStatus");
+			continue;
+		}
 
 		if (isReturn == true) {
 			if (dwTransferred != 0) {
@@ -79,23 +83,31 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 
 	PP_PACKET packetRecv = {};
+	PP_PACKET packetSend = {};
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
 	std::cout << packetRecv.m_packet.m_msg << std::endl;
-
-	PP_PACKET packetSend = {};
+	
 	switch (packetRecv.m_packet.m_ph.m_type) {
-	case PACKET_WELCOME_REQ:
-		packetSend.m_packet.m_ph.m_type = PACKET_WELCOME_ACK;
-		sprintf(packetSend.m_packet.m_msg, "Hello, Client!");
-		break;
-	case PACKET_ACCOUNT_REQ:
-		break;
+		case PACKET_WELCOME_REQ: {
+			std::cout << packetRecv.m_packet.m_msg << std::endl;
 
+			packetSend.m_packet.m_ph.m_type = PACKET_WELCOME_ACK;
+			std::string strBuf = "Hello, Client!";
+			memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
+			packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
+			break;
+		}
+		case PACKET_ACCOUNT_REQ:
+			PACKET_ACCOUNT packetAccout = {};
+			memcpy((void*)&packetAccout, (void*)&packetRecv.m_packet, sizeof(PACKET_ACCOUNT));
+			std::cout << packetAccout.m_strUsername << ", " << packetAccout.m_strPassword << std::endl;
+
+			break;
 	}
-	memcpy(Session.m_bufWrite, (void*)&packetSend, PACKET_HEADER_SIZE + s);
+	memcpy(Session.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
 
-	iReturn = Sender.Send(Session, dwTransferred);
+	iReturn = Sender.Send(Session, packetSend.m_packet.m_ph.m_len);
 	if (iReturn != 0) {
 		return -1;
 	}
