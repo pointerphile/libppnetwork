@@ -17,5 +17,5 @@ public:
 class PP_PACKET {
 public:
 	UPACKET m_packet;
-	PPSession* m_pSession;
+	SOCKET m_socketSession;
 };

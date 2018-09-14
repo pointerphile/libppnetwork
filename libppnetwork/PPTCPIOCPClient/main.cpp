@@ -23,8 +23,7 @@ int ProcessPacket() {
 }
 
 int ProcessGame() {
-	PP_PACKET packet = { 0 };
-	packet.m_pSession;// = PPSessionManager::GetInstance()
+	PP_PACKET packet = {};
 	return 0;
 }
 

@@ -77,6 +77,11 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 
 	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 
+	PP_PACKET packetRecv = {};
+	packetRecv.m_socketSession = Session.m_socketSession;
+	memcpy(packetRecv.m_packet.m_msg, Session.m_wsabufRecv.buf, dwTransferred);
+	std::cout << packetRecv.m_packet.m_msg << std::endl;
+
 	iReturn = Sender.Send(Session, dwTransferred);
 	if (iReturn != 0) {
 		return -1;

@@ -16,7 +16,7 @@ int PPReceiver::Receive(PPSession Session, DWORD dwTransferred)
 	DWORD dwFlag = 0;
 
 	//isReturn = ReadFile(m_hFileRead, m_bufData, dwBytesToRead, &dwBytesRead, (LPOVERLAPPED)&m_ovRead);
-	isReturn = WSARecv(Session.m_socketSession, &Session.m_wsabufRecv, 1, nullptr, &dwFlag, &Session.m_ovRecv, nullptr);
+	isReturn = WSARecv(Session.m_socketSession, &Session.m_wsabufRecv, 1, &dwBytesRead, &dwFlag, &Session.m_ovRecv, nullptr);
 	dwError = WSAGetLastError();
 	if (isReturn == true) {
 		if (dwBytesRead == 0) {

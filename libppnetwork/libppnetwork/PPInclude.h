@@ -6,6 +6,7 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 #include <WinSock2.h>
 #include <Tchar.h>
 #include "PPProtocol.h"

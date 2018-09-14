@@ -8,7 +8,8 @@ protected:
 	static bool m_isShutdown;
 	std::thread m_threadThis;
 	std::thread::id m_threadID;
-	std::mutex m_mutexThis;
+	std::mutex static m_mutexThis;
+	std::condition_variable m_cv;
 public:
 	PPServerObject();
 	virtual ~PPServerObject();

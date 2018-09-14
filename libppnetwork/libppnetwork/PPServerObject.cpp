@@ -1,5 +1,6 @@
 #include "PPServerObject.h"
 bool PPServerObject::m_isShutdown = false;
+std::mutex PPServerObject::m_mutexThis;
 
 PPServerObject::PPServerObject() {}
 PPServerObject::~PPServerObject() {}

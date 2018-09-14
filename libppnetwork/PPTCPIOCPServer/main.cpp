@@ -11,7 +11,7 @@ void ProcessPacket() {
 	}
 }
 
-int _tmain() {
+int wmain() {
 	PPTCPIOCPServer Server;
 	std::thread threadServer;
 	//startup

@@ -33,7 +33,7 @@ bool PPPacketPool::push_back(UPACKET packet, PPSession* pSession) {
 	if (m_isEnable) {
 		PP_PACKET temp;
 		temp.m_packet = packet;
-		temp.m_pSession = pSession;
+		temp.m_socketSession = pSession->m_socketSession;
 		if (pSession == nullptr) {
 			return false;
 		}
@@ -46,13 +46,8 @@ bool PPPacketPool::push_back(UPACKET packet, PPSession* pSession) {
 bool PPPacketPool::push_back(PP_PACKET packet) {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
 	if (m_isEnable) {
-		if (packet.m_pSession == nullptr) {
-			return false;
-		}
-		else {
-			m_PacketList.push_back(packet);
-			return true;
-		}
+		m_PacketList.push_back(packet);
+		return true;
 	}
 	
 	return false;

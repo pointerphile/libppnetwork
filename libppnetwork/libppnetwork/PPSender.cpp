@@ -42,10 +42,7 @@ int PPSender::SendFromSendPacketPool() {
 		if (PPSendPacketPool::GetInstance().size()) {
 			packet = PPSendPacketPool::GetInstance().front();
 		}
-		if (packet.m_pSession == nullptr) {
-			return -1;
-		}
-		strTemp = std::to_string(packet.m_pSession->m_socketSession);
+		strTemp = std::to_string(packet.m_socketSession);
 		strTemp.append(" : ");
 		strTemp.append(packet.m_packet.m_msg);
 
@@ -85,10 +82,7 @@ int PPSender::BroadcastFromSendPacketPool() {
 		if (PPSendPacketPool::GetInstance().size()) {
 			packet = PPSendPacketPool::GetInstance().front();
 		}
-		if (packet.m_pSession == nullptr) {
-			return -1;
-		}
-		strTemp = std::to_string(packet.m_pSession->m_socketSession);
+		strTemp = std::to_string(packet.m_socketSession);
 		strTemp.append(" : ");
 		strTemp.append(packet.m_packet.m_msg);
 

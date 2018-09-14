@@ -17,17 +17,10 @@ int PPTCPIOCPServer::Init() {
 	return 0;
 }
 
-int PPTCPIOCPServer::Run() {
-	while (!m_isShutdown) {
-		if (PPSendPacketPool::GetInstance().size() != 0) {
-			Sender.BroadcastFromSendPacketPool();
-		}
-	}
-
-	return 0;
-}
+int PPTCPIOCPServer::Run() { return 0; }
 
 int PPTCPIOCPServer::Release() {
+	std::cout << "PPTCPIOCPServer::Release()" << std::endl;
 	PPServerObject::m_isShutdown = true;
 	PPIOCP::GetInstance().Release();
 	Acceptor.Release();
