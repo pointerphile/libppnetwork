@@ -86,23 +86,31 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 	PP_PACKET packetSend = {};
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
-	std::cout << packetRecv.m_packet.m_msg << std::endl;
 	
 	switch (packetRecv.m_packet.m_ph.m_type) {
 		case PACKET_WELCOME_REQ: {
+			//받은 패킷 처리
 			std::cout << packetRecv.m_packet.m_msg << std::endl;
-
+			//보낼 페킷 처리
 			packetSend.m_packet.m_ph.m_type = PACKET_WELCOME_ACK;
 			std::string strBuf = "Hello, Client!";
 			memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
 			packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
 			break;
 		}
-		case PACKET_ACCOUNT_REQ:
+		case PACKET_ACCOUNT_REQ: {
+			//받은 패킷 처리
 			PACKET_ACCOUNT packetAccout = {};
-			memcpy((void*)&packetAccout, (void*)&packetRecv.m_packet, sizeof(PACKET_ACCOUNT));
+			memcpy((void*)&packetAccout, (void*)&packetRecv.m_packet.m_msg, sizeof(PACKET_ACCOUNT));
 			std::cout << packetAccout.m_strUsername << ", " << packetAccout.m_strPassword << std::endl;
-
+			//보낼 페킷 처리
+			packetSend.m_packet.m_ph.m_type = PACKET_ACCOUNT_ACK;
+			std::string strBuf = "Waiting for login server...";
+			memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
+			packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
+			break;
+		}
+		default:
 			break;
 	}
 	memcpy(Session.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
