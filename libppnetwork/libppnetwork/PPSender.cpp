@@ -68,7 +68,31 @@ int PPSender::SendFromSendPacketPool() {
 	return 0;
 }
 
-int PPSender::Broadcast() { return 0; }
+int PPSender::Broadcast(PPSession Session, DWORD dwBytesToWrite) {
+	bool isReturn = false;
+	DWORD dwBytesWritten = 0;
+	DWORD dwError = 0;
+	Session.m_wsabufSend.buf = Session.m_bufWrite;
+	Session.m_wsabufSend.len = dwBytesToWrite;
+
+	for (std::map<SOCKET, PPSession>::iterator iter = PPSessionManager::GetInstance().begin();
+		iter != PPSessionManager::GetInstance().end();
+		++iter) {
+		iter->second.m_wsabufSend.buf = Session.m_bufWrite;
+		iter->second.m_wsabufSend.len = dwBytesToWrite;
+
+		isReturn = WSASend(iter->second.m_socketSession, &iter->second.m_wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		if (isReturn == false) {
+			dwError = WSAGetLastError();
+			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+				DisplayError(L"WriteFile()");
+
+				return -1;
+			}
+		}
+	}
+	return 0;
+}
 
 int PPSender::BroadcastFromSendPacketPool() {
 	if (PPSendPacketPool::GetInstance().size()) {

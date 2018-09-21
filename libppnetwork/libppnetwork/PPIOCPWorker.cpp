@@ -46,6 +46,16 @@ int PPIOCPWorker::Run() {
 			else {
 				//dwTransferred == 0 : 소켓 닫힘
 				DisplayError(L"GetQueuedCompletionStatus");
+				PP_PACKET packetSend = {};
+				std::string strBuf;
+				packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG;
+				strBuf.append(iter->second.m_strUsername);
+				strBuf.append(" left from this chat.");
+				memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
+				packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
+				memcpy(iter->second.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
+				Sender.Broadcast(iter->second, packetSend.m_packet.m_ph.m_len);
+
 				PPSessionManager::GetInstance().erase(iter->first);
 				continue;
 			}
@@ -59,6 +69,16 @@ int PPIOCPWorker::Run() {
 				if (overlapped != nullptr) {
 					//클라이언트 비정상종료
 					DisplayError(L"GetQueuedCompletionStatus()");
+					PP_PACKET packetSend = {};
+					std::string strBuf;
+					packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG;
+					strBuf.append(iter->second.m_strUsername);
+					strBuf.append(" left from this chat.");
+					memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
+					packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
+					memcpy(iter->second.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
+					Sender.Broadcast(iter->second, packetSend.m_packet.m_ph.m_len);
+
 					PPSessionManager::GetInstance().erase(iter->first);
 				}
 				else {
@@ -72,7 +92,7 @@ int PPIOCPWorker::Run() {
 
 int PPIOCPWorker::Release() { return 0; }
 
-int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
+int PPIOCPWorker::DispatchRecv(PPSession& Session, DWORD dwTransferred)
 {
 	int iReturn = 0;
 	LARGE_INTEGER lr;
@@ -102,6 +122,7 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 			//받은 패킷 처리
 			PACKET_ACCOUNT packetAccout = {};
 			memcpy((void*)&packetAccout, (void*)&packetRecv.m_packet.m_msg, sizeof(PACKET_ACCOUNT));
+			Session.m_strUsername = packetAccout.m_strUsername;
 			std::cout << packetAccout.m_strUsername << ", " << packetAccout.m_strPassword << std::endl;
 			//보낼 페킷 처리
 			packetSend.m_packet.m_ph.m_type = PACKET_ACCOUNT_ACK;
@@ -113,12 +134,31 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 			packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
 			break;
 		}
+		case PACKET_CHAT_MSG: {
+			//받은 패킷 처리
+			std::cout << packetRecv.m_packet.m_msg << std::endl;
+			//보낼 페킷 처리
+			packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG;
+			std::string strBuf;
+			strBuf.append(Session.m_strUsername);
+			strBuf.append(" : ");
+			strBuf.append(packetRecv.m_packet.m_msg);
+			memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
+			packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
+			break;
+		}
 		default:
 			break;
 	}
 	memcpy(Session.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
 
-	iReturn = Sender.Send(Session, packetSend.m_packet.m_ph.m_len);
+	if (packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG) {
+		iReturn = Sender.Broadcast(Session, packetSend.m_packet.m_ph.m_len);
+	}
+	else {
+		iReturn = Sender.Send(Session, packetSend.m_packet.m_ph.m_len);
+	}
+	
 	if (iReturn != 0) {
 		return -1;
 	}

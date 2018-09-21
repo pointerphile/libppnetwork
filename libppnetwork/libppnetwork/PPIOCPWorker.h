@@ -14,7 +14,7 @@ public:
 	virtual int Run();
 	virtual int Release();
 public:
-	int DispatchRecv(PPSession Session, DWORD dwTransferred);
+	int DispatchRecv(PPSession& Session, DWORD dwTransferred);
 	int DispatchSend(PPSession Session, DWORD dwTransferred);
 };
 
