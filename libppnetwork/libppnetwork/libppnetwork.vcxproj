@@ -154,7 +154,6 @@
     <ClCompile Include="PPAcceptor.cpp" />
     <ClCompile Include="PPConnector.cpp" />
     <ClCompile Include="PPIOCP.cpp" />
-    <ClCompile Include="PPTCPIOCPClient.cpp" />
     <ClCompile Include="PPTCPIOCPServer.cpp" />
     <ClCompile Include="PPIOCPWorker.cpp" />
     <ClCompile Include="PPPacketPool.cpp" />
@@ -171,7 +170,6 @@
     <ClInclude Include="PPConnector.h" />
     <ClInclude Include="PPInclude.h" />
     <ClInclude Include="PPIOCP.h" />
-    <ClInclude Include="PPTCPIOCPClient.h" />
     <ClInclude Include="PPTCPIOCPServer.h" />
     <ClInclude Include="PPIOCPWorker.h" />
     <ClInclude Include="PPPacket.h" />

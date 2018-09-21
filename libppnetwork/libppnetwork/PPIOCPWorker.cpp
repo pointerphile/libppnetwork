@@ -105,7 +105,10 @@ int PPIOCPWorker::DispatchRecv(PPSession Session, DWORD dwTransferred)
 			std::cout << packetAccout.m_strUsername << ", " << packetAccout.m_strPassword << std::endl;
 			//보낼 페킷 처리
 			packetSend.m_packet.m_ph.m_type = PACKET_ACCOUNT_ACK;
-			std::string strBuf = "Waiting for login server...";
+			std::string strBuf;
+			strBuf.append("User ");
+			strBuf.append(packetAccout.m_strUsername);
+			strBuf.append(" is joined!");
 			memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
 			packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + strBuf.size();
 			break;

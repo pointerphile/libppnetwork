@@ -54,9 +54,6 @@
     <ClCompile Include="PPTCPIOCPServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPTCPIOCPClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PPAcceptor.h">
@@ -108,9 +105,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPTCPIOCPServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PPTCPIOCPClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

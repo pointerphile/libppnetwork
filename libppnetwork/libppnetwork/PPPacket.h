@@ -12,6 +12,7 @@ public:
 	WSABUF m_wsabufRecv = {};
 	WSABUF m_wsabufSend = {};
 	bool m_isAccoutAck = false;
+	std::string m_strUsername;
 };
 
 class PP_PACKET {
