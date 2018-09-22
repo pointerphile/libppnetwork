@@ -35,7 +35,7 @@ int PPTCPIOCPServer::Startup(short iPort, short iThread) {
 	PPServerObject::m_isShutdown = false;
 	PPIOCP::GetInstance().Set(iThread);
 	Acceptor.Set(iPort);
-	if (Init() != 0) {
+	if (this->Init() != 0) {
 		return -1;
 	}
 	Run();
