@@ -152,7 +152,7 @@ int PPIOCPWorker::DispatchRecv(PPSession& Session, DWORD dwTransferred)
 	}
 	memcpy(Session.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
 
-	if (packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG) {
+	if (packetSend.m_packet.m_ph.m_type == PACKET_CHAT_MSG) {
 		iReturn = Sender.Broadcast(Session, packetSend.m_packet.m_ph.m_len);
 	}
 	else {
