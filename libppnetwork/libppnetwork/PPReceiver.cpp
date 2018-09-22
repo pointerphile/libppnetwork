@@ -30,6 +30,9 @@ int PPReceiver::Receive(PPSession Session, DWORD dwTransferred)
 				return -1;
 			}
 		}
+		else {
+		
+		}
 	}
 	else {
 		if (dwError == WSA_IO_PENDING) {
