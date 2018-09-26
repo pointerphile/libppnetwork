@@ -31,7 +31,10 @@ int PPReceiver::Receive(PPSession Session, DWORD dwTransferred)
 			}
 		}
 		else {
-		
+			PP_PACKET packetRecv;
+			packetRecv.m_socketSession = Session.m_socketSession;
+			memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
+			PPReceivePacketPool::GetInstance();
 		}
 	}
 	else {

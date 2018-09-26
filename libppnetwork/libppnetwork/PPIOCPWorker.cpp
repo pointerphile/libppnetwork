@@ -2,6 +2,8 @@
 #include "PPIOCPWorker.h"
 #include "PPIOCP.h"
 #include "PPSessionManager.h"
+#include "PPReceivePacketPool.h"
+#include "PPSendPacketPool.h"
 
 PPIOCPWorker::PPIOCPWorker() {}
 PPIOCPWorker::~PPIOCPWorker() {}
@@ -106,6 +108,7 @@ int PPIOCPWorker::DispatchRecv(PPSession& Session, DWORD dwTransferred)
 	PP_PACKET packetSend = {};
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
+	
 	
 	switch (packetRecv.m_packet.m_ph.m_type) {
 		case PACKET_WELCOME_REQ: {

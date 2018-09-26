@@ -19,7 +19,7 @@ int PPPacketPool::Release() {
 
 PP_PACKET& PPPacketPool::front() {
 	std::lock_guard<std::mutex> lock(m_mutexThis);
-	static PP_PACKET packetNull = { 0 };
+	static PP_PACKET packetNull = {};
 	if (m_PacketList.size() && m_isEnable) {
 		return m_PacketList.front();
 	}
@@ -60,7 +60,7 @@ bool PPPacketPool::pop_front() {
 			return false;
 		}
 		else {
-			m_PacketList.front() = { 0 };
+			m_PacketList.front() = {};
 			m_PacketList.pop_front();
 			return true;
 		}

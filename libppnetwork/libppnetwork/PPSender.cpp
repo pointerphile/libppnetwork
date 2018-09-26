@@ -35,7 +35,7 @@ int PPSender::SendFromSendPacketPool() {
 		std::lock_guard<std::mutex> lock(m_mutexThis);
 		int iResult = 0;
 		DWORD flags = 0;
-		PP_PACKET packet = { 0 };
+		PP_PACKET packet = {};
 		std::string strTemp;
 
 		if (PPSendPacketPool::GetInstance().size()) {
