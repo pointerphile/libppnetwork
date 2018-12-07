@@ -15,30 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ppinclude.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ppnetworkobject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ppsession.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ppsingleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ppprotocol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PPTCPIOCPServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ppnetworkobject.cpp">
+    <ClCompile Include="PPTCPIOCPServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPTCPIOCPServer.cpp">
+    <ClCompile Include="NetworkObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
