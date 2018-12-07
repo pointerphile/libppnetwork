@@ -143,15 +143,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include.h" />
-    <ClInclude Include="NetworkObject.h" />
-    <ClInclude Include="Protocol.h" />
-    <ClInclude Include="Session.h" />
-    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="PPInclude.h" />
+    <ClInclude Include="PPNetworkObject.h" />
+    <ClInclude Include="PPProtocol.h" />
+    <ClInclude Include="PPSession.h" />
+    <ClInclude Include="PPSingleton.h" />
     <ClInclude Include="PPTCPIOCPServer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NetworkObject.cpp" />
+    <ClCompile Include="PPNetworkObject.cpp" />
     <ClCompile Include="PPTCPIOCPServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

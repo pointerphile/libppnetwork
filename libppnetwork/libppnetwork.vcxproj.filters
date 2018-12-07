@@ -18,19 +18,19 @@
     <ClInclude Include="PPTCPIOCPServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include.h">
+    <ClInclude Include="PPInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkObject.h">
+    <ClInclude Include="PPNetworkObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol.h">
+    <ClInclude Include="PPProtocol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Session.h">
+    <ClInclude Include="PPSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
+    <ClInclude Include="PPSingleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClCompile Include="PPTCPIOCPServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkObject.cpp">
+    <ClCompile Include="PPNetworkObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

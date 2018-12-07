@@ -1,4 +1,4 @@
-#include "ppnetworkobject.h"
+#include "PPNetworkObject.h"
 
 PP::PPNetworkObject::PPNetworkObject() {}
 PP::PPNetworkObject::~PPNetworkObject() {}
