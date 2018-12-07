@@ -27,9 +27,18 @@
     <ClInclude Include="ppsingleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ppprotocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPTCPIOCPServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ppnetworkobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPTCPIOCPServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

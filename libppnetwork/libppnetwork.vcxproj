@@ -145,11 +145,14 @@
   <ItemGroup>
     <ClInclude Include="ppinclude.h" />
     <ClInclude Include="ppnetworkobject.h" />
+    <ClInclude Include="ppprotocol.h" />
     <ClInclude Include="ppsession.h" />
     <ClInclude Include="ppsingleton.h" />
+    <ClInclude Include="PPTCPIOCPServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ppnetworkobject.cpp" />
+    <ClCompile Include="PPTCPIOCPServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
