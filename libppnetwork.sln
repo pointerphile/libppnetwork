@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libppnetwork", "libppnetwork\libppnetwork.vcxproj", "{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample", "Sample\Sample.vcxproj", "{FC24CC6A-10FD-4A33-AE58-0020C511F092}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16} = {17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

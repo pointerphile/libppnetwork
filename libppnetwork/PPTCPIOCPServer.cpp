@@ -53,7 +53,7 @@ int PP::PPTCPIOCPServer::Init() {
 
 int PP::PPTCPIOCPServer::Run() {
 	while (true) {
-		std::cout << "PPTCPIOCPServer" << std::endl;
+		std::wcout << "PPTCPIOCPServer¾Æ¾Æ¾Æ" << std::endl;
 		Sleep(1000);
 	}
 	return 0;
