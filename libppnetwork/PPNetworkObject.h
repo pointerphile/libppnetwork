@@ -2,8 +2,9 @@
 #include "PPInclude.h"
 
 namespace PP {
-	class PPNetworkObject
-	{
+	class PPNetworkObject {
+	private:
+		std::thread m_threadThis;
 	public:
 		PPNetworkObject();
 		virtual ~PPNetworkObject();
@@ -12,7 +13,7 @@ namespace PP {
 		virtual int Run() = 0;
 		virtual int Release() = 0;
 	public:
-		int LaunchThread();
-		int DisplayError(const wchar_t* wcharString);
+		virtual int LaunchThread();
+		virtual int DisplayError(const wchar_t* wcharString);
 	};
 }

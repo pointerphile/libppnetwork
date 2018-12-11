@@ -1,7 +1,12 @@
 #pragma once
 #include "PPNetworkObject.h"
 namespace PP {
-	class LIBPPNETWORK_API PPTCPIOCPServer : public PPNetworkObject {
+	class PPTCPIOCPServer : public PPNetworkObject {
+	private:
+		std::string m_strIPv4;
+		short m_iPort;
+		SOCKET m_socketListen;
+		SOCKADDR_IN m_saListen;
 	public:
 		PPTCPIOCPServer();
 		virtual ~PPTCPIOCPServer();
@@ -10,6 +15,6 @@ namespace PP {
 		virtual int Run();
 		virtual int Release();
 	};
+
+	LIBPPNETWORK_API PP::PPTCPIOCPServer* GetServer();
 }
-
-

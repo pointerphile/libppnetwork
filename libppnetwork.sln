@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libppnetwork", "libppnetwork\libppnetwork.vcxproj", "{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample", "Sample\Sample.vcxproj", "{FC24CC6A-10FD-4A33-AE58-0020C511F092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}.Release|x64.Build.0 = Release|x64
 		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}.Release|x86.ActiveCfg = Release|Win32
 		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}.Release|x86.Build.0 = Release|Win32
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Debug|x64.ActiveCfg = Debug|x64
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Debug|x64.Build.0 = Debug|x64
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Debug|x86.ActiveCfg = Debug|Win32
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Debug|x86.Build.0 = Debug|Win32
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Release|x64.ActiveCfg = Release|x64
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Release|x64.Build.0 = Release|x64
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Release|x86.ActiveCfg = Release|Win32
+		{FC24CC6A-10FD-4A33-AE58-0020C511F092}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
