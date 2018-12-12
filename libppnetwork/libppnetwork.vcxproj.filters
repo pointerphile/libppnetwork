@@ -33,12 +33,21 @@
     <ClInclude Include="PPSingleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PPIOCP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPOVERLAPPED.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PPTCPIOCPServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PPNetworkObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPIOCP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

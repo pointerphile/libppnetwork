@@ -144,13 +144,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="PPInclude.h" />
+    <ClInclude Include="PPIOCP.h" />
     <ClInclude Include="PPNetworkObject.h" />
+    <ClInclude Include="PPOVERLAPPED.h" />
     <ClInclude Include="PPProtocol.h" />
     <ClInclude Include="PPSession.h" />
     <ClInclude Include="PPSingleton.h" />
     <ClInclude Include="PPTCPIOCPServer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PPIOCP.cpp" />
     <ClCompile Include="PPNetworkObject.cpp" />
     <ClCompile Include="PPTCPIOCPServer.cpp" />
   </ItemGroup>

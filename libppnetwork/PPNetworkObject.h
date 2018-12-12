@@ -15,5 +15,6 @@ namespace PP {
 	public:
 		virtual int LaunchThread();
 		virtual int DisplayError(const wchar_t* wcharString);
+		virtual int MessageBoxError(const wchar_t* wcharString);
 	};
 }

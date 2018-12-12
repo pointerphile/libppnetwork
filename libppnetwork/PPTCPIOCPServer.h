@@ -1,12 +1,14 @@
 #pragma once
 #include "PPNetworkObject.h"
+#include "PPIOCP.h"
 namespace PP {
 	class PPTCPIOCPServer : public PPNetworkObject {
 	private:
-		std::string m_strIPv4;
-		short m_iPort;
-		SOCKET m_socketListen;
-		SOCKADDR_IN m_saListen;
+		short m_iPort;			//Port number
+		SOCKET m_socketListen;	//Listen Socket
+		SOCKADDR_IN m_saListen;	//for Listen Socket
+	private:
+		PPIOCP IOCP;
 	public:
 		PPTCPIOCPServer();
 		virtual ~PPTCPIOCPServer();
