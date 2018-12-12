@@ -14,6 +14,8 @@ namespace PP {
 		virtual int Release();
 	public:
 		HANDLE BindSocket(HANDLE handle, ULONG_PTR CompletionKey);
+		int DispatchRecv(DWORD dwTransferred);
+		int DispatchSend(DWORD dwTransferred);
 	};
 }
 

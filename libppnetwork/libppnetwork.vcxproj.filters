@@ -39,6 +39,12 @@
     <ClInclude Include="PPOVERLAPPED.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PPSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PPTCPIOCPServer.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PPIOCP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPReceiver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
