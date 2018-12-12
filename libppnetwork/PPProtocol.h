@@ -3,6 +3,7 @@ constexpr auto BUFFER_SIZE = 2048;
 
 #pragma pack(push, 1)
 namespace PP {
+	enum enumSendMode {NONE, SEND, BROADCAST};
 	//패킷 헤더
 	struct PPPacketHeader {
 		unsigned short m_len;			//패킷의 길이 2바이트
@@ -12,6 +13,11 @@ namespace PP {
 	struct PPPacket {
 		PPPacketHeader m_Header;			//패킷 헤더 4바이트
 		char m_Payload[BUFFER_SIZE];	//패킷 본체 최대 2048 바이트
+	};
+
+	struct PPUnprocessedPacket {
+		PPPacket m_Packet;
+		enumSendMode m_SendMode;
 	};
 
 	struct PPPacketAccount {
