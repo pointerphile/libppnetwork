@@ -4,7 +4,7 @@
 int main(int argc, char* argv[]) {
 	int iReturn = 0;
 	PP::PPTCPIOCPServer* Server = PP::GetServer();
-	iReturn = Server->SetPortNumber(50000);
+	iReturn = Server->SetPortNumber(10000);
 	iReturn = Server->SetNumberOfThreads(2);
 	iReturn = Server->Startup();
 	if (iReturn != 0) {

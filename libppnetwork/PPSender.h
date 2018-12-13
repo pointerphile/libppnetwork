@@ -13,6 +13,7 @@ namespace PP {
 	public:
 		int Send();
 		int Broadcast();
+		int BroadcastString(std::wstring wstrMessage);
 	};
 }
 

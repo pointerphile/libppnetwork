@@ -3,11 +3,11 @@
 #include "PPSingleton.h"
 
 namespace PP {
-	class PPRecvPacketPool : PPSingleton<PPRecvPacketPool> {
+	class PPRecvPacketPool : public PPSingleton<PPRecvPacketPool> {
 	private:
 		friend class PPSingleton<PPRecvPacketPool>;
 	public:
-		std::list<PP::PPSendPacket> m_listRecvPacket;
+		std::list<PP::PPRecvPacket> m_listRecvPacket;
 	public:
 		PPRecvPacketPool();
 		virtual ~PPRecvPacketPool();

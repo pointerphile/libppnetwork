@@ -1,9 +1,12 @@
 #pragma once
 #include "PPNetworkObject.h"
+#include "PPReceiver.h"
+
 namespace PP {
 	class PPIOCP : public PPNetworkObject {
 	private:
 		unsigned short m_iNumberOfThreads = 0;//积己且 IOCP 况目 荐
+		PPReceiver Receiver;
 	public:
 		HANDLE m_hIOCP;
 	public:
@@ -14,8 +17,8 @@ namespace PP {
 		virtual int Run();
 		virtual int Release();
 	public:
-		int DispatchRecv(DWORD dwTransferred);
-		int DispatchSend(DWORD dwTransferred);
+		int DispatchRecv(PPSession& Session, DWORD dwTransferred);
+		int DispatchSend(PPSession& Session, DWORD dwTransferred);
 		int SetNumberOfWorkers(unsigned short iNumberOfThreads);
 		HANDLE BindSocket(HANDLE handle, ULONG_PTR CompletionKey);
 	};

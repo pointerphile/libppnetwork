@@ -30,6 +30,14 @@ bool PP::PPSessionManager::erase(SOCKET socket) {
 	}
 }
 
+const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::begin() {
+	return m_mapSession.begin();
+}
+
+const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::end() {
+	return m_mapSession.end();
+}
+
 const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::find(SOCKET socket) {
 	return m_mapSession.find(socket);
 }

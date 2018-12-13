@@ -6,13 +6,15 @@ namespace PP {
 	private:
 		friend class PPSingleton<PPSessionManager>;
 	public:
-		std::map<SOCKET, PPSession> m_mapSession;
+		std::map<SOCKET, PP::PPSession> m_mapSession;
 	public:
 		PPSessionManager();
 		virtual ~PPSessionManager();
 	public:
 		bool insert(SOCKET socket, PPSession session);
 		bool erase(SOCKET socket);
-		const std::map<SOCKET, PPSession>::iterator find(SOCKET socket);
+		const std::map<SOCKET, PP::PPSession>::iterator begin();
+		const std::map<SOCKET, PP::PPSession>::iterator end();
+		const std::map<SOCKET, PP::PPSession>::iterator find(SOCKET socket);
 	};
 }

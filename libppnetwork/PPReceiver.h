@@ -9,6 +9,8 @@ namespace PP {
 		virtual int Init();
 		virtual int Run();
 		virtual int Release();
+	public:
+		int Recv(PPSession Session, DWORD dwTransferred);
 	};
 }
 

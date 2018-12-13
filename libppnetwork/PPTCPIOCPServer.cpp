@@ -32,8 +32,7 @@ int PP::PPTCPIOCPServer::Init() {
 		return iReturn;
 	}
 	//Check Port
-	if (m_iPort < 49152) {
-		std::wcout << L"Insert Port number 49152 ~ 65535" << std::endl;
+	if (CheckPortNumber() != 0) {
 		iReturn = Release();
 		return -1;
 	}
@@ -73,8 +72,8 @@ int PP::PPTCPIOCPServer::Run() {
 			break;
 		}
 		PPSessionManager::GetInstance().insert(Session.m_socketSession, Session);
-		std::map<SOCKET, PPSession>::iterator iter = PPSessionManager::GetInstance().find(Session.m_socketSession);
-		//CreateIoCompletionPort(): socket 정수 값을 키 값으로 IOCP에 바인드합니다.
+		auto iter = PPSessionManager::GetInstance().find(Session.m_socketSession);
+		//CreateIoCompletionPort(): socket 정수 값을 IOCP의 키 값으로 사용함.
 		CreateIoCompletionPort((HANDLE)iter->second.m_socketSession, m_IOCP.m_hIOCP, iter->second.m_socketSession, 0);
 
 		iter->second.m_wsabufRecv.buf = iter->second.m_bufRead;
@@ -118,14 +117,25 @@ int PP::PPTCPIOCPServer::Release() {
 	return 0;
 }
 
+int PP::PPTCPIOCPServer::CheckPortNumber() {
+	if (m_iPort < 1024) {
+		std::wcout << L"Insert port number 1024 ~ 65535" << std::endl;
+		return -1;
+	}
+	return 0;
+}
+
 int PP::PPTCPIOCPServer::Startup() {
 	int iReturn = 0;
+	m_IOCP.SetNumberOfWorkers(m_iNumberOfThreads);
+	iReturn = m_IOCP.Init();
+	if (iReturn != 0) {
+		return iReturn;
+	}
 	iReturn = Init();
 	if (iReturn != 0) {
 		return iReturn;
 	}
-	m_IOCP.SetNumberOfWorkers(m_iNumberOfThreads);
-	m_IOCP.Init();
 	this->LaunchThread();
 	return 0;
 }

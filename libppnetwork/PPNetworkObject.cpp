@@ -20,7 +20,7 @@ int PP::PPNetworkObject::DisplayError(const wchar_t * wcharString) {
 		0,
 		nullptr
 	);
-	std::wcout << wcharString << L" : " << lpMsgBuf;
+	std::wcout << wcharString << L" : " << (LPWSTR)lpMsgBuf;
 	LocalFree(lpMsgBuf);
 
 	return 0;

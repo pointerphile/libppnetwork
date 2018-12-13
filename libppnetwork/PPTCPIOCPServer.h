@@ -18,6 +18,7 @@ namespace PP {
 		virtual int Run();
 		virtual int Release();
 	public:
+		int CheckPortNumber();
 		LIBPPNETWORK_API int Startup();
 		LIBPPNETWORK_API int SetPortNumber(unsigned short iPort);
 		LIBPPNETWORK_API int SetNumberOfThreads(unsigned short iNumberOfThreads);
