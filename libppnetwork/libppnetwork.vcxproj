@@ -149,8 +149,11 @@
     <ClInclude Include="PPOVERLAPPED.h" />
     <ClInclude Include="PPProtocol.h" />
     <ClInclude Include="PPReceiver.h" />
+    <ClInclude Include="PPRecvPacketPool.h" />
     <ClInclude Include="PPSender.h" />
+    <ClInclude Include="PPSendPacketPool.h" />
     <ClInclude Include="PPSession.h" />
+    <ClInclude Include="PPSessionManager.h" />
     <ClInclude Include="PPSingleton.h" />
     <ClInclude Include="PPTCPIOCPServer.h" />
   </ItemGroup>
@@ -158,7 +161,10 @@
     <ClCompile Include="PPIOCP.cpp" />
     <ClCompile Include="PPNetworkObject.cpp" />
     <ClCompile Include="PPReceiver.cpp" />
+    <ClCompile Include="PPRecvPacketPool.cpp" />
     <ClCompile Include="PPSender.cpp" />
+    <ClCompile Include="PPSendPacketPool.cpp" />
+    <ClCompile Include="PPSessionManager.cpp" />
     <ClCompile Include="PPTCPIOCPServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

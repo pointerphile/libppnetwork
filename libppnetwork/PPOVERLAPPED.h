@@ -1,5 +1,8 @@
 #pragma once
 #include <WinSock2.h>
-struct PPOVERLAPPED : OVERLAPPED {
-	DWORD dwFlag;
-};
+
+namespace PP {
+	struct PPOVERLAPPED : OVERLAPPED {
+		DWORD dwFlag;
+	};
+}

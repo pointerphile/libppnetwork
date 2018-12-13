@@ -1,5 +1,6 @@
 #pragma once
 #include "PPNetworkObject.h"
+
 namespace PP {
 	class PPSender : public PPNetworkObject {
 	public:

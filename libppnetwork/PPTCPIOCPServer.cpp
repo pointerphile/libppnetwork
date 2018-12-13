@@ -1,4 +1,5 @@
 #include "PPTCPIOCPServer.h"
+#include "PPSessionManager.h"
 
 PP::PPTCPIOCPServer::PPTCPIOCPServer() {}
 PP::PPTCPIOCPServer::~PPTCPIOCPServer() {}
@@ -53,14 +54,36 @@ int PP::PPTCPIOCPServer::Init() {
 		MessageBoxError(L"listen()");
 		return iReturn;
 	}
-
 	return 0;
 }
 
 int PP::PPTCPIOCPServer::Run() {
+	std::wcout << L"accept()..." << std::endl;
 	while (true) {
-		std::wcout << "PPTCPIOCPServer..." << std::endl;
-		Sleep(1000);
+		int iResult = 0;
+		DWORD dwFlags = 0;
+		PPSession Session = {};
+		int addrlen = sizeof(Session.m_saSession);
+		Session.m_ovRecv.dwFlag = ASYNCFLAG_RECV;
+		Session.m_ovSend.dwFlag = ASYNCFLAG_SEND;
+		
+		Session.m_socketSession = WSAAccept(m_socketListen, (sockaddr*)&Session.m_saSession, &addrlen, nullptr, NULL);
+		if (Session.m_socketSession == INVALID_SOCKET) {
+			DisplayError(L"accept()");
+			break;
+		}
+		PPSessionManager::GetInstance().insert(Session.m_socketSession, Session);
+		std::map<SOCKET, PPSession>::iterator iter = PPSessionManager::GetInstance().find(Session.m_socketSession);
+		//CreateIoCompletionPort(): socket 정수 값을 키 값으로 IOCP에 바인드합니다.
+		CreateIoCompletionPort((HANDLE)iter->second.m_socketSession, m_IOCP.m_hIOCP, iter->second.m_socketSession, 0);
+
+		iter->second.m_wsabufRecv.buf = iter->second.m_bufRead;
+		iter->second.m_wsabufRecv.len = BUFFER_SIZE;
+
+		iResult = WSARecv(iter->second.m_socketSession, &iter->second.m_wsabufRecv, 1, nullptr, &dwFlags, &iter->second.m_ovRecv, nullptr);
+		if (iResult == SOCKET_ERROR) {
+			DisplayError(L"WSARecv()");
+		}
 	}
 	return 0;
 }
@@ -92,11 +115,31 @@ int PP::PPTCPIOCPServer::Release() {
 		MessageBoxError(L"WSACleanup()");
 		return iReturn;
 	}
-
 	return 0;
 }
 
-LIBPPNETWORK_API PP::PPTCPIOCPServer * PP::GetServer()
-{
+int PP::PPTCPIOCPServer::Startup() {
+	int iReturn = 0;
+	iReturn = Init();
+	if (iReturn != 0) {
+		return iReturn;
+	}
+	m_IOCP.SetNumberOfWorkers(m_iNumberOfThreads);
+	m_IOCP.Init();
+	this->LaunchThread();
+	return 0;
+}
+
+int PP::PPTCPIOCPServer::SetPortNumber(unsigned short iPort) {
+	m_iPort = iPort;
+	return 0;
+}
+
+int PP::PPTCPIOCPServer::SetNumberOfThreads(unsigned short iNumberOfThreads) {
+	m_iNumberOfThreads = iNumberOfThreads;
+	return 0;
+}
+
+LIBPPNETWORK_API PP::PPTCPIOCPServer * PP::GetServer() {
 	return new PP::PPTCPIOCPServer();
 }

@@ -1,10 +1,12 @@
 #pragma once
-template<class T> class PPSingleton
-{
-public:
-	static T& GetInstance()
+namespace PP {
+	template<class T> class PPSingleton
 	{
-		static T SingleInstance;
-		return SingleInstance;
-	}
-};
+	public:
+		static T& GetInstance()
+		{
+			static T SingleInstance;
+			return SingleInstance;
+		}
+	};
+}

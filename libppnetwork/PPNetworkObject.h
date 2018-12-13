@@ -1,5 +1,6 @@
 #pragma once
 #include "PPInclude.h"
+#include "PPSession.h"
 
 namespace PP {
 	class PPNetworkObject {

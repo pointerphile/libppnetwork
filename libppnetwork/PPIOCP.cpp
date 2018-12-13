@@ -4,7 +4,8 @@ PP::PPIOCP::PPIOCP() {}
 PP::PPIOCP::~PPIOCP() {}
 
 int PP::PPIOCP::Init() {
-	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_NumberOfWorkers);
+	std::wcout << L"PPIOCP::Init()" << std::endl;
+	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_iNumberOfThreads);
 	return 0;
 }
 
@@ -152,6 +153,10 @@ int PP::PPIOCP::DispatchSend(DWORD dwTransferred) {
 	//Session.m_ovSend.OffsetHigh += lr.HighPart;
 
 	std::wcout << dwTransferred << L" Bytes send." << std::endl;
+	return 0;
+}
 
+int PP::PPIOCP::SetNumberOfWorkers(unsigned short iNumberOfThreads) {
+	m_iNumberOfThreads = iNumberOfThreads;
 	return 0;
 }
