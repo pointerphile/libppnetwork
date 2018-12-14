@@ -155,6 +155,7 @@
     <ClInclude Include="PPSession.h" />
     <ClInclude Include="PPSessionManager.h" />
     <ClInclude Include="PPSingleton.h" />
+    <ClInclude Include="PPTCPIOCPClient.h" />
     <ClInclude Include="PPTCPIOCPServer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClCompile Include="PPSender.cpp" />
     <ClCompile Include="PPSendPacketPool.cpp" />
     <ClCompile Include="PPSessionManager.cpp" />
+    <ClCompile Include="PPTCPIOCPClient.cpp" />
     <ClCompile Include="PPTCPIOCPServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

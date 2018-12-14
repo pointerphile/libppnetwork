@@ -151,7 +151,7 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	//}
 
 	//WSAReceive ½Ç½Ã
-	iReturn = Receiver.Recv(Session, BUFFER_SIZE);
+	iReturn = Receiver.Recv(Session, PACKET_BUFFER_SIZE);
 	if (iReturn != 0) {
 		return -1;
 	}

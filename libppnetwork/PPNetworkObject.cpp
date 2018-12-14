@@ -15,7 +15,7 @@ int PP::PPNetworkObject::DisplayError(const wchar_t * wcharString) {
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
 		nullptr,
 		WSAGetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		0,//MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPWSTR)&lpMsgBuf,
 		0,
 		nullptr

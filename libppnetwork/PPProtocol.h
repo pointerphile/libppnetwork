@@ -1,13 +1,15 @@
 #pragma once
-constexpr auto BUFFER_SIZE = 2048;
+constexpr auto PACKET_BUFFER_SIZE = 2048;
+constexpr auto PACKET_HEADER_SIZE = 4;
 
 namespace PP {
 #pragma pack(push, 1)
 	enum PPPacketType : unsigned short {
-		STRING
+		TYPE_NONE,
+		TYPE_STRING
 	};
 	//PPSender에서 전송방법을 결정하기 위한 열거형 변수
-	enum PPSendMode {
+	enum PPSendMode : unsigned short {
 		NONE,
 		SEND,
 		BROADCAST
@@ -20,11 +22,11 @@ namespace PP {
 	//패킷 헤더 + 본체
 	struct PPPacket {
 		PPPacketHeader m_Header;			//패킷 헤더 4바이트
-		char m_Payload[BUFFER_SIZE];		//패킷 본체 최대 2048 바이트
+		char m_Payload[PACKET_BUFFER_SIZE - PACKET_HEADER_SIZE];		//패킷 본체 최대 2048 바이트
 	};
 	//문자열 전송을 위한 구조체
 	struct PPPacketMessage {
-		char m_charMessage[BUFFER_SIZE];	//최대 2048 바이트의 문자열 전송 가능
+		char m_charMessage[PACKET_BUFFER_SIZE - PACKET_HEADER_SIZE];	//최대 2048 바이트의 문자열 전송 가능
 	};
 	//사용자명, 비밀번호 전송을 위한 구조체
 	struct PPPacketAccount {

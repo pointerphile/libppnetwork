@@ -2,6 +2,8 @@
 #pragma comment(lib, "../x64/Debug/libppnetwork.lib")
 
 int main(int argc, char* argv[]) {
+	std::locale::global(std::locale(""));
+
 	int iReturn = 0;
 	PP::PPTCPIOCPServer* Server = PP::GetServer();
 	iReturn = Server->SetPortNumber(10000);
