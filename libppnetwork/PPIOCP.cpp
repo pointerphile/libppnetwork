@@ -116,26 +116,26 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	int iReturn = 0;
 	LARGE_INTEGER lr;
 	lr.QuadPart = dwTransferred;
+	PPRecvPacket packetRecv = {};
+	PPSendPacket packetSend = {};
+	wchar_t wcharBuf[1024] = {};
+
 	Session.m_ovRecv.Offset += lr.LowPart;
 	Session.m_ovRecv.OffsetHigh += lr.HighPart;
 
 	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 
-	PPRecvPacket packetRecv = {};
-	PPSendPacket packetSend = {};
-	
 	//WSARecv로 가져온 패킷 복사
-	packetRecv.m_socketSession = Session.m_socketSession;
-	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
-	PPRecvPacketPool::GetInstance().m_listRecvPacket.push_back(packetRecv);
+	//packetRecv.m_socketSession = Session.m_socketSession;
+	//memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
+	//PPRecvPacketPool::GetInstance().m_listRecvPacket.push_back(packetRecv);
 
 	if (m_FP != nullptr) {
 		m_FP();
 	}
 
-	wchar_t wcharBuf[1024] = {};
 	memcpy(wcharBuf, Session.m_wsabufRecv.buf, dwTransferred);
-	std::wcout << wcharBuf << std::endl;
+	OutputDebugStringW(wcharBuf);
 
 	//WSAReceive 실시
 	iReturn = Receiver.Recv(Session, PACKET_BUFFER_SIZE);

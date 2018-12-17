@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	while (true) {
-		pSender->BroadcastRawString(L"Hello, Client!");
+		pSender->BroadcastRawString(L"Hello, Client!\n");
 		Sleep(1000);
 	}
 

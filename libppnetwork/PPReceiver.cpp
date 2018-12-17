@@ -13,7 +13,7 @@ int PP::PPReceiver::Recv(PPSession Session, DWORD dwTransferred) {
 	DWORD dwError = 0;
 	DWORD dwFlag = 0;
 
-	isReturn = WSARecv(Session.m_socketSession, &Session.m_wsabufRecv, 1, &dwBytesRead, &dwFlag, &Session.m_ovRecv, nullptr);
+	isReturn = WSARecv(Session.m_socketSession, &Session.m_wsabufRecv, 1, nullptr, &dwFlag, &Session.m_ovRecv, nullptr);
 	dwError = WSAGetLastError();
 	if (isReturn == true) {
 		if (dwBytesRead == 0) {
