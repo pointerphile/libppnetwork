@@ -15,7 +15,7 @@ namespace PP {
 		int Broadcast(PPSession Session, DWORD dwBytesToWrite);
 		int Broadcast(PPSendPacket packetSend);
 		int BroadcastWString(std::wstring wstrMessage);
-		int BroadcastRawString();
+		int BroadcastRawString(std::wstring wstrMessage);
 	};
 }
 

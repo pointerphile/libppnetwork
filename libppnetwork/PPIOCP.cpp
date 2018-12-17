@@ -121,6 +121,8 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 
 	PPRecvPacket packetRecv = {};
 	PPSendPacket packetSend = {};
+	
+	//WSARecv로 가져온 패킷 복사
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
 	PPRecvPacketPool::GetInstance().m_listRecvPacket.push_back(packetRecv);
@@ -128,7 +130,7 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	//
 	//수신받은 패킷 처리 부분
 	//
-
+	
 	//
 	//
 	//while (PPSendPacketPool::GetInstance().empty() == false) {
@@ -145,7 +147,7 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 		//	iReturn = Sender.Send(Session, packetSend.m_packet.m_ph.m_len);
 		//}
 		//if (iReturn != 0) {
-			return -1;
+		//	return -1;
 		//}
 
 	//}

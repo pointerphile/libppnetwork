@@ -3,8 +3,7 @@ namespace PP {
 	template<class T> class PPSingleton
 	{
 	public:
-		static T& GetInstance()
-		{
+		LIBPPNETWORK_API static T& GetInstance() {
 			static T SingleInstance;
 			return SingleInstance;
 		}

@@ -56,7 +56,6 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
-	std::wstring wstrBuf;
 	WSABUF wsabufSend = {};
 	PPSendPacket packetSend = {};
 
@@ -64,11 +63,40 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	packetSend.m_SendMode = PPSendMode::BROADCAST;
 	packetSend.m_socketSession = 0;
 	memcpy(packetSend.m_Packet.m_Payload, wstrMessage.c_str(), wstrMessage.size());
-	packetSend.m_Packet.m_Header.m_type = PPPacketType::STRING;
-	packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + wstrMessage.size();
+	packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_STRING;
+	packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + (unsigned short)wstrMessage.size();
 	//WSABUF로 패킷 복사
 	memcpy(wsabufSend.buf, (void*)&packetSend.m_Packet, packetSend.m_Packet.m_Header.m_len);
+	wsabufSend.len = packetSend.m_Packet.m_Header.m_len;
 
+	//전체 세션 순회
+	for (auto iter = PPSessionManager::GetInstance().begin();
+		iter != PPSessionManager::GetInstance().end();
+		++iter) {
+
+		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		if (isReturn == false) {
+			dwError = WSAGetLastError();
+			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+				DisplayError(L"WSASend()");
+				return -1;
+			}
+		}
+	}
+	return 0;
+}
+
+int PP::PPSender::BroadcastRawString(std::wstring wstrMessage) {
+	bool isReturn = false;
+	DWORD dwBytesWritten = 0;
+	DWORD dwError = 0;
+	std::wstring wstrBuf;
+	WSABUF wsabufSend = {};
+
+	//WSABUF로 패킷 복사
+	memcpy(wsabufSend.buf, (void*)wstrMessage.c_str(), wstrMessage.size() * 2);
+
+	//전체 세션 순회
 	for (auto iter = PPSessionManager::GetInstance().begin();
 		iter != PPSessionManager::GetInstance().end();
 		++iter) {
