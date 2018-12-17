@@ -14,8 +14,8 @@ namespace PP {
 		bool insert(SOCKET socket, PPSession session);
 		bool erase(SOCKET socket);
 		void clear();
-		const std::map<SOCKET, PP::PPSession>::iterator begin();
-		const std::map<SOCKET, PP::PPSession>::iterator end();
+		std::map<SOCKET, PP::PPSession>::iterator begin();
+		std::map<SOCKET, PP::PPSession>::iterator end();
 		const std::map<SOCKET, PP::PPSession>::iterator find(SOCKET socket);
 	};
 }

@@ -10,6 +10,7 @@ int PP::PPNetworkObject::LaunchThread() {
 }
 
 int PP::PPNetworkObject::DisplayError(const wchar_t * wcharString) {
+	std::wstring wstrOutput;
 	LPVOID lpMsgBuf;
 	FormatMessageW(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
@@ -20,7 +21,12 @@ int PP::PPNetworkObject::DisplayError(const wchar_t * wcharString) {
 		0,
 		nullptr
 	);
-	std::wcout << wcharString << L" : " << (LPWSTR)lpMsgBuf;
+
+	wstrOutput.append(wcharString);
+	wstrOutput.append(L" : ");
+	wstrOutput.append((LPWSTR)lpMsgBuf);
+
+	std::wcout << wstrOutput.c_str();
 	LocalFree(lpMsgBuf);
 
 	return 0;

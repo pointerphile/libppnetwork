@@ -11,8 +11,9 @@ namespace PP {
 		unsigned short m_iNumberOfThreads;
 	private:
 		PPSession m_Session;
-		PPIOCP m_IOCP;
 		PPSender m_Sender;
+	public:
+		PPIOCP m_IOCP;
 	public:
 		PPTCPIOCPClient();
 		virtual ~PPTCPIOCPClient();
@@ -26,6 +27,8 @@ namespace PP {
 		LIBPPNETWORK_API int SetHost(std::string strHostIPv4);
 		LIBPPNETWORK_API int SetPortNumber(unsigned short iPort);
 		LIBPPNETWORK_API int SetNumberOfThreads(unsigned short iNumberOfThreads);
+		int(*m_FP)();
+		LIBPPNETWORK_API int SetFP(int(*FP)());
 	};
 
 	LIBPPNETWORK_API PP::PPTCPIOCPClient* GetClient();

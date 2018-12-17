@@ -8,6 +8,7 @@ PP::PPIOCP::~PPIOCP() {}
 
 int PP::PPIOCP::Init() {
 	std::wcout << L"PPIOCP::Init()..." << std::endl;
+	OutputDebugStringW(L"PPIOCP::Init()...\n");
 	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_iNumberOfThreads);
 
 	for (int iNumberOfThread = m_iNumberOfThreads; iNumberOfThread > 0; iNumberOfThread--) {
@@ -20,6 +21,7 @@ int PP::PPIOCP::Init() {
 
 int PP::PPIOCP::Run() {
 	std::wcout << L"PPIOCP::Run()..." << std::endl;
+	OutputDebugStringW(L"PPIOCP::Run()...\n");
 	bool isReturn = true;
 	DWORD dwTransferred = 0;
 	unsigned __int64 lpCompletionKey;//키 값은 각 세션의 소켓을 사용
@@ -127,30 +129,13 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
 	PPRecvPacketPool::GetInstance().m_listRecvPacket.push_back(packetRecv);
 
-	//
-	//수신받은 패킷 처리 부분
-	//
-	
-	//
-	//
-	//while (PPSendPacketPool::GetInstance().empty() == false) {
-	//	packetSend = PPSendPacketPool::GetInstance().front();
-	//	PPSendPacketPool::GetInstance().pop_front();
-	//	memcpy(Session.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
+	if (m_FP != nullptr) {
+		m_FP();
+	}
 
-
-		//Send할 패킷과 Broadcast할 패킷 분류 후 전송
-		//if (packetSend.m_packet.m_ph.m_type == PACKET_CHAT_MSG) {
-		//	iReturn = Sender.Broadcast(Session, packetSend.m_packet.m_ph.m_len);
-		//}
-		//else {
-		//	iReturn = Sender.Send(Session, packetSend.m_packet.m_ph.m_len);
-		//}
-		//if (iReturn != 0) {
-		//	return -1;
-		//}
-
-	//}
+	wchar_t wcharBuf[1024] = {};
+	memcpy(wcharBuf, Session.m_wsabufRecv.buf, dwTransferred);
+	std::wcout << wcharBuf << std::endl;
 
 	//WSAReceive 실시
 	iReturn = Receiver.Recv(Session, PACKET_BUFFER_SIZE);
@@ -173,5 +158,10 @@ int PP::PPIOCP::DispatchSend(PPSession& Session, DWORD dwTransferred) {
 
 int PP::PPIOCP::SetNumberOfWorkers(unsigned short iNumberOfThreads) {
 	m_iNumberOfThreads = iNumberOfThreads;
+	return 0;
+}
+
+LIBPPNETWORK_API int PP::PPIOCP::SetFP(int(*FP)() = nullptr) {
+	m_FP = FP;
 	return 0;
 }

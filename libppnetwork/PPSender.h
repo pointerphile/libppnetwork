@@ -16,8 +16,8 @@ namespace PP {
 		int Broadcast(PPSession Session, DWORD dwBytesToWrite);
 		int Broadcast(PPSendPacket packetSend);
 		int BroadcastWString(std::wstring wstrMessage);
-		int BroadcastRawString(std::wstring wstrMessage);
+		LIBPPNETWORK_API int BroadcastRawString(std::wstring wstrMessage);
 	};
+	LIBPPNETWORK_API PP::PPSender* GetSender();
 }
-
 

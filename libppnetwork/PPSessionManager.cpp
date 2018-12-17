@@ -5,19 +5,22 @@ PP::PPSessionManager::~PPSessionManager() {}
 
 bool PP::PPSessionManager::insert(SOCKET socket, PPSession session) {
 	m_mapSession.insert(std::make_pair(socket, session));
-	std::cout << "PPSessionManager : push_back()..." << std::endl;
+	std::wcout << L"PPSessionManager : push_back()..." << std::endl;
+	OutputDebugStringW(L"PPSessionManager : push_back()...\n");
 	return true;
 }
 
 bool PP::PPSessionManager::erase(SOCKET socket) {
 	if (m_mapSession.empty()) {
 		std::wcout << L"PPSessionManager: session list is empty." << std::endl;
+		OutputDebugStringW(L"PPSessionManager: session list is empty.\n");
 		return false;
 	}
 	else {
 		auto iter = m_mapSession.find(socket);
 		if (iter == m_mapSession.end()) {
 			std::wcout << L"PPSessionManager: session is not in list." << std::endl;
+			OutputDebugStringW(L"PPSessionManager: session is not in list.\n");
 			return false;
 		}
 		shutdown(socket, SD_BOTH);
@@ -25,7 +28,8 @@ bool PP::PPSessionManager::erase(SOCKET socket) {
 		iter->second = {};
 		m_mapSession.erase(socket);
 		socket = 0;
-		std::cout << "PPSessionManager : erase()..." << std::endl;
+		std::wcout << L"PPSessionManager : erase()..." << std::endl;
+		OutputDebugStringW(L"PPSessionManager : erase()...\n");
 		return true;
 	}
 }
@@ -39,11 +43,11 @@ void PP::PPSessionManager::clear() {
 	m_mapSession.clear();
 }
 
-const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::begin() {
+std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::begin() {
 	return m_mapSession.begin();
 }
 
-const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::end() {
+std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::end() {
 	return m_mapSession.end();
 }
 

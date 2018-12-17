@@ -3,7 +3,7 @@
 #include "PPSingleton.h"
 
 namespace PP {
-	class PPSendPacketPool : PPSingleton<PPSendPacketPool> {
+	class PPSendPacketPool : public PPSingleton<PPSendPacketPool> {
 	private:
 		friend class PPSingleton<PPSendPacketPool>;
 	public:

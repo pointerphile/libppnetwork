@@ -8,7 +8,7 @@ namespace PP {
 		unsigned short m_iNumberOfThreads;
 		SOCKET m_socketListen;	//Listen Socket
 		SOCKADDR_IN m_saListen;	//for Listen Socket
-	private:
+	public:
 		PPIOCP m_IOCP;
 	public:
 		PPTCPIOCPServer();
@@ -22,6 +22,8 @@ namespace PP {
 		LIBPPNETWORK_API int Startup();
 		LIBPPNETWORK_API int SetPortNumber(unsigned short iPort);
 		LIBPPNETWORK_API int SetNumberOfThreads(unsigned short iNumberOfThreads);
+		int(*m_FP)();
+		LIBPPNETWORK_API int SetFP(int(*FP)());
 	};
 
 	LIBPPNETWORK_API PP::PPTCPIOCPServer* GetServer();

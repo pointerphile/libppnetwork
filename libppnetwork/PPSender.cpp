@@ -32,10 +32,10 @@ int PP::PPSender::SendRawString(PPSession Session, std::wstring wstrMessage)
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
-	WSABUF wsabufSend;
+	WSABUF wsabufSend = {};
 	//WSABUF로 패킷 복사
 	wsabufSend.buf = (char*)wstrMessage.c_str();
-	wsabufSend.len = wstrMessage.size();
+	wsabufSend.len = (ULONG)wstrMessage.size() * 2;
 
 	isReturn = WSASend(Session.m_socketSession, &wsabufSend, 1, nullptr, 0, &Session.m_ovSend, nullptr);
 	if (isReturn == false) {
@@ -115,7 +115,8 @@ int PP::PPSender::BroadcastRawString(std::wstring wstrMessage) {
 	WSABUF wsabufSend = {};
 
 	//WSABUF로 패킷 복사
-	memcpy(wsabufSend.buf, (void*)wstrMessage.c_str(), wstrMessage.size() * 2);
+	wsabufSend.buf = (char*)wstrMessage.c_str();
+	wsabufSend.len = (ULONG)wstrMessage.size() * 2;
 
 	//전체 세션 순회
 	for (auto iter = PPSessionManager::GetInstance().begin();
@@ -132,4 +133,9 @@ int PP::PPSender::BroadcastRawString(std::wstring wstrMessage) {
 		}
 	}
 	return 0;
+}
+
+LIBPPNETWORK_API PP::PPSender * PP::GetSender()
+{
+	return new PP::PPSender();
 }
