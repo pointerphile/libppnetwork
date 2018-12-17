@@ -59,6 +59,15 @@ int PP::PPTCPIOCPClient::Run() {
 }
 
 int PP::PPTCPIOCPClient::Release() {
+	int iReturn = 0;
+
+	//WSACleanup()
+	std::wcout << "WSACleanup()..." << std::endl;
+	iReturn = WSACleanup();
+	if (iReturn != 0) {
+		DisplayError(L"WSACleanup()");
+		return iReturn;
+	}
 	return 0;
 }
 

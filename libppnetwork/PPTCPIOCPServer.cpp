@@ -91,6 +91,7 @@ int PP::PPTCPIOCPServer::Run() {
 int PP::PPTCPIOCPServer::Release() {
 	int iReturn = 0;
 
+	PPSessionManager::GetInstance().clear();
 	if (m_socketListen != INVALID_SOCKET) {
 		//shutdown()
 		std::wcout << "shutdown()..." << std::endl;
@@ -107,7 +108,7 @@ int PP::PPTCPIOCPServer::Release() {
 			DisplayError(L"closesocket()");
 		}
 	}
-	m_socketListen = 0;
+	m_socketListen = INVALID_SOCKET;
 	//WSACleanup()
 	std::wcout << "WSACleanup()..." << std::endl;
 	iReturn = WSACleanup();

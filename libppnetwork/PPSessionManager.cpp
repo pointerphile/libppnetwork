@@ -5,7 +5,7 @@ PP::PPSessionManager::~PPSessionManager() {}
 
 bool PP::PPSessionManager::insert(SOCKET socket, PPSession session) {
 	m_mapSession.insert(std::make_pair(socket, session));
-	std::cout << "session : push_back()..." << std::endl;
+	std::cout << "PPSessionManager : push_back()..." << std::endl;
 	return true;
 }
 
@@ -25,12 +25,13 @@ bool PP::PPSessionManager::erase(SOCKET socket) {
 		iter->second = {};
 		m_mapSession.erase(socket);
 		socket = 0;
-		std::cout << "session : erase()..." << std::endl;
+		std::cout << "PPSessionManager : erase()..." << std::endl;
 		return true;
 	}
 }
 
 void PP::PPSessionManager::clear() {
+	std::cout << "PPSessionManager : clear()..." << std::endl;
 	return m_mapSession.clear();
 }
 
