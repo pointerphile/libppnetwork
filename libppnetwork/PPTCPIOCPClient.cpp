@@ -48,9 +48,13 @@ int PP::PPTCPIOCPClient::Init() {
 		return iReturn;
 	}
 
+	//IOCP에 소켓 바인드
 	PPSessionManager::GetInstance().insert(m_Session.m_socketSession, m_Session);
 	auto iter = PPSessionManager::GetInstance().find(m_Session.m_socketSession);
 	CreateIoCompletionPort((HANDLE)iter->second.m_socketSession, m_IOCP.m_hIOCP, iter->second.m_socketSession, 0);
+
+	m_Sender.SendRawString(iter->second, L"Hello");
+
 	return 0;
 }
 

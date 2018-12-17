@@ -12,6 +12,7 @@ namespace PP {
 		virtual int Release();
 	public:
 		int Send(PPSession Session, DWORD dwBytesToWrite);
+		int SendRawString(PPSession Session, std::wstring wstrMessage);
 		int Broadcast(PPSession Session, DWORD dwBytesToWrite);
 		int Broadcast(PPSendPacket packetSend);
 		int BroadcastWString(std::wstring wstrMessage);

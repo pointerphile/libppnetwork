@@ -27,6 +27,27 @@ int PP::PPSender::Send(PPSession Session, DWORD dwBytesToWrite) {
 	return 0;
 }
 
+int PP::PPSender::SendRawString(PPSession Session, std::wstring wstrMessage)
+{
+	bool isReturn = false;
+	DWORD dwBytesWritten = 0;
+	DWORD dwError = 0;
+	WSABUF wsabufSend;
+	//WSABUF로 패킷 복사
+	wsabufSend.buf = (char*)wstrMessage.c_str();
+	wsabufSend.len = wstrMessage.size();
+
+	isReturn = WSASend(Session.m_socketSession, &wsabufSend, 1, nullptr, 0, &Session.m_ovSend, nullptr);
+	if (isReturn == false) {
+		dwError = WSAGetLastError();
+		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+			DisplayError(L"WSASend()");
+			return -1;
+		}
+	}
+	return 0;
+}
+
 int PP::PPSender::Broadcast(PPSession Session, DWORD dwBytesToWrite) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;

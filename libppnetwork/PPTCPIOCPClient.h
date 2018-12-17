@@ -1,6 +1,8 @@
 #pragma once
 #include "PPNetworkObject.h"
 #include "PPIOCP.h"
+#include "PPSender.h"
+
 namespace PP {
 	class PPTCPIOCPClient :	public PPNetworkObject {
 	private:
@@ -10,6 +12,7 @@ namespace PP {
 	private:
 		PPSession m_Session;
 		PPIOCP m_IOCP;
+		PPSender m_Sender;
 	public:
 		PPTCPIOCPClient();
 		virtual ~PPTCPIOCPClient();

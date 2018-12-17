@@ -2,8 +2,7 @@
 #include "PPInclude.h"
 
 namespace PP{
-	class PPSession {
-	public:
+	struct PPSession {
 		SOCKET m_socketSession;
 		PPOVERLAPPED m_ovRecv;
 		PPOVERLAPPED m_ovSend;
@@ -12,8 +11,5 @@ namespace PP{
 		char m_bufWrite[2048] = {};
 		WSABUF m_wsabufRecv = {};
 		WSABUF m_wsabufSend = {};
-	public:
-		PPSession();
-		~PPSession();
 	};
 }
