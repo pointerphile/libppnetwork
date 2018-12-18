@@ -57,15 +57,6 @@ int PP::PPIOCP::Run() {
 				//세션 종료시 현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 				//세션 리스트에서 해당 세션 제거 실시
 				DisplayError(L"GetQueuedCompletionStatus()");
-				//PP_PACKET packetSend = {};
-				//std::string strBuf;
-				//packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG;
-				//strBuf.append(iter->second.m_strUsername);
-				//strBuf.append(" left from this chat.");
-				//memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
-				//packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + (unsigned short)strBuf.size();
-				//memcpy(iter->second.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
-				//Sender.Broadcast(iter->second, packetSend.m_packet.m_ph.m_len);
 				PPSessionManager::GetInstance().erase(iter->first);
 				continue;
 			}
@@ -81,15 +72,6 @@ int PP::PPIOCP::Run() {
 					//현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 					//세션 리스트에서 해당 세션 제거 실시
 					DisplayError(L"GetQueuedCompletionStatus()");
-					//PP_PACKET packetSend = {};
-					//std::string strBuf;
-					//packetSend.m_packet.m_ph.m_type = PACKET_CHAT_MSG;
-					//strBuf.append(iter->second.m_strUsername);
-					//strBuf.append(" left from this chat.");
-					//memcpy(packetSend.m_packet.m_msg, strBuf.c_str(), strBuf.size());
-					//packetSend.m_packet.m_ph.m_len = PACKET_HEADER_SIZE + (unsigned short)strBuf.size();
-					//memcpy(iter->second.m_bufWrite, (void*)&packetSend.m_packet, packetSend.m_packet.m_ph.m_len);
-					//Sender.Broadcast(iter->second, packetSend.m_packet.m_ph.m_len);
 					PPSessionManager::GetInstance().erase(iter->first);
 				}
 				else {
@@ -126,16 +108,13 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 
 	//WSARecv로 가져온 패킷 복사
-	//packetRecv.m_socketSession = Session.m_socketSession;
-	//memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
-	//PPRecvPacketPool::GetInstance().m_listRecvPacket.push_back(packetRecv);
+	packetRecv.m_socketSession = Session.m_socketSession;
+	memcpy((void*)&packetRecv.m_Packet, Session.m_wsabufRecv.buf, dwTransferred);
+	PPRecvPacketPool::GetInstance().m_listRecvPacket.push_back(packetRecv);
 
 	if (m_FP != nullptr) {
 		m_FP();
 	}
-
-	memcpy(wcharBuf, Session.m_wsabufRecv.buf, dwTransferred);
-	OutputDebugStringW(wcharBuf);
 
 	//WSAReceive 실시
 	iReturn = Receiver.Recv(Session, PACKET_BUFFER_SIZE);

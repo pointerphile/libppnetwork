@@ -1,9 +1,29 @@
 #include "../libppnetwork/PPTCPIOCPServer.h"
 #include "../libppnetwork/PPSender.h"
+#include "../libppnetwork/PPRecvPacketPool.h"
+#include "../libppnetwork/PPSendPacketPool.h"
 #pragma comment(lib, "../x64/Debug/libppnetwork.lib")
 
 int inject() {
-	std::wcout << "injected" << std::endl;
+	//패킷을 라이브러리 외부에서 처리하는 함수입니다.
+	//서버 객체에서 Startup 실행 전 SetFP()를 실행해야 합니다.
+	std::wcout << "injected function()..." << std::endl;
+	PP::PPRecvPacket RecvPacket = PP::PPRecvPacketPool::GetInstance().m_listRecvPacket.front();
+	PP::PPRecvPacketPool::GetInstance().m_listRecvPacket.pop_front();
+	wchar_t* wcharBuf = nullptr;
+	switch (RecvPacket.m_Packet.m_Header.m_type) {
+	case PP::PPPacketType::TYPE_STRING: {
+		PP::PPPacketMessage* packetMsg = (PP::PPPacketMessage*)RecvPacket.m_Packet.m_Payload;
+		wcharBuf = (wchar_t*)&packetMsg->m_charMessage;
+		std::wcout << wcharBuf << std::endl;
+		break;
+	}
+	default:
+		wcharBuf = (wchar_t*)&RecvPacket;
+		std::wcout << wcharBuf;
+		break;
+	}
+
 	return 0;
 }
 
@@ -23,7 +43,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	while (true) {
-		pSender->BroadcastRawString(L"Hello, Client!\n");
+		pSender->BroadcastRawWString(L"Hello, Client!\0");
 		Sleep(1000);
 	}
 

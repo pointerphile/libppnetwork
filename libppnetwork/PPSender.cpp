@@ -83,14 +83,18 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	//패킷 작성
 	packetSend.m_SendMode = PPSendMode::BROADCAST;
 	packetSend.m_socketSession = 0;
-	memcpy(packetSend.m_Packet.m_Payload, wstrMessage.c_str(), wstrMessage.size());
+	memcpy(packetSend.m_Packet.m_Payload, wstrMessage.c_str(), wstrMessage.size() * 2);
 	packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_STRING;
-	packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + (unsigned short)wstrMessage.size();
-	//WSABUF로 패킷 복사
-	memcpy(wsabufSend.buf, (void*)&packetSend.m_Packet, packetSend.m_Packet.m_Header.m_len);
+	packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + ((unsigned short)wstrMessage.size() * 2);
+
+	//WSABUF로 패킷 지정
+	wsabufSend.buf = (char*)&packetSend.m_Packet;
 	wsabufSend.len = packetSend.m_Packet.m_Header.m_len;
 
 	//전체 세션 순회
+	if (PPSessionManager::GetInstance().m_mapSession.empty()) {
+		return -1;
+	}
 	for (auto iter = PPSessionManager::GetInstance().begin();
 		iter != PPSessionManager::GetInstance().end();
 		++iter) {
@@ -107,7 +111,7 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	return 0;
 }
 
-int PP::PPSender::BroadcastRawString(std::wstring wstrMessage) {
+int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
