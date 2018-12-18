@@ -49,7 +49,7 @@ int PP::PPTCPIOCPClient::Init() {
 	m_Session.m_saSession.sin_port = htons(m_iPort);
 	iReturn = WSAConnect(m_Session.m_socketSession, (sockaddr*)&m_Session.m_saSession, sizeof(m_Session.m_saSession), nullptr, nullptr, nullptr, nullptr);
 	if (iReturn != 0) {
-		DisplayError(L"WSAConnect()");
+		MessageBoxError(L"WSAConnect()");
 		return iReturn;
 	}
 
