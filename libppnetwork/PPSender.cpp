@@ -73,6 +73,36 @@ int PP::PPSender::Broadcast(PPSession Session, DWORD dwBytesToWrite) {
 	return 0;
 }
 
+int PP::PPSender::Broadcast(PPSendPacket packetSend) {
+	bool isReturn = false;
+	DWORD dwBytesWritten = 0;
+	DWORD dwError = 0;
+	WSABUF wsabufSend = {};
+
+	//WSABUF로 패킷 지정
+	wsabufSend.buf = (char*)&packetSend.m_Packet;
+	wsabufSend.len = packetSend.m_Packet.m_Header.m_len;
+
+	//전체 세션 순회
+	if (PPSessionManager::GetInstance().m_mapSession.empty()) {
+		return -1;
+	}
+	for (auto iter = PPSessionManager::GetInstance().begin();
+		iter != PPSessionManager::GetInstance().end();
+		++iter) {
+
+		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		if (isReturn == false) {
+			dwError = WSAGetLastError();
+			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+				DisplayError(L"WSASend()");
+				return -1;
+			}
+		}
+	}
+	return 0;
+}
+
 int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;

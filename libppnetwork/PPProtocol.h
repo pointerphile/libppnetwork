@@ -6,7 +6,8 @@ namespace PP {
 #pragma pack(push, 1)
 	enum PPPacketType : unsigned short {
 		TYPE_NONE,
-		TYPE_STRING
+		TYPE_STRING,
+		TYPE_MOVE
 	};
 	//PPSender에서 전송방법을 결정하기 위한 열거형 변수
 	enum PPSendMode : unsigned short {
@@ -32,6 +33,13 @@ namespace PP {
 	struct PPPacketAccount {
 		char m_charUsername[16];			//사용자명 16바이트
 		char m_charPassword[16];			//비밀번호 16바이트
+	};
+
+	struct PPPacketMove {
+		float m_fNormalx;
+		float m_fNormaly;
+		float m_fNormalz;
+		float m_fSpeed;
 	};
 #pragma pack(pop)
 	//PPRecv로 받은 패킷
