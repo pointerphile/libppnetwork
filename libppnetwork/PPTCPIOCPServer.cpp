@@ -6,10 +6,12 @@ PP::PPTCPIOCPServer::~PPTCPIOCPServer() {}
 
 int PP::PPTCPIOCPServer::Init() {
 	std::wcout << L"PPTCPIOCPServer::Init()..." << std::endl;
+	OutputDebugStringW(L"PPTCPIOCPServer::Init()...\n");
 	WSADATA wsa;
 	int iReturn = 0;
 	//WSAStartup()
 	std::wcout << L"WSAStartup()..." << std::endl;
+	OutputDebugStringW(L"WSAStartup()...\n");
 	iReturn = WSAStartup(MAKEWORD(2, 2), &wsa);
 	if (iReturn != 0) {
 		MessageBoxError(L"WSAStartup()");
@@ -17,6 +19,7 @@ int PP::PPTCPIOCPServer::Init() {
 	}
 	//socket()
 	std::wcout << L"WSASocket()..." << std::endl;
+	OutputDebugStringW(L"WSASocket()...\n");
 	m_socketListen = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	if (m_socketListen == INVALID_SOCKET)
 	{
@@ -25,6 +28,7 @@ int PP::PPTCPIOCPServer::Init() {
 	}
 	//setsockopt
 	std::wcout << L"setsockopt(TCP_NODELAY)..." << std::endl;
+	OutputDebugStringW(L"setsockopt(TCP_NODELAY)...\n");
 	bool bOptVal = true;
 	int iOptLen = sizeof(bool);
 	iReturn = setsockopt(m_socketListen, IPPROTO_TCP, TCP_NODELAY, (char *)&bOptVal, iOptLen);
@@ -39,6 +43,7 @@ int PP::PPTCPIOCPServer::Init() {
 	}
 	//bind()
 	std::wcout << L"bind()..." << std::endl;
+	OutputDebugStringW(L"bind()...\n");
 	m_saListen.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
 	m_saListen.sin_family = AF_INET;
 	m_saListen.sin_port = htons(m_iPort);
@@ -49,6 +54,7 @@ int PP::PPTCPIOCPServer::Init() {
 	}
 	//listen()
 	std::wcout << L"listen()..." << std::endl;
+	OutputDebugStringW(L"listen()...\n");
 	iReturn = listen(m_socketListen, SOMAXCONN);
 	if (iReturn != 0) {
 		DisplayError(L"listen()");
@@ -59,6 +65,7 @@ int PP::PPTCPIOCPServer::Init() {
 
 int PP::PPTCPIOCPServer::Run() {
 	std::wcout << L"accept()..." << std::endl;
+	OutputDebugStringW(L"accept()...\n");
 	while (true) {
 		int iResult = 0;
 		DWORD dwFlags = 0;
@@ -95,6 +102,7 @@ int PP::PPTCPIOCPServer::Release() {
 	if (m_socketListen != INVALID_SOCKET) {
 		//shutdown()
 		std::wcout << "shutdown()..." << std::endl;
+		OutputDebugStringW(L"shutdown()...\n");
 		iReturn = shutdown(m_socketListen, SD_BOTH);
 		if (iReturn != 0) {
 			if (WSAGetLastError() != WSAENOTCONN) {
@@ -103,6 +111,7 @@ int PP::PPTCPIOCPServer::Release() {
 		}
 		//closesocket()
 		std::wcout << "closesocket()..." << std::endl;
+		OutputDebugStringW(L"closesocket()...\n");
 		iReturn = closesocket(m_socketListen);
 		if (iReturn != 0) {
 			DisplayError(L"closesocket()");
@@ -111,6 +120,7 @@ int PP::PPTCPIOCPServer::Release() {
 	m_socketListen = INVALID_SOCKET;
 	//WSACleanup()
 	std::wcout << "WSACleanup()..." << std::endl;
+	OutputDebugStringW(L"WSACleanup()...\n");
 	iReturn = WSACleanup();
 	if (iReturn != 0) {
 		DisplayError(L"WSACleanup()");
