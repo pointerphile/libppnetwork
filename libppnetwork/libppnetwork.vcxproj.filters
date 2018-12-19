@@ -57,6 +57,9 @@
     <ClInclude Include="PPTCPIOCPClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PPPacketPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PPTCPIOCPServer.cpp">
@@ -87,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PPSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPPacketPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

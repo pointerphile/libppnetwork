@@ -147,6 +147,7 @@
     <ClInclude Include="PPIOCP.h" />
     <ClInclude Include="PPNetworkObject.h" />
     <ClInclude Include="PPOVERLAPPED.h" />
+    <ClInclude Include="PPPacketPool.h" />
     <ClInclude Include="PPProtocol.h" />
     <ClInclude Include="PPReceiver.h" />
     <ClInclude Include="PPRecvPacketPool.h" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="PPIOCP.cpp" />
     <ClCompile Include="PPNetworkObject.cpp" />
+    <ClCompile Include="PPPacketPool.cpp" />
     <ClCompile Include="PPReceiver.cpp" />
     <ClCompile Include="PPRecvPacketPool.cpp" />
     <ClCompile Include="PPSender.cpp" />
