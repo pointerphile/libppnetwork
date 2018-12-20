@@ -73,7 +73,7 @@ int PP::PPSender::Broadcast(PPSession Session, DWORD dwBytesToWrite) {
 	return 0;
 }
 
-int PP::PPSender::Broadcast(PPSendPacket packetSend) {
+int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
@@ -108,7 +108,7 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
-	PPSendPacket packetSend = {};
+	PPPacketForProcess packetSend = {};
 
 	//패킷 작성
 	packetSend.m_SendMode = PPSendMode::BROADCAST;

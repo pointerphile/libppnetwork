@@ -4,6 +4,7 @@ constexpr auto PACKET_HEADER_SIZE = 4;
 
 namespace PP {
 #pragma pack(push, 1)
+	//패킷 분류를 위한 열거형 변수
 	enum PPPacketType : unsigned short {
 		TYPE_NONE,
 		TYPE_STRING,
@@ -42,17 +43,7 @@ namespace PP {
 		float m_fSpeed;
 	};
 #pragma pack(pop)
-	//PPRecv로 받은 패킷
-	struct PPRecvPacket {
-		SOCKET m_socketSession;				//패킷을 받은 세션의 소켓
-		PPPacket m_Packet;					//실제 보낼 패킷
-	};
-	//PPSender로 보내기 위한 패킷
-	struct PPSendPacket {
-		SOCKET m_socketSession;				//패킷을 보내는 세션의 소켓
-		PPSendMode m_SendMode;				//PPSender에서 전송방법을 결정하기 위한 열거형 변수
-		PPPacket m_Packet;					//실제 보낼 패킷
-	};
+	//처리용 패킷
 	struct PPPacketForProcess {
 		SOCKET m_socketSession;				//패킷을 보내는 세션의 소켓
 		PPSendMode m_SendMode;				//PPSender에서 전송방법을 결정하기 위한 열거형 변수

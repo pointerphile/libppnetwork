@@ -47,7 +47,27 @@ int main(int argc, char* argv[]) {
 	}
 
 	while (true) {
-		pSender->BroadcastWString(L"Hello, Client!\0");
+		PP::PPPacketForProcess packetSend0;
+		packetSend0.m_SendMode = PP::PPSendMode::BROADCAST;
+		packetSend0.m_socketSession = 0;
+
+		PP::PPPacketMove packetMove0{ 0.0f, -1.0f, 0.0f, 100.0f };
+		memcpy(packetSend0.m_Packet.m_Payload, &packetMove0, sizeof(packetMove0));
+		packetSend0.m_Packet.m_Header.m_type = PP::TYPE_MOVE;
+		packetSend0.m_Packet.m_Header.m_len = sizeof(packetMove0) + PACKET_HEADER_SIZE;
+		pSender->Broadcast(packetSend0);
+		//pSender->BroadcastWString(L"Hello, Client!\0");
+		Sleep(2000);
+
+		PP::PPPacketForProcess packetSend1;
+		packetSend1.m_SendMode = PP::PPSendMode::BROADCAST;
+		packetSend1.m_socketSession = 0;
+
+		PP::PPPacketMove packetMove1{ 0.0f, 1.0f, 0.0f, 100.0f };
+		memcpy(packetSend1.m_Packet.m_Payload, &packetMove1, sizeof(packetMove1));
+		packetSend1.m_Packet.m_Header.m_type = PP::TYPE_MOVE;
+		packetSend1.m_Packet.m_Header.m_len = sizeof(packetMove1) + PACKET_HEADER_SIZE;
+		pSender->Broadcast(packetSend1);
 		Sleep(2000);
 	}
 
