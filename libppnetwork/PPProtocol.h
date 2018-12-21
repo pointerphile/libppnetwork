@@ -8,7 +8,10 @@ namespace PP {
 	enum PPPacketType : unsigned short {
 		TYPE_NONE,
 		TYPE_STRING,
-		TYPE_MOVE
+		TYPE_REQ_OBJECT_LIST,
+		TYPE_ACK_OBJECT_LIST,
+		TYPE_MOVE_HOST_TO_GUEST,
+		TYPE_MOVE_GUEST_TO_HOST,
 	};
 	//PPSender에서 전송방법을 결정하기 위한 열거형 변수
 	enum PPSendMode : unsigned short {
@@ -35,12 +38,31 @@ namespace PP {
 		char m_charUsername[16];			//사용자명 16바이트
 		char m_charPassword[16];			//비밀번호 16바이트
 	};
-
-	struct PPPacketMove {
-		float m_fNormalx;
-		float m_fNormaly;
-		float m_fNormalz;
-		float m_fSpeed;
+	//호스트에게 게스트의 오브젝트 움직임이 시작됨을 알리는 패킷
+	//방향: 게스트->호스트
+	struct PPPacketStartMoveObjectGuestToHost {
+		short m_iObjectID;					//오브젝트 ID
+		float m_fNormalx;					//오브젝트 이동벡터 x
+		float m_fNormaly;					//오브젝트 이동벡터 y
+		float m_fNormalz;					//오브젝트 이동벡터 z
+		float m_fSpeed;						//오브젝트 이동속도
+	};
+	//게스트에게 호스트의 오브젝트 움직임이 시작됨을 알리는 패킷
+	//방향: 호스트->게스트
+	struct PPPacketStartMoveObjectHostToGuest {
+		short m_iObjectID;					//오브젝트 ID
+		float m_fNormalx; 					//오브젝트 이동벡터
+		float m_fNormaly; 					//오브젝트 이동벡터
+		float m_fNormalz; 					//오브젝트 이동벡터
+		float m_fSpeed;	  					//오브젝트 이동속도
+	};
+	//호스트에게 게스트의 오브젝트 움직임이 멈춤을 알리는 패킷
+	//방향: 게스트->호스트
+	struct PPPacketStopMoveObjectGuestToHost {
+		int m_iObjectID;
+	};
+	struct PPPacketStopMoveObjectHostToGuest {
+		int m_iObjectID;
 	};
 #pragma pack(pop)
 	//처리용 패킷

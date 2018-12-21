@@ -8,7 +8,9 @@ int inject() {
 	//패킷을 라이브러리 외부에서 처리하는 함수입니다.
 	//서버 객체에서 Startup 실행 전 SetFP()를 실행해야 합니다.
 	std::wcout << "injected function()..." << std::endl;
+	PP::PPSender* pSender = PP::GetSender();
 	PP::PPPacketForProcess RecvPacket = PP::PPRecvPacketPool::GetInstance().front();
+	PP::PPPacketForProcess packetSend;
 	PP::PPRecvPacketPool::GetInstance().pop_front();
 	wchar_t* wcharBuf = nullptr;
 	switch (RecvPacket.m_Packet.m_Header.m_type) {
@@ -20,6 +22,20 @@ int inject() {
 		wstrBuf.append(L"\n");
 		std::wcout << wcharBuf << std::endl;
 		OutputDebugStringW(wstrBuf.c_str());
+		break;
+	}
+	case PP::TYPE_MOVE_HOST_TO_GUEST: {
+		PP::PPPacketStartMoveObjectGuestToHost *packetMoveRecv = (PP::PPPacketStartMoveObjectGuestToHost*)RecvPacket.m_Packet.m_Payload;
+		PP::PPPacketStartMoveObjectGuestToHost packetMoveSend;
+		packetMoveSend.m_iObjectID = packetMoveRecv->m_iObjectID;
+		packetMoveSend.m_fNormalx = packetMoveRecv->m_fNormalx;
+		packetMoveSend.m_fNormaly = packetMoveRecv->m_fNormaly;
+		packetMoveSend.m_fNormalz = packetMoveRecv->m_fNormalz;
+		packetMoveSend.m_fSpeed = packetMoveRecv->m_fSpeed;
+		memcpy(packetSend.m_Packet.m_Payload, &packetMoveSend, sizeof(packetMoveSend));
+		packetSend.m_Packet.m_Header.m_type = PP::TYPE_MOVE_GUEST_TO_HOST;
+		packetSend.m_Packet.m_Header.m_len = sizeof(packetMoveSend) + PACKET_HEADER_SIZE;
+		pSender->Broadcast(packetSend);
 		break;
 	}
 	default:
@@ -45,29 +61,7 @@ int main(int argc, char* argv[]) {
 		std::system("pause");
 		return iReturn;
 	}
-
 	while (true) {
-		PP::PPPacketForProcess packetSend0;
-		packetSend0.m_SendMode = PP::PPSendMode::BROADCAST;
-		packetSend0.m_socketSession = 0;
-
-		PP::PPPacketMove packetMove0{ 0.0f, -1.0f, 0.0f, 100.0f };
-		memcpy(packetSend0.m_Packet.m_Payload, &packetMove0, sizeof(packetMove0));
-		packetSend0.m_Packet.m_Header.m_type = PP::TYPE_MOVE;
-		packetSend0.m_Packet.m_Header.m_len = sizeof(packetMove0) + PACKET_HEADER_SIZE;
-		pSender->Broadcast(packetSend0);
-		//pSender->BroadcastWString(L"Hello, Client!\0");
-		Sleep(2000);
-
-		PP::PPPacketForProcess packetSend1;
-		packetSend1.m_SendMode = PP::PPSendMode::BROADCAST;
-		packetSend1.m_socketSession = 0;
-
-		PP::PPPacketMove packetMove1{ 0.0f, 1.0f, 0.0f, 100.0f };
-		memcpy(packetSend1.m_Packet.m_Payload, &packetMove1, sizeof(packetMove1));
-		packetSend1.m_Packet.m_Header.m_type = PP::TYPE_MOVE;
-		packetSend1.m_Packet.m_Header.m_len = sizeof(packetMove1) + PACKET_HEADER_SIZE;
-		pSender->Broadcast(packetSend1);
 		Sleep(2000);
 	}
 

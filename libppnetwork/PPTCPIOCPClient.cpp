@@ -1,6 +1,8 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "PPTCPIOCPClient.h"
 #include "PPSessionManager.h"
+#include "PPRecvPacketPool.h"
+#include "PPSendPacketPool.h"
 
 PP::PPTCPIOCPClient::PPTCPIOCPClient() {}
 PP::PPTCPIOCPClient::~PPTCPIOCPClient() {}
@@ -80,6 +82,10 @@ int PP::PPTCPIOCPClient::Run() {
 int PP::PPTCPIOCPClient::Release() {
 	int iReturn = 0;
 
+	PPSessionManager::GetInstance().clear();
+	PPRecvPacketPool::GetInstance().clear();
+	PPSendPacketPool::GetInstance().clear();
+
 	//WSACleanup()
 	std::wcout << L"WSACleanup()..." << std::endl;
 	OutputDebugStringW(L"WSACleanup()...\n");
@@ -94,6 +100,7 @@ int PP::PPTCPIOCPClient::Release() {
 int PP::PPTCPIOCPClient::CheckPortNumber() {
 	if (m_iPort < 1024) {
 		std::wcout << L"Insert port number 1024 ~ 65535" << std::endl;
+		MessageBoxW(nullptr, L"Insert port number 1024 ~ 65535", L"Error", 0);
 		return -1;
 	}
 	return 0;

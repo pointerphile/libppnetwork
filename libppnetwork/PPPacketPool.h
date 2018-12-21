@@ -17,5 +17,3 @@ namespace PP {
 		LIBPPNETWORK_API void clear();
 	};
 }
-
-
