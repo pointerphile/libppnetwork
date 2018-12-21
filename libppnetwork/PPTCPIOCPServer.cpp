@@ -146,6 +146,7 @@ int PP::PPTCPIOCPServer::CheckPortNumber() {
 int PP::PPTCPIOCPServer::Startup() {
 	int iReturn = 0;
 	m_IOCP.SetNumberOfWorkers(m_iNumberOfThreads);
+	m_IOCP.SetServer(true);
 	iReturn = m_IOCP.Init();
 	if (iReturn != 0) {
 		return iReturn;

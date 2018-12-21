@@ -9,6 +9,7 @@ namespace PP {
 		unsigned short m_iNumberOfThreads = 0;//积己且 IOCP 况目 荐
 		PPReceiver Receiver;
 		PPSender Sender;
+		bool bIsServer;
 	public:
 		HANDLE m_hIOCP;
 	public:
@@ -18,9 +19,11 @@ namespace PP {
 		virtual int Init();
 		virtual int Run();
 		virtual int Release();
-	public:
+	private:
 		int DispatchRecv(PPSession& Session, DWORD dwTransferred);
 		int DispatchSend(PPSession& Session, DWORD dwTransferred);
+	public:
+		int SetServer(bool boolean);
 		int SetNumberOfWorkers(unsigned short iNumberOfThreads);
 		HANDLE BindSocket(HANDLE handle, ULONG_PTR CompletionKey);
 		int(*m_FP)();

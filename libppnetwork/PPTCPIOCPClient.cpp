@@ -70,7 +70,6 @@ int PP::PPTCPIOCPClient::Init() {
 	if (iReturn == SOCKET_ERROR) {
 		DisplayError(L"WSARecv()");
 	}
-	//m_Sender.SendRawString(iter->second, L"Hello, Server!");
 
 	return 0;
 }

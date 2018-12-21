@@ -1,7 +1,8 @@
 #include "PPIOCP.h"
 #include "PPSessionManager.h"
-#include "PPRecvPacketPool.h"
-#include "PPSendPacketPool.h"
+//#include "PPRecvPacketPool.h"
+#include "PPServerRecvPacketPool.h"
+#include "PPClientRecvPacketPool.h"
 
 PP::PPIOCP::PPIOCP() {}
 PP::PPIOCP::~PPIOCP() {}
@@ -109,7 +110,12 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	//WSARecv로 가져온 패킷 복사
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv.m_Packet, Session.m_wsabufRecv.buf, dwTransferred);
-	PPRecvPacketPool::GetInstance().push_back(packetRecv);
+	if (bIsServer) {
+		PPServerRecvPacketPool::GetInstance().push_back(packetRecv);
+	}
+	else {
+		PPClientRecvPacketPool::GetInstance().push_back(packetRecv);
+	}
 
 	if (m_FP != nullptr) {
 		m_FP();
@@ -131,6 +137,11 @@ int PP::PPIOCP::DispatchSend(PPSession& Session, DWORD dwTransferred) {
 	Session.m_ovSend.OffsetHigh += lr.HighPart;
 
 	std::wcout << dwTransferred << L" Bytes send." << std::endl;
+	return 0;
+}
+
+int PP::PPIOCP::SetServer(bool boolean) {
+	bIsServer = boolean;
 	return 0;
 }
 

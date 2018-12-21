@@ -73,6 +73,10 @@ int PP::PPSender::Broadcast(PPSession Session, DWORD dwBytesToWrite) {
 	return 0;
 }
 
+LIBPPNETWORK_API int PP::PPSender::SendWStringToServer(std::wstring wstrMessage) {
+	return BroadcastWString(wstrMessage);
+}
+
 int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;

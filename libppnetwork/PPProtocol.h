@@ -9,6 +9,8 @@ namespace PP {
 	enum PPPacketType : unsigned short {
 		TYPE_NONE,
 		TYPE_STRING,
+		TYPE_STRING_HOST_TO_GUEST,
+		TYPE_STRING_GUEST_TO_HOST,
 		TYPE_REQ_OBJECT_LIST,
 		TYPE_ACK_OBJECT_LIST,
 		TYPE_MOVE_HOST_TO_GUEST,
@@ -73,4 +75,4 @@ namespace PP {
 		PPPacket m_Packet;					//실제 보낼 패킷
 	};
 }
-//commit master
+//commit master#pragma once

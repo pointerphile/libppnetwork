@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PPClientRecvPacketPool.h" />
     <ClInclude Include="PPInclude.h" />
     <ClInclude Include="PPIOCP.h" />
     <ClInclude Include="PPNetworkObject.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="PPRecvPacketPool.h" />
     <ClInclude Include="PPSender.h" />
     <ClInclude Include="PPSendPacketPool.h" />
+    <ClInclude Include="PPServerRecvPacketPool.h" />
     <ClInclude Include="PPSession.h" />
     <ClInclude Include="PPSessionManager.h" />
     <ClInclude Include="PPSingleton.h" />
@@ -160,6 +162,7 @@
     <ClInclude Include="PPTCPIOCPServer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PPClientRecvPacketPool.cpp" />
     <ClCompile Include="PPIOCP.cpp" />
     <ClCompile Include="PPNetworkObject.cpp" />
     <ClCompile Include="PPPacketPool.cpp" />
@@ -167,6 +170,7 @@
     <ClCompile Include="PPRecvPacketPool.cpp" />
     <ClCompile Include="PPSender.cpp" />
     <ClCompile Include="PPSendPacketPool.cpp" />
+    <ClCompile Include="PPServerRecvPacketPool.cpp" />
     <ClCompile Include="PPSession.cpp" />
     <ClCompile Include="PPSessionManager.cpp" />
     <ClCompile Include="PPTCPIOCPClient.cpp" />
