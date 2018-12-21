@@ -73,4 +73,4 @@ namespace PP {
 		PPPacket m_Packet;					//실제 보낼 패킷
 	};
 }
-
+//commit refactoring
