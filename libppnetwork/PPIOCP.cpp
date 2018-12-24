@@ -1,6 +1,5 @@
 #include "PPIOCP.h"
 #include "PPSessionManager.h"
-//#include "PPRecvPacketPool.h"
 #include "PPServerRecvPacketPool.h"
 #include "PPClientRecvPacketPool.h"
 
@@ -8,6 +7,8 @@ PP::PPIOCP::PPIOCP() {}
 PP::PPIOCP::~PPIOCP() {}
 
 int PP::PPIOCP::Init() {
+	std::wcout << wcharVersion << std::endl;
+	OutputDebugStringW(wcharVersion);
 	std::wcout << L"PPIOCP::Init()..." << std::endl;
 	OutputDebugStringW(L"PPIOCP::Init()...\n");
 	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_iNumberOfThreads);
