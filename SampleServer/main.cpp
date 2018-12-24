@@ -3,6 +3,8 @@
 #include "../libppnetwork/PPTCPIOCPClient.h"							//클라이언트 클래스 정의.
 #include "../libppnetwork/PPClientRecvPacketPool.h"						//클라이언트 구동시 필요합니다. 싱글톤 객체
 #include "../libppnetwork/PPSender.h"									//센더 클래스 정의.
+#include "../libppnetwork/PPSessionManager.h"
+
 #include <string>
 #pragma comment(lib, "../x64/Debug/libppnetwork.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 
@@ -10,6 +12,8 @@ int ProcessServerPacket();
 int ProcessClientPacket();
 int StartupServer();
 int StartupClient();
+
+PP::PPSessionManager* manager = &PP::PPSessionManager::GetInstance();
 
 int main(int argc, char* argv[]) {
 	int iReturn = 0;
@@ -42,7 +46,7 @@ int main(int argc, char* argv[]) {
 int ProcessServerPacket() {
 	//패킷을 라이브러리 외부에서 처리하는 함수입니다.
 	//서버 객체에서 Startup 실행 전 SetFP()를 실행해야 합니다.
-	std::wcout << "injected ProcessServerPacket()..." << std::endl;
+	//std::wcout << "injected ProcessServerPacket()..." << std::endl;
 	PP::PPSender* pSender = PP::GetSender();
 	PP::PPPacketForProcess packetRecv;
 	PP::PPPacketForProcess packetSend;
@@ -65,7 +69,7 @@ int ProcessServerPacket() {
 		wstrBuf.append(L" socket Broadcasting :");
 		wstrBuf.append(wcharBuf);
 		wstrBuf.append(L"\n");
-		std::wcout << wcharBuf << std::endl;
+		std::wcout << packetRecv.m_socketSession << L" socket: " << wcharBuf << std::endl;
 		OutputDebugStringW(wstrBuf.c_str());
 
 		//구조체 packetSendMsg 작성
@@ -79,7 +83,7 @@ int ProcessServerPacket() {
 		packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + iSizeOfpakcetSendMsg;		//패킷 헤더길이 4바이트 + 적재부 길이를 합친 총 길이
 		packetSend.m_Packet.m_Header.m_type = PP::PPPacketType::TYPE_STRING;				//패킷 타입. 열거형 변수 PP::PPPacketType에 정의되어있다.
 		
-		pSender;
+		//pSender->Send(packetSend);
 		pSender->Broadcast(packetSend);														//PPSessionManager에 있는 모든 세션들을 순회하여 send를 실시함.
 		break;
 	}
@@ -97,7 +101,7 @@ int ProcessServerPacket() {
 int ProcessClientPacket() {
 	//패킷을 라이브러리 외부에서 처리하는 함수입니다.
 	//클라이언트 객체에서 Startup 실행 전 SetFP()를 실행해야 합니다.
-	std::wcout << "injected ProcessClientPacket()..." << std::endl;
+	//std::wcout << "injected ProcessClientPacket()..." << std::endl;
 	//PPRecvPacketPool에서 저장한 수신패킷을 하나 끄집어내서 처리합니다.
 	PP::PPPacketForProcess RecvPacket = PP::PPClientRecvPacketPool::GetInstance().front();
 	PP::PPClientRecvPacketPool::GetInstance().pop_front();
@@ -112,6 +116,14 @@ int ProcessClientPacket() {
 		wstrBuf.append(L"\n");
 		std::wcout << wcharBuf;
 		OutputDebugStringW(wstrBuf.c_str());
+		break;
+	}
+	case PP::PPPacketType::TYPE_NOTICE_SESSION_EXIT: {
+		std::wstring wstrBuf;
+		PP::PPPacketNoticeSessionExit* packetRecvNotice = (PP::PPPacketNoticeSessionExit*)RecvPacket.m_Packet.m_Payload;
+		wstrBuf.append(L"[공지] 탈주한 세션번호(소켓번호): ");
+		wstrBuf.append(std::to_wstring(packetRecvNotice->m_socketSession));
+		std::wcout << wstrBuf << std::endl;
 		break;
 	}
 	default:
@@ -139,6 +151,7 @@ int StartupServer() {
 	}
 	while (true) {
 		//서버 자체 로직 처리
+		pSender->BroadcastWString(L"Hello, Client!");
 		Sleep(2000);
 	}
 

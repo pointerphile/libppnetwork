@@ -28,7 +28,7 @@ bool PP::PPSessionManager::erase(SOCKET socket) {
 		iter->second = {};
 		m_mapSession.erase(socket);
 		socket = 0;
-		std::wcout << L"PPSessionManager : erase()..." << std::endl;
+		std::wcout << L"PPSessionManager : erase()...now size():" << m_mapSession.size() << std::endl;
 		OutputDebugStringW(L"PPSessionManager : erase()...\n");
 		return true;
 	}
@@ -55,3 +55,6 @@ const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::find(SOCKE
 	return m_mapSession.find(socket);
 }
 
+size_t PP::PPSessionManager::size() {
+	return m_mapSession.size();
+}

@@ -7,8 +7,8 @@ namespace PP {
 	class PPIOCP : public PPNetworkObject {
 	private:
 		unsigned short m_iNumberOfThreads = 0;//积己且 IOCP 况目 荐
-		PPReceiver Receiver;
-		PPSender Sender;
+		PPReceiver m_Receiver;
+		PPSender m_Sender;
 		bool bIsServer;
 		wchar_t wcharVersion[64] = L"libppnetwork [Version 0.1.0000]\n";
 	public:

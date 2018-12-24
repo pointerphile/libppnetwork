@@ -19,11 +19,15 @@ int PP::PPReceiver::Recv(PPSession Session, DWORD dwTransferred) {
 		if (dwBytesRead == 0) {
 			if (dwError == WSA_IO_PENDING) {
 				//WSA_IO_PENDING
+#ifdef TEST
 				DisplayError(L"WSARecv()");
+#endif // TEST
 				return 0;
 			}
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+#ifdef TEST
 				DisplayError(L"WSARecv()");
+#endif // TEST
 				return -1;
 			}
 		}
@@ -31,16 +35,19 @@ int PP::PPReceiver::Recv(PPSession Session, DWORD dwTransferred) {
 			PPPacketForProcess packetRecv;
 			packetRecv.m_socketSession = Session.m_socketSession;
 			memcpy((void*)&packetRecv, Session.m_wsabufRecv.buf, dwTransferred);
-			//PPReceivePacketPool::GetInstance();
 		}
 	}
 	else {
 		if (dwError == WSA_IO_PENDING) {
+#ifdef TEST
 			DisplayError(L"WSARecv()");
+#endif // TEST
 			return 0;
 		}
 		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+#ifdef TEST
 			DisplayError(L"WSARecv()");
+#endif // TEST
 			return -1;
 		}
 	}

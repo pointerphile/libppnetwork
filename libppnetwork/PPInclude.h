@@ -18,3 +18,5 @@
 
 constexpr auto ASYNCFLAG_RECV = 0x01;
 constexpr auto ASYNCFLAG_SEND = 0x02;
+
+//#define TEST

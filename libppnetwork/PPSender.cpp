@@ -96,6 +96,14 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 		++iter) {
 
 		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		//if (isReturn == true) {
+		//	dwError = WSAGetLastError();
+		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+		//		PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
+		//		DisplayError(L"WSASend()");
+		//		return -1;
+		//	}
+		//}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
@@ -134,6 +142,13 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 		++iter) {
 
 		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		//if (isReturn == true) {
+		//	dwError = WSAGetLastError();
+		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+		//		PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
+		//		DisplayError(L"WSASend()");
+		//	}
+		//}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
@@ -162,6 +177,13 @@ int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 		++iter) {
 
 		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		//if (isReturn == true) {
+		//	dwError = WSAGetLastError();
+		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+		//		PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
+		//		DisplayError(L"WSASend()");
+		//	}
+		//}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {

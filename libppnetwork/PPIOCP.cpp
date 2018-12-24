@@ -33,6 +33,7 @@ int PP::PPIOCP::Run() {
 		overlapped = 0;
 
 		isReturn = GetQueuedCompletionStatus(m_hIOCP, &dwTransferred, &lpCompletionKey, (LPOVERLAPPED*)&overlapped, INFINITE);
+		std::wcout << L"session number: " << PPSessionManager::GetInstance().size() << std::endl;
 		//넘겨받은 키 값으로 세션 탐색
 		auto iter = PPSessionManager::GetInstance().find((SOCKET)lpCompletionKey);
 		PPSessionManager::GetInstance().end();
@@ -59,11 +60,20 @@ int PP::PPIOCP::Run() {
 				//세션 종료시 현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 				//세션 리스트에서 해당 세션 제거 실시
 				DisplayError(L"GetQueuedCompletionStatus()");
+				std::wcout << L"[공지] 탈주한 세션번호(소켓번호): " << lpCompletionKey << std::endl;
+				PPPacketForProcess packetSend;
+				PPPacketNoticeSessionExit packetNotice;
+				packetNotice.m_socketSession = lpCompletionKey;
+				memcpy(packetSend.m_Packet.m_Payload, (void*)&packetNotice, sizeof(packetNotice));
+				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
+				packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(packetNotice);
+				m_Sender.Broadcast(packetSend);
 				PPSessionManager::GetInstance().erase(iter->first);
 				continue;
 			}
 		}
 		else {
+			std::wcout << L"ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
 			DWORD dwError = WSAGetLastError();
 			if (dwError == WSAETIMEDOUT) {
 				continue;
@@ -74,6 +84,14 @@ int PP::PPIOCP::Run() {
 					//현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 					//세션 리스트에서 해당 세션 제거 실시
 					DisplayError(L"GetQueuedCompletionStatus()");
+					std::wcout << L"[공지] 탈주한 세션번호(소켓번호): " << lpCompletionKey << std::endl;
+					PPPacketForProcess packetSend;
+					PPPacketNoticeSessionExit packetNotice;
+					packetNotice.m_socketSession = lpCompletionKey;
+					memcpy(packetSend.m_Packet.m_Payload, (void*)&packetNotice, sizeof(packetNotice));
+					packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
+					packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(packetNotice);
+					m_Sender.Broadcast(packetSend);
 					PPSessionManager::GetInstance().erase(iter->first);
 				}
 				else {
@@ -106,7 +124,7 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	Session.m_ovRecv.Offset += lr.LowPart;
 	Session.m_ovRecv.OffsetHigh += lr.HighPart;
 
-	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
+	//std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 
 	//WSARecv로 가져온 패킷 복사
 	packetRecv.m_socketSession = Session.m_socketSession;
@@ -123,7 +141,7 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	}
 
 	//WSAReceive 실시
-	iReturn = Receiver.Recv(Session, PACKET_BUFFER_SIZE);
+	iReturn = m_Receiver.Recv(Session, PACKET_BUFFER_SIZE);
 	if (iReturn != 0) {
 		return -1;
 	}
@@ -137,7 +155,8 @@ int PP::PPIOCP::DispatchSend(PPSession& Session, DWORD dwTransferred) {
 	Session.m_ovSend.Offset += lr.LowPart;
 	Session.m_ovSend.OffsetHigh += lr.HighPart;
 
-	std::wcout << dwTransferred << L" Bytes send." << std::endl;
+	//std::wcout << dwTransferred << L" Bytes send." << std::endl;
+		
 	return 0;
 }
 

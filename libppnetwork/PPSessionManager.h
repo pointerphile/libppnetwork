@@ -17,5 +17,6 @@ namespace PP {
 		std::map<SOCKET, PP::PPSession>::iterator begin();
 		std::map<SOCKET, PP::PPSession>::iterator end();
 		const std::map<SOCKET, PP::PPSession>::iterator find(SOCKET socket);
+		size_t size();
 	};
 }

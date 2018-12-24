@@ -15,6 +15,7 @@ namespace PP {
 		TYPE_ACK_OBJECT_LIST,
 		TYPE_MOVE_HOST_TO_GUEST,
 		TYPE_MOVE_GUEST_TO_HOST,
+		TYPE_NOTICE_SESSION_EXIT
 	};
 	//PPSender에서 전송방법을 결정하기 위한 열거형 변수
 	enum PPSendMode : unsigned short {
@@ -67,6 +68,9 @@ namespace PP {
 	struct PPPacketStopMoveObjectHostToGuest {
 		int m_iObjectID;
 	};
+	struct PPPacketNoticeSessionExit {
+		SOCKET m_socketSession;
+	};
 #pragma pack(pop)
 	//처리용 패킷
 	struct PPPacketForProcess {
@@ -75,4 +79,3 @@ namespace PP {
 		PPPacket m_Packet;					//실제 보낼 패킷
 	};
 }
-//commit master#pragma once
