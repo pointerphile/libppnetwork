@@ -1,9 +1,9 @@
-#include "../libppnetwork/PPTCPIOCPServer.h"
-#include "../libppnetwork/PPTCPIOCPClient.h"
-#include "../libppnetwork/PPServerRecvPacketPool.h"
-#include "../libppnetwork/PPClientRecvPacketPool.h"
-#include "../libppnetwork/PPSender.h"
-#pragma comment(lib, "../x64/Debug/libppnetwork.lib")
+#include "../libppnetwork/PPTCPIOCPServer.h"							//서버 클래스 정의.
+#include "../libppnetwork/PPServerRecvPacketPool.h"						//서버 구동시 필요합니다. 싱글톤 객체.
+#include "../libppnetwork/PPTCPIOCPClient.h"							//클라이언트 클래스 정의.
+#include "../libppnetwork/PPClientRecvPacketPool.h"						//클라이언트 구동시 필요합니다. 싱글톤 객체
+#include "../libppnetwork/PPSender.h"									//센더 클래스 정의.
+#pragma comment(lib, "../x64/Debug/libppnetwork.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 
 int ProcessServerPacket();
 int ProcessClientPacket();
@@ -104,12 +104,12 @@ int ProcessClientPacket() {
 int StartupServer() {
 	int iReturn = 0;
 	std::wcout << L"서버를 시작합니다." << std::endl;
-	PP::PPTCPIOCPServer* Server = PP::GetServer();
-	PP::PPSender* pSender = PP::GetSender();
-	iReturn = Server->SetPortNumber(10000);
-	iReturn = Server->SetNumberOfThreads(2);
-	iReturn = Server->SetFP(ProcessServerPacket);
-	iReturn = Server->Startup();
+	PP::PPTCPIOCPServer* Server = PP::GetServer();			//동적 서버객체 생성
+	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
+	iReturn = Server->SetPortNumber(10000);					//서버의 포트 번호 지정
+	iReturn = Server->SetNumberOfThreads(2);				//IOCP 스레드 개수
+	iReturn = Server->SetFP(ProcessServerPacket);			//패킷을 처리할 함수 포인터 지정
+	iReturn = Server->Startup();							//서버 시동
 
 	if (iReturn != 0) {
 		std::system("pause");
@@ -119,18 +119,21 @@ int StartupServer() {
 		//서버 자체 로직 처리
 		Sleep(2000);
 	}
+
+	//iReturn = Server->Release();							//서버 종료
+	//delete Server;										//동적 서버객체 삭제
 	return 0;
 }
 int StartupClient() {
 	int iReturn = 0;
 	std::wcout << L"클라이언트를 시작합니다.";
-	PP::PPTCPIOCPClient* Client = PP::GetClient();
-	PP::PPSender* pSender = PP::GetSender();
-	iReturn = Client->SetHost("127.0.0.1");
-	iReturn = Client->SetPortNumber(10000);
-	iReturn = Client->SetNumberOfThreads(2);
-	iReturn = Client->SetFP(ProcessClientPacket);
-	iReturn = Client->Startup();
+	PP::PPTCPIOCPClient* Client = PP::GetClient();			//동적 클라이언트객체 생성
+	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
+	iReturn = Client->SetHost("127.0.0.1");					//서버의 IPv4
+	iReturn = Client->SetPortNumber(10000);					//서버의 포트 번호
+	iReturn = Client->SetNumberOfThreads(2);				//생성할 IOCP 스레드 개수
+	iReturn = Client->SetFP(ProcessClientPacket);			//패킷을 처리할 함수 포인터 지정
+	iReturn = Client->Startup();							//클라이언트 시동
 
 	if (iReturn != 0) {
 		std::system("pause");
