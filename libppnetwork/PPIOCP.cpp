@@ -36,13 +36,13 @@ int PP::PPIOCP::Run() {
 		std::wcout << L"session number: " << PPSessionManager::GetInstance().size() << std::endl;
 		//넘겨받은 키 값으로 세션 탐색
 		auto iter = PPSessionManager::GetInstance().find((SOCKET)lpCompletionKey);
-		PPSessionManager::GetInstance().end();
 		if (iter == PPSessionManager::GetInstance().end()) {
 			DisplayError(L"GetQueuedCompletionStatus");
 			continue;
 		}
 
 		if (isReturn == true) {
+			DisplayError(L"GetQueuedCompletionStatus()");
 			if (dwTransferred != 0) {
 				if (lpCompletionKey != 0 && overlapped != 0) {
 					switch (overlapped->dwFlag) {
@@ -55,7 +55,7 @@ int PP::PPIOCP::Run() {
 					}
 				}
 			}
-			else {
+			if(dwTransferred == 0) {
 				//dwTransferred == 0
 				//세션 종료시 현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 				//세션 리스트에서 해당 세션 제거 실시
@@ -68,7 +68,14 @@ int PP::PPIOCP::Run() {
 				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
 				packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(packetNotice);
 				m_Sender.Broadcast(packetSend);
-				PPSessionManager::GetInstance().erase(iter->first);
+
+				std::map<SOCKET, PPSession> mapDelete;
+				//PPSessionManager::GetInstance().erase(iter->first);
+				for (auto iter : mapDelete) {
+					if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
+						PPSessionManager::GetInstance().erase(iter.first);
+					}
+				}
 				continue;
 			}
 		}
@@ -92,7 +99,14 @@ int PP::PPIOCP::Run() {
 					packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
 					packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(packetNotice);
 					m_Sender.Broadcast(packetSend);
-					PPSessionManager::GetInstance().erase(iter->first);
+
+					std::map<SOCKET, PPSession> mapDelete;
+					//PPSessionManager::GetInstance().erase(iter->first);
+					for (auto iter : mapDelete) {
+						if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
+							PPSessionManager::GetInstance().erase(iter.first);
+						}
+					}
 				}
 				else {
 					DisplayError(L"GetQueuedCompletionStatus()");

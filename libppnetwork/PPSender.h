@@ -15,6 +15,7 @@ namespace PP {
 		int SendRawString(PPSession Session, std::wstring wstrMessage);
 		int Broadcast(PPSession Session, DWORD dwBytesToWrite);
 	public:
+		LIBPPNETWORK_API int Send(PPPacketForProcess packetSend);
 		LIBPPNETWORK_API int SendWStringToServer(std::wstring wstrMessage);
 		LIBPPNETWORK_API int Broadcast(PPPacketForProcess packetSend);
 		LIBPPNETWORK_API int BroadcastWString(std::wstring wstrMessage);

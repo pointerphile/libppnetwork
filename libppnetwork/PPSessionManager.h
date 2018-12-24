@@ -7,6 +7,7 @@ namespace PP {
 		friend class PPSingleton<PPSessionManager>;
 	public:
 		std::map<SOCKET, PP::PPSession> m_mapSession;
+		std::mutex m_mutex;
 	public:
 		PPSessionManager();
 		virtual ~PPSessionManager();

@@ -4,6 +4,7 @@ PP::PPSessionManager::PPSessionManager() {}
 PP::PPSessionManager::~PPSessionManager() {}
 
 bool PP::PPSessionManager::insert(SOCKET socket, PPSession session) {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	m_mapSession.insert(std::make_pair(socket, session));
 	std::wcout << L"PPSessionManager : push_back()..." << std::endl;
 	OutputDebugStringW(L"PPSessionManager : push_back()...\n");
@@ -11,6 +12,7 @@ bool PP::PPSessionManager::insert(SOCKET socket, PPSession session) {
 }
 
 bool PP::PPSessionManager::erase(SOCKET socket) {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	if (m_mapSession.empty()) {
 		std::wcout << L"PPSessionManager: session list is empty." << std::endl;
 		OutputDebugStringW(L"PPSessionManager: session list is empty.\n");
@@ -35,6 +37,7 @@ bool PP::PPSessionManager::erase(SOCKET socket) {
 }
 
 void PP::PPSessionManager::clear() {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	for (auto &iter : m_mapSession) {
 		shutdown(iter.second.m_socketSession, SD_BOTH);
 		closesocket(iter.second.m_socketSession);
@@ -44,17 +47,21 @@ void PP::PPSessionManager::clear() {
 }
 
 std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::begin() {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	return m_mapSession.begin();
 }
 
 std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::end() {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	return m_mapSession.end();
 }
 
 const std::map<SOCKET, PP::PPSession>::iterator PP::PPSessionManager::find(SOCKET socket) {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	return m_mapSession.find(socket);
 }
 
 size_t PP::PPSessionManager::size() {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	return m_mapSession.size();
 }

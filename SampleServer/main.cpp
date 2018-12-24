@@ -62,7 +62,7 @@ int StartupServer() {
 	}
 	while (true) {
 		//서버 자체 로직 처리
-		pSender->BroadcastWString(L"Hello, Client!");
+		//pSender->BroadcastWString(L"Hello, Client!");
 		Sleep(2000);
 	}
 

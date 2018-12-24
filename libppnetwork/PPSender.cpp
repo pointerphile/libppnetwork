@@ -8,25 +8,6 @@ int PP::PPSender::Init() { return 0; }
 int PP::PPSender::Run() { return 0; }
 int PP::PPSender::Release() { return 0; }
 
-int PP::PPSender::Send(PPSession Session, DWORD dwBytesToWrite) {
-	bool isReturn = false;
-	DWORD dwBytesWritten = 0;
-	DWORD dwError = 0;
-	Session.m_wsabufSend.buf = Session.m_bufWrite;
-	Session.m_wsabufSend.len = dwBytesToWrite;
-
-	isReturn = WSASend(Session.m_socketSession, &Session.m_wsabufSend, 1, nullptr, 0, &Session.m_ovSend, nullptr);
-	if (isReturn == false) {
-		dwError = WSAGetLastError();
-		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-			DisplayError(L"WSASend()");
-			return -1;
-		}
-	}
-
-	return 0;
-}
-
 int PP::PPSender::SendRawString(PPSession Session, std::wstring wstrMessage)
 {
 	bool isReturn = false;
@@ -48,32 +29,37 @@ int PP::PPSender::SendRawString(PPSession Session, std::wstring wstrMessage)
 	return 0;
 }
 
-int PP::PPSender::Broadcast(PPSession Session, DWORD dwBytesToWrite) {
+LIBPPNETWORK_API int PP::PPSender::Send(PPPacketForProcess packetSend) {
 	bool isReturn = false;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
-	Session.m_wsabufSend.buf = Session.m_bufWrite;
-	Session.m_wsabufSend.len = dwBytesToWrite;
+	WSABUF wsabufSend = {};
 
-	for (auto iter = PPSessionManager::GetInstance().begin();
-		iter != PPSessionManager::GetInstance().end();
-		++iter) {
-		iter->second.m_wsabufSend.buf = Session.m_bufWrite;
-		iter->second.m_wsabufSend.len = dwBytesToWrite;
+	//WSABUF로 패킷 지정
+	wsabufSend.buf = (char*)&packetSend.m_Packet;
+	wsabufSend.len = packetSend.m_Packet.m_Header.m_len;
 
-		isReturn = WSASend(iter->second.m_socketSession, &iter->second.m_wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-		if (isReturn == false) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-				DisplayError(L"WSASend()");
-				return -1;
-			}
+	auto iter = PPSessionManager::GetInstance().find(packetSend.m_socketSession);
+
+	isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+	//if (isReturn == true) {
+	//	dwError = WSAGetLastError();
+	//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+	//		DisplayError(L"WSASend()");
+	//		//PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
+	//	}
+	//}
+	if (isReturn == false) {
+		dwError = WSAGetLastError();
+		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+			DisplayError(L"WSASend()");
+			return -1;
 		}
 	}
 	return 0;
 }
 
-LIBPPNETWORK_API int PP::PPSender::SendWStringToServer(std::wstring wstrMessage) {
+int PP::PPSender::SendWStringToServer(std::wstring wstrMessage) {
 	return BroadcastWString(wstrMessage);
 }
 
@@ -82,6 +68,7 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
+	std::map<SOCKET, PPSession> mapDelete;
 
 	//WSABUF로 패킷 지정
 	wsabufSend.buf = (char*)&packetSend.m_Packet;
@@ -95,15 +82,14 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 		iter != PPSessionManager::GetInstance().end();
 		++iter) {
 
-		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-		//if (isReturn == true) {
-		//	dwError = WSAGetLastError();
-		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-		//		PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
-		//		DisplayError(L"WSASend()");
-		//		return -1;
-		//	}
-		//}
+		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
+		if (isReturn == true) {
+			dwError = WSAGetLastError();
+			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+				DisplayError(L"WSASend()");
+				mapDelete.insert(std::make_pair(iter->first, iter->second));
+			}
+		}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
@@ -112,6 +98,13 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 			}
 		}
 	}
+
+	for (auto iter : mapDelete) {
+		if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
+			PPSessionManager::GetInstance().erase(iter.first);
+		}
+	}
+
 	return 0;
 }
 
@@ -145,8 +138,8 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 		//if (isReturn == true) {
 		//	dwError = WSAGetLastError();
 		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-		//		PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
 		//		DisplayError(L"WSASend()");
+		//		//PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
 		//	}
 		//}
 		if (isReturn == false) {
