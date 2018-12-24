@@ -3,6 +3,7 @@
 #include "../libppnetwork/PPTCPIOCPClient.h"							//클라이언트 클래스 정의.
 #include "../libppnetwork/PPClientRecvPacketPool.h"						//클라이언트 구동시 필요합니다. 싱글톤 객체
 #include "../libppnetwork/PPSender.h"									//센더 클래스 정의.
+#include <string>
 #pragma comment(lib, "../x64/Debug/libppnetwork.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 
 int ProcessServerPacket();
@@ -45,20 +46,41 @@ int ProcessServerPacket() {
 	PP::PPSender* pSender = PP::GetSender();
 	PP::PPPacketForProcess packetRecv;
 	PP::PPPacketForProcess packetSend;
+	//IOCP 스레드에서 넣엇던 패킷을 담은 패킷풀 접근
 	packetRecv = PP::PPServerRecvPacketPool::GetInstance().front();
+	//패킷풀 맨 앞 pop()
 	PP::PPServerRecvPacketPool::GetInstance().pop_front();
 	wchar_t* wcharBuf = nullptr;
 	switch (packetRecv.m_Packet.m_Header.m_type) {
-	case PP::PPPacketType::TYPE_STRING: {
 		//클라이언트에게 문자열 패킷을 수신받을 때 처리하는 소스
+	case PP::PPPacketType::TYPE_STRING: {
 		std::wstring wstrBuf;
-		PP::PPPacketMessage* packetMsg = (PP::PPPacketMessage*)packetRecv.m_Packet.m_Payload;
-		wcharBuf = (wchar_t*)&packetMsg->m_charMessage;
+		PP::PPPacketMessage* ppacketRecvMsg = (PP::PPPacketMessage*)packetRecv.m_Packet.m_Payload;
+		PP::PPPacketMessage packetSendMsg = {};
+		int iSizeOfpakcetSendMsg;
+
+		//패킷에서 꺼낸 문자열을 서버의 콘솔창으로 출력하는 소스
+		wcharBuf = (wchar_t*)&ppacketRecvMsg->m_charMessage;
+		wstrBuf = std::to_wstring(packetRecv.m_socketSession);
+		wstrBuf.append(L" socket Broadcasting :");
 		wstrBuf.append(wcharBuf);
 		wstrBuf.append(L"\n");
 		std::wcout << wcharBuf << std::endl;
 		OutputDebugStringW(wstrBuf.c_str());
-		pSender->BroadcastWString(wstrBuf.c_str());
+
+		//구조체 packetSendMsg 작성
+		iSizeOfpakcetSendMsg = (int)wstrBuf.size() * 2;
+		memcpy(packetSendMsg.m_charMessage, wstrBuf.c_str(), iSizeOfpakcetSendMsg);
+		//보낼 패킷 작성
+		packetSend.m_socketSession = packetRecv.m_socketSession;							//PPPacketForProcess::m_socketSession으로 패킷 수신자 또는 송신자를 지정할 수 있다.
+		packetSend.m_SendMode = PP::PPSendMode::SEND;										//현재 아무 기능에 관여하지 않는 변수다.
+		memcpy(packetSend.m_Packet.m_Payload,												//패킷 적재부 작성
+			(void*)&packetSendMsg, iSizeOfpakcetSendMsg);									//패킷 적재부에 memcpy로 적재할 구조체를 deep copy해서 입력하면 된다.		
+		packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + iSizeOfpakcetSendMsg;		//패킷 헤더길이 4바이트 + 적재부 길이를 합친 총 길이
+		packetSend.m_Packet.m_Header.m_type = PP::PPPacketType::TYPE_STRING;				//패킷 타입. 열거형 변수 PP::PPPacketType에 정의되어있다.
+		
+		pSender;
+		pSender->Broadcast(packetSend);														//PPSessionManager에 있는 모든 세션들을 순회하여 send를 실시함.
 		break;
 	}
 	default:
@@ -88,7 +110,7 @@ int ProcessClientPacket() {
 		wcharBuf = (wchar_t*)&packetMsg->m_charMessage;
 		wstrBuf.append(wcharBuf);
 		wstrBuf.append(L"\n");
-		std::wcout << wcharBuf << std::endl;
+		std::wcout << wcharBuf;
 		OutputDebugStringW(wstrBuf.c_str());
 		break;
 	}
