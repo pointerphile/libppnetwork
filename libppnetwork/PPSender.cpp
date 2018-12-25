@@ -142,7 +142,7 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	std::map<SOCKET, PPSession> mapDelete;
 
 	//패킷 작성
-	packetSend.m_SendMode = PPSendMode::BROADCAST;
+	packetSend.m_Mode = PPPacketMode::SEND;
 	packetSend.m_socketSession = 0;
 	memcpy(packetSend.m_Packet.m_Payload, wstrMessage.c_str(), wstrMessage.size() * 2);
 	packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_STRING;

@@ -40,7 +40,6 @@ int PP::PPIOCP::Run() {
 			DisplayError(L"GetQueuedCompletionStatus");
 			continue;
 		}
-
 		if (isReturn == true) {
 			DisplayError(L"GetQueuedCompletionStatus()");
 			if (dwTransferred != 0) {
@@ -70,7 +69,6 @@ int PP::PPIOCP::Run() {
 				m_Sender.Broadcast(packetSend);
 
 				std::map<SOCKET, PPSession> mapDelete;
-				//PPSessionManager::GetInstance().erase(iter->first);
 				for (auto iter : mapDelete) {
 					if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
 						PPSessionManager::GetInstance().erase(iter.first);
@@ -80,7 +78,6 @@ int PP::PPIOCP::Run() {
 			}
 		}
 		else {
-			std::wcout << L"ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
 			DWORD dwError = WSAGetLastError();
 			if (dwError == WSAETIMEDOUT) {
 				continue;
@@ -101,7 +98,6 @@ int PP::PPIOCP::Run() {
 					m_Sender.Broadcast(packetSend);
 
 					std::map<SOCKET, PPSession> mapDelete;
-					//PPSessionManager::GetInstance().erase(iter->first);
 					for (auto iter : mapDelete) {
 						if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
 							PPSessionManager::GetInstance().erase(iter.first);
@@ -138,9 +134,10 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	Session.m_ovRecv.Offset += lr.LowPart;
 	Session.m_ovRecv.OffsetHigh += lr.HighPart;
 
-	//std::wcout << dwTransferred << L" Bytes recv." << std::endl;
+	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 
 	//WSARecv로 가져온 패킷 복사
+	packetRecv.m_Mode = PPPacketMode::RECV;
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv.m_Packet, Session.m_wsabufRecv.buf, dwTransferred);
 	if (bIsServer) {
@@ -169,7 +166,7 @@ int PP::PPIOCP::DispatchSend(PPSession& Session, DWORD dwTransferred) {
 	Session.m_ovSend.Offset += lr.LowPart;
 	Session.m_ovSend.OffsetHigh += lr.HighPart;
 
-	//std::wcout << dwTransferred << L" Bytes send." << std::endl;
+	std::wcout << dwTransferred << L" Bytes send." << std::endl;
 		
 	return 0;
 }

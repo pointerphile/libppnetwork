@@ -15,13 +15,13 @@ namespace PP {
 		TYPE_ACK_OBJECT_LIST,
 		TYPE_MOVE_HOST_TO_GUEST,
 		TYPE_MOVE_GUEST_TO_HOST,
-		TYPE_NOTICE_SESSION_EXIT
+		TYPE_NOTICE_SESSION_EXIT,
+		TYPE_REQ_BROADCAST_EXCEPT_ME
 	};
-	//PPSender에서 전송방법을 결정하기 위한 열거형 변수
-	enum PPSendMode : unsigned short {
+	//수신받은 패킷인지 송신할 패킷인지 표시하는 열거형 변수
+	enum PPPacketMode : unsigned short {
 		RECV,
 		SEND,
-		BROADCAST
 	};
 	//패킷 헤더
 	struct PPPacketHeader {
@@ -75,7 +75,7 @@ namespace PP {
 	//처리용 패킷
 	struct PPPacketForProcess {
 		SOCKET m_socketSession;				//패킷을 보내는 세션의 소켓
-		PPSendMode m_SendMode;				//PPSender에서 전송방법을 결정하기 위한 열거형 변수
+		PPPacketMode m_Mode;				//수신받은 패킷인지 송신할 패킷인지 표시하는 열거형 변수
 		PPPacket m_Packet;					//실제 보낼 패킷
 	};
 }

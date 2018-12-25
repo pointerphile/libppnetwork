@@ -128,7 +128,7 @@ int ProcessServerPacket() {
 		memcpy(packetSendMsg.m_charMessage, wstrBuf.c_str(), iSizeOfpakcetSendMsg);
 		//보낼 패킷 작성
 		packetSend.m_socketSession = packetRecv.m_socketSession;							//PPPacketForProcess::m_socketSession으로 패킷 수신자 또는 송신자를 지정할 수 있다.
-		packetSend.m_SendMode = PP::PPSendMode::SEND;										//현재 아무 기능에 관여하지 않는 변수다.
+		packetSend.m_Mode = PP::PPPacketMode::SEND;											//현재 아무 기능에 관여하지 않는 변수다.
 		memcpy(packetSend.m_Packet.m_Payload,												//패킷 적재부 작성
 			(void*)&packetSendMsg, iSizeOfpakcetSendMsg);									//패킷 적재부에 memcpy로 적재할 구조체를 deep copy해서 입력하면 된다.		
 		packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + iSizeOfpakcetSendMsg;		//패킷 헤더길이 4바이트 + 적재부 길이를 합친 총 길이
