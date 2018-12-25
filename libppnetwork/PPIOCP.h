@@ -10,7 +10,7 @@ namespace PP {
 		PPReceiver m_Receiver;
 		PPSender m_Sender;
 		bool bIsServer;
-		wchar_t wcharVersion[64] = L"libppnetwork [Version 0.1.0001]\n";
+		wchar_t wcharVersion[64] = L"libppnetwork [Version 0.1.0002]\n";
 	public:
 		HANDLE m_hIOCP;
 	public:
