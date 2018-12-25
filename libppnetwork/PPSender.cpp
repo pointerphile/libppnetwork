@@ -61,24 +61,12 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 		++iter) {
 
 		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
-		if (isReturn == true) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-				DisplayError(L"WSASend()");
-				mapDelete.insert(std::make_pair(iter->first, iter->second));
-			}
-		}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
 				DisplayError(L"WSASend()");
 				return -1;
 			}
-		}
-	}
-	for (auto iter : mapDelete) {
-		if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
-			PPSessionManager::GetInstance().erase(iter.first);
 		}
 	}
 
@@ -94,7 +82,6 @@ LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
-	std::map<SOCKET, PPSession> mapDelete;
 
 	//WSABUF로 패킷 지정
 	wsabufSend.buf = (char*)&packetSend.m_Packet;
@@ -110,13 +97,6 @@ LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend
 		if (iter->second.m_socketSession != packetSend.m_socketSession) {
 			isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
 		}
-		if (isReturn == true) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-				DisplayError(L"WSASend()");
-				mapDelete.insert(std::make_pair(iter->first, iter->second));
-			}
-		}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
@@ -125,11 +105,7 @@ LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend
 			}
 		}
 	}
-	for (auto iter : mapDelete) {
-		if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
-			PPSessionManager::GetInstance().erase(iter.first);
-		}
-	}
+
 	return 0;
 }
 
@@ -139,7 +115,6 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
 	PPPacketForProcess packetSend = {};
-	std::map<SOCKET, PPSession> mapDelete;
 
 	//패킷 작성
 	packetSend.m_Mode = PPPacketMode::SEND;
@@ -159,24 +134,12 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 		++iter) {
 
 		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-		if (isReturn == true) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-				DisplayError(L"WSASend()");
-				mapDelete.insert(std::make_pair(iter->first, iter->second));
-			}
-		}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
 				DisplayError(L"WSASend()");
 				return -1;
 			}
-		}
-	}
-	for (auto iter : mapDelete) {
-		if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
-			PPSessionManager::GetInstance().erase(iter.first);
 		}
 	}
 	return 0;
@@ -199,13 +162,13 @@ int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 		++iter) {
 
 		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-		if (isReturn == true) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-				DisplayError(L"WSASend()");
-				mapDelete.insert(std::make_pair(iter->first, iter->second));
-			}
-		}
+		//if (isReturn == true) {
+		//	dwError = WSAGetLastError();
+		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+		//		DisplayError(L"WSASend()");
+		//		mapDelete.insert(std::make_pair(iter->first, iter->second));
+		//	}
+		//}
 		if (isReturn == false) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
@@ -214,11 +177,11 @@ int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 			}
 		}
 	}
-	for (auto iter : mapDelete) {
-		if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
-			PPSessionManager::GetInstance().erase(iter.first);
-		}
-	}
+	//for (auto iter : mapDelete) {
+	//	if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
+	//		PPSessionManager::GetInstance().erase(iter.first);
+	//	}
+	//}
 	return 0;
 }
 

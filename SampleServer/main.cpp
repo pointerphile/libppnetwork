@@ -55,7 +55,7 @@ int StartupServer() {
 	iReturn = Server->SetNumberOfThreads(2);				//IOCP 스레드 개수
 	iReturn = Server->SetFP(ProcessServerPacket);			//패킷을 처리할 함수 포인터 지정
 	iReturn = Server->Startup();							//서버 시동
-
+	int iCount = 0;
 	if (iReturn != 0) {
 		std::system("pause");
 		return iReturn;
@@ -63,11 +63,15 @@ int StartupServer() {
 	while (true) {
 		//서버 자체 로직 처리
 		//pSender->BroadcastWString(L"Hello, Client!");
-		Sleep(2000);
+		if (iCount == 10) {
+			break;
+		}
+		//iCount++;
+		Sleep(1000);
 	}
 
-	//iReturn = Server->Release();							//서버 종료
-	//delete Server;										//동적 서버객체 삭제
+	iReturn = Server->Release();							//서버 종료
+	delete Server;										//동적 서버객체 삭제
 	return 0;
 }
 int StartupClient() {
@@ -75,21 +79,32 @@ int StartupClient() {
 	std::wcout << L"클라이언트를 시작합니다.";
 	PP::PPTCPIOCPClient* Client = PP::GetClient();			//동적 클라이언트객체 생성
 	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
-	iReturn = Client->SetHost("127.0.0.1");					//서버의 IPv4
+	iReturn = Client->SetHost("192.168.0.47");					//서버의 IPv4
 	iReturn = Client->SetPortNumber(10000);					//서버의 포트 번호
 	iReturn = Client->SetNumberOfThreads(2);				//생성할 IOCP 스레드 개수
 	iReturn = Client->SetFP(ProcessClientPacket);			//패킷을 처리할 함수 포인터 지정
 	iReturn = Client->Startup();							//클라이언트 시동
-
+	int iCount = 0;
 	if (iReturn != 0) {
 		std::system("pause");
 		return iReturn;
 	}
 	while (true) {
 		//클라이언트 자체 로직 처리
-		pSender->SendWStringToServer(L"Hello, Server!");
-		Sleep(2000);
+		if (iCount < 10) {
+			pSender->SendWStringToServer(L"Hello, Server!");
+		}
+		if (iCount == 10) {
+			for (auto& iter : PP::PPSessionManager::GetInstance().m_mapSession) {
+				shutdown(iter.second.m_socketSession, SD_BOTH);
+				closesocket(iter.second.m_socketSession);
+			}
+		}
+		iCount++;
+		Sleep(1000);
 	}
+	iReturn = Client->Release();							//서버 종료
+	delete Client;
 	return 0;
 }
 
@@ -134,7 +149,7 @@ int ProcessServerPacket() {
 		packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + iSizeOfpakcetSendMsg;		//패킷 헤더길이 4바이트 + 적재부 길이를 합친 총 길이
 		packetSend.m_Packet.m_Header.m_type = PP::PPPacketType::TYPE_STRING;				//패킷 타입. 열거형 변수 PP::PPPacketType에 정의되어있다.
 
-		pSender->BroadcastExcept(packetSend);														//PPSessionManager에 있는 모든 세션들을 순회하여 send를 실시함.
+		pSender->Broadcast(packetSend);														//PPSessionManager에 있는 모든 세션들을 순회하여 send를 실시함.
 		break;
 	}
 	default:
