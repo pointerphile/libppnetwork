@@ -97,7 +97,6 @@ int PP::PPIOCP::Run() {
 					//현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 					//세션 리스트에서 해당 세션 제거 실시
 					DisplayError(L"GetQueuedCompletionStatus()");
-					std::wcout << L"[공지] 탈주한 세션번호(소켓번호): " << lpCompletionKey << std::endl;
 					PPPacketForProcess packetSend;
 					PPPacketNoticeSessionExit packetNotice;
 					packetNotice.m_socketSession = lpCompletionKey;
