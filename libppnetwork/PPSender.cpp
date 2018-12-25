@@ -9,7 +9,7 @@ int PP::PPSender::Run() { return 0; }
 int PP::PPSender::Release() { return 0; }
 
 LIBPPNETWORK_API int PP::PPSender::Send(PPPacketForProcess packetSend) {
-	bool isReturn = false;
+	int iReturn = 0;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
@@ -20,19 +20,12 @@ LIBPPNETWORK_API int PP::PPSender::Send(PPPacketForProcess packetSend) {
 
 	auto iter = PPSessionManager::GetInstance().find(packetSend.m_socketSession);
 
-	isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-	if (isReturn == true) {
+	iReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+	if (iReturn == SOCKET_ERROR) {
 		dwError = WSAGetLastError();
-		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+		if (dwError != WSA_IO_PENDING) {
 			DisplayError(L"WSASend()");
-			PPSessionManager::GetInstance().erase(iter->second.m_socketSession);
-		}
-	}
-	if (isReturn == false) {
-		dwError = WSAGetLastError();
-		if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-			DisplayError(L"WSASend()");
-			return -1;
+			//return -1;
 		}
 	}
 	return 0;
@@ -43,7 +36,7 @@ int PP::PPSender::SendWStringToServer(std::wstring wstrMessage) {
 }
 
 int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
-	bool isReturn = false;
+	int iReturn = 0;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
@@ -60,16 +53,21 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 		iter != PPSessionManager::GetInstance().end();
 		++iter) {
 
-		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
-		if (isReturn == false) {
+		iReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
+		if (iReturn == SOCKET_ERROR) {
 			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				return -1;
+				mapDelete.insert(std::make_pair(iter->first, iter->second));
+				//return -1;
 			}
 		}
 	}
-
+	for (auto iterDelete : mapDelete) {
+		if (PPSessionManager::GetInstance().find(iterDelete.first) != PPSessionManager::GetInstance().end()) {
+			PPSessionManager::GetInstance().erase(iterDelete.first);
+		}
+	}
 	return 0;
 }
 
@@ -78,7 +76,7 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 //세션 리스트를 순회하여 PPPacketForProcess에 저장된 세션을 제외한
 //나머지 세션들에게 WSASend를 호출합니다.
 LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend) {
-	bool isReturn = false;
+	int iReturn = 0;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
@@ -95,13 +93,13 @@ LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend
 		++iter) {
 
 		if (iter->second.m_socketSession != packetSend.m_socketSession) {
-			isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
-		}
-		if (isReturn == false) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-				DisplayError(L"WSASend()");
-				return -1;
+			iReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, &dwBytesWritten, 0, &iter->second.m_ovSend, nullptr);
+			if (iReturn == SOCKET_ERROR) {
+				dwError = WSAGetLastError();
+				if (dwError != WSA_IO_PENDING) {
+					DisplayError(L"WSASend()");
+					//return -1;
+				}
 			}
 		}
 	}
@@ -110,7 +108,7 @@ LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend
 }
 
 int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
-	bool isReturn = false;
+	int iReturn = 0;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
@@ -133,12 +131,12 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 		iter != PPSessionManager::GetInstance().end();
 		++iter) {
 
-		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-		if (isReturn == false) {
+		iReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		if (iReturn == SOCKET_ERROR) {
 			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				return -1;
+				//return -1;
 			}
 		}
 	}
@@ -146,7 +144,7 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 }
 
 int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
-	bool isReturn = false;
+	int iReturn = 0;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	std::wstring wstrBuf;
@@ -161,27 +159,21 @@ int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 		iter != PPSessionManager::GetInstance().end();
 		++iter) {
 
-		isReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
-		//if (isReturn == true) {
-		//	dwError = WSAGetLastError();
-		//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-		//		DisplayError(L"WSASend()");
-		//		mapDelete.insert(std::make_pair(iter->first, iter->second));
-		//	}
-		//}
-		if (isReturn == false) {
+		iReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
+		if (iReturn == SOCKET_ERROR) {
 			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				return -1;
+				mapDelete.insert(std::make_pair(iter->first, iter->second));
+				//return -1;
 			}
 		}
 	}
-	//for (auto iter : mapDelete) {
-	//	if (PPSessionManager::GetInstance().find(iter.first) != PPSessionManager::GetInstance().end()) {
-	//		PPSessionManager::GetInstance().erase(iter.first);
-	//	}
-	//}
+	for (auto iterDelete : mapDelete) {
+		if (PPSessionManager::GetInstance().find(iterDelete.first) != PPSessionManager::GetInstance().end()) {
+			PPSessionManager::GetInstance().erase(iterDelete.first);
+		}
+	}
 	return 0;
 }
 

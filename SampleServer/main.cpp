@@ -79,7 +79,7 @@ int StartupClient() {
 	std::wcout << L"클라이언트를 시작합니다.";
 	PP::PPTCPIOCPClient* Client = PP::GetClient();			//동적 클라이언트객체 생성
 	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
-	iReturn = Client->SetHost("192.168.0.47");					//서버의 IPv4
+	iReturn = Client->SetHost("192.168.0.88");					//서버의 IPv4
 	iReturn = Client->SetPortNumber(10000);					//서버의 포트 번호
 	iReturn = Client->SetNumberOfThreads(2);				//생성할 IOCP 스레드 개수
 	iReturn = Client->SetFP(ProcessClientPacket);			//패킷을 처리할 함수 포인터 지정
