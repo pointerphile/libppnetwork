@@ -137,8 +137,8 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 	PPPacketForProcess packetRecv = {};
 	wchar_t wcharBuf[1024] = {};
 
-	Session.m_ovRecv.Offset += lr.LowPart;
-	Session.m_ovRecv.OffsetHigh += lr.HighPart;
+	//Session.m_ovRecv.Offset += lr.LowPart;
+	//Session.m_ovRecv.OffsetHigh += lr.HighPart;
 #ifdef TEST
 	std::wcout << dwTransferred << L" Bytes recv." << std::endl;
 #endif // TEST
@@ -169,8 +169,8 @@ int PP::PPIOCP::DispatchRecv(PPSession& Session, DWORD dwTransferred) {
 int PP::PPIOCP::DispatchSend(PPSession& Session, DWORD dwTransferred) {
 	LARGE_INTEGER lr;
 	lr.QuadPart = dwTransferred;
-	Session.m_ovSend.Offset += lr.LowPart;
-	Session.m_ovSend.OffsetHigh += lr.HighPart;
+	//Session.m_ovSend.Offset += lr.LowPart;
+	//Session.m_ovSend.OffsetHigh += lr.HighPart;
 #ifdef TEST
 	std::wcout << dwTransferred << L" Bytes send." << std::endl;
 #endif // TEST
