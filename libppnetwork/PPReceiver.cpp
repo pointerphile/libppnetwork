@@ -18,8 +18,7 @@ int PP::PPReceiver::Recv(PPSession Session, DWORD dwTransferred) {
 		dwError = WSAGetLastError();
 		if (dwError != WSA_IO_PENDING) {
 			DisplayError(L"WSARecv()");
-			return -1;
 		}
 	}
-	return 0;
+	return iReturn;
 }

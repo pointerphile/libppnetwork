@@ -1,5 +1,6 @@
 #include "PPSender.h"
 #include "PPSessionManager.h"
+#include "PPItachHunter.h"
 
 PP::PPSender::PPSender() {}
 PP::PPSender::~PPSender() {}
@@ -28,7 +29,11 @@ LIBPPNETWORK_API int PP::PPSender::Send(PPPacketForProcess packetSend) {
 			//return -1;
 		}
 	}
-	return 0;
+	return iReturn;
+}
+
+LIBPPNETWORK_API int PP::PPSender::SendToServer(PPPacketForProcess packetSend) {
+	return Broadcast(packetSend);
 }
 
 int PP::PPSender::SendWStringToServer(std::wstring wstrMessage) {
@@ -40,7 +45,6 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
 	WSABUF wsabufSend = {};
-	std::map<SOCKET, PPSession> mapDelete;
 
 	//WSABUF로 패킷 지정
 	wsabufSend.buf = (char*)&packetSend.m_Packet;
@@ -58,17 +62,11 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				mapDelete.insert(std::make_pair(iter->first, iter->second));
-				//return -1;
+				//PPItachHunter::GetInstance().push_back(iter->second.m_socketSession);
 			}
 		}
 	}
-	for (auto iterDelete : mapDelete) {
-		if (PPSessionManager::GetInstance().find(iterDelete.first) != PPSessionManager::GetInstance().end()) {
-			PPSessionManager::GetInstance().erase(iterDelete.first);
-		}
-	}
-	return 0;
+	return iReturn;
 }
 
 //PP::PPSender::BroadcastExcept()
@@ -104,7 +102,7 @@ LIBPPNETWORK_API int PP::PPSender::BroadcastExcept(PPPacketForProcess packetSend
 		}
 	}
 
-	return 0;
+	return iReturn;
 }
 
 int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
@@ -136,11 +134,10 @@ int PP::PPSender::BroadcastWString(std::wstring wstrMessage) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				//return -1;
 			}
 		}
 	}
-	return 0;
+	return iReturn;
 }
 
 int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
@@ -149,7 +146,6 @@ int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 	DWORD dwError = 0;
 	std::wstring wstrBuf;
 	WSABUF wsabufSend = {};
-	std::map<SOCKET, PPSession> mapDelete;
 
 	//WSABUF로 패킷 복사
 	wsabufSend.buf = (char*)wstrMessage.c_str();
@@ -164,17 +160,10 @@ int PP::PPSender::BroadcastRawWString(std::wstring wstrMessage) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				mapDelete.insert(std::make_pair(iter->first, iter->second));
-				//return -1;
 			}
 		}
 	}
-	for (auto iterDelete : mapDelete) {
-		if (PPSessionManager::GetInstance().find(iterDelete.first) != PPSessionManager::GetInstance().end()) {
-			PPSessionManager::GetInstance().erase(iterDelete.first);
-		}
-	}
-	return 0;
+	return iReturn;
 }
 
 LIBPPNETWORK_API PP::PPSender * PP::GetSender()

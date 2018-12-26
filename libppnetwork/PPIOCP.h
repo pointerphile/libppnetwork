@@ -21,8 +21,8 @@ namespace PP {
 		virtual int Run();
 		virtual int Release();
 	private:
-		int DispatchRecv(PPSession& Session, DWORD dwTransferred);
-		int DispatchSend(PPSession& Session, DWORD dwTransferred);
+		int DispatchRecv(PPSession Session, DWORD dwTransferred);
+		int DispatchSend(PPSession Session, DWORD dwTransferred);
 	public:
 		int SetServer(bool boolean);
 		int SetNumberOfWorkers(unsigned short iNumberOfThreads);

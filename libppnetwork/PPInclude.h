@@ -17,7 +17,7 @@
 #define LIBPPNETWORK_API __declspec(dllimport)
 #endif
 
-constexpr auto ASYNCFLAG_RECV = 0x01;
-constexpr auto ASYNCFLAG_SEND = 0x02;
+constexpr auto ASYNCFLAG_RECV = 0x00;
+constexpr auto ASYNCFLAG_SEND = 0x01;
 
-//#define TEST
+#define TEST

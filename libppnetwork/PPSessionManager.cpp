@@ -26,13 +26,15 @@ bool PP::PPSessionManager::erase(SOCKET socket) {
 			OutputDebugStringW(L"PPSessionManager: session is not in list.\n");
 			return false;
 		}
-		shutdown(socket, SD_BOTH);
-		closesocket(socket);
-		iter->second = {};
-		m_mapSession.erase(socket);
-		std::wcout << L"PPSessionManager : erase()...now size():" << m_mapSession.size() << std::endl;
-		OutputDebugStringW(L"PPSessionManager : erase()...\n");
-		return true;
+		else {
+			std::wcout << L"PPSessionManager : erasing..." << socket << std::endl;
+			shutdown(socket, SD_BOTH);
+			closesocket(socket);
+			m_mapSession.erase(socket);
+			std::wcout << L"PPSessionManager : erase()...now size():" << m_mapSession.size() << std::endl;
+			OutputDebugStringW(L"PPSessionManager : erase()...\n");
+			return true;
+		}
 	}
 }
 
