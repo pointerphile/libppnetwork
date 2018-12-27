@@ -7,8 +7,8 @@ PP::PPIOCP::PPIOCP() {}
 PP::PPIOCP::~PPIOCP() {}
 
 int PP::PPIOCP::Init() {
-	std::wcout << wcharVersion << std::endl;
-	OutputDebugStringW(wcharVersion);
+	std::wcout << m_wcharVersion << std::endl;
+	OutputDebugStringW(m_wcharVersion);
 	std::wcout << L"PPIOCP::Init()..." << std::endl;
 	OutputDebugStringW(L"PPIOCP::Init()...\n");
 	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_iNumberOfThreads);
