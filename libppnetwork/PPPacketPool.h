@@ -3,6 +3,8 @@
 
 namespace PP {
 	class PPPacketPool{
+	private:
+		std::mutex m_mutex;
 	public:
 		std::list<PPPacketForProcess> m_listPacket;
 	public:

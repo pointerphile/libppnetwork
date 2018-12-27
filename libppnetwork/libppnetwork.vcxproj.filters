@@ -63,9 +63,6 @@
     <ClInclude Include="PPProtocol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PPItachHunter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PPTCPIOCPServer.cpp">
@@ -102,9 +99,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PPServerRecvPacketPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PPItachHunter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

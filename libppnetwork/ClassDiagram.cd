@@ -21,13 +21,6 @@
       <FileName>PPIOCP.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PP::PPItachHunter" Collapsed="true">
-    <Position X="12" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ABAAAAAAQBAAgAAAAIEAAAACACAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>PPItachHunter.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="PP::PPNetworkObject" Collapsed="true">
     <Position X="5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
@@ -38,7 +31,7 @@
   <Class Name="PP::PPPacketPool" Collapsed="true">
     <Position X="1.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAACAAABAAwAAAAIEAAAACAAACAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAACAAABAAwAAAAIEAAAACAAACAAAAAAAAAAAIAAA=</HashCode>
       <FileName>PPPacketPool.h</FileName>
     </TypeIdentifier>
   </Class>

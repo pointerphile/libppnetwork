@@ -2,7 +2,6 @@
 #include "PPSessionManager.h"
 #include "PPServerRecvPacketPool.h"
 #include "PPClientRecvPacketPool.h"
-#include "PPItachHunter.h"
 
 PP::PPIOCP::PPIOCP() {}
 PP::PPIOCP::~PPIOCP() {}
@@ -54,6 +53,17 @@ int PP::PPIOCP::Run() {
 					DisplayError(L"GetQueuedCompletionStatus");
 				}
 				PPSessionManager::GetInstance().erase(lpCompletionKey);
+				//탈주닌자 공지
+				PPPacketForProcess packetSend = {};
+				PPPacketNoticeSessionExit packetNotice = {};
+				packetNotice.m_socketSession = lpCompletionKey;
+				packetSend.m_Mode = PPPacketMode::SEND;
+				packetSend.m_socketSession = 0;
+				memcpy(packetSend.m_Packet.m_Payload, &packetNotice, sizeof(PPPacketNoticeSessionExit));
+				packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(PPPacketNoticeSessionExit);
+				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
+				m_Sender.Broadcast(packetSend);
+
 				continue;
 			}
 			else {
@@ -73,6 +83,16 @@ int PP::PPIOCP::Run() {
 							std::wcout << iter->second.m_socketSession << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_RECV" << std::endl;
 							DisplayError(L"GetQueuedCompletionStatus");
 							PPSessionManager::GetInstance().erase(lpCompletionKey);
+							//탈주닌자 공지
+							PPPacketForProcess packetSend = {};
+							PPPacketNoticeSessionExit packetNotice = {};
+							packetNotice.m_socketSession = lpCompletionKey;
+							packetSend.m_Mode = PPPacketMode::SEND;
+							packetSend.m_socketSession = 0;
+							memcpy(packetSend.m_Packet.m_Payload, &packetNotice, sizeof(PPPacketNoticeSessionExit));
+							packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(PPPacketNoticeSessionExit);
+							packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
+							m_Sender.Broadcast(packetSend);
 						}
 					}
 				}
@@ -90,6 +110,16 @@ int PP::PPIOCP::Run() {
 					DisplayError(L"GetQueuedCompletionStatus");
 				}
 				PPSessionManager::GetInstance().erase(lpCompletionKey);
+				//탈주닌자 공지
+				PPPacketForProcess packetSend = {};
+				PPPacketNoticeSessionExit packetNotice = {};
+				packetNotice.m_socketSession = lpCompletionKey;
+				packetSend.m_Mode = PPPacketMode::SEND;
+				packetSend.m_socketSession = 0;
+				memcpy(packetSend.m_Packet.m_Payload, &packetNotice, sizeof(PPPacketNoticeSessionExit));
+				packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(PPPacketNoticeSessionExit);
+				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
+				m_Sender.Broadcast(packetSend);
 			}
 			else {
 				dwError = WSAGetLastError();

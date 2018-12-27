@@ -1,6 +1,5 @@
 #include "PPSender.h"
 #include "PPSessionManager.h"
-#include "PPItachHunter.h"
 
 PP::PPSender::PPSender() {}
 PP::PPSender::~PPSender() {}
