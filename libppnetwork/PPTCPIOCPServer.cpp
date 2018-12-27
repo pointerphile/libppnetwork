@@ -1,7 +1,6 @@
 #include "PPTCPIOCPServer.h"
 #include "PPSessionManager.h"
 #include "PPRecvPacketPool.h"
-#include "PPSendPacketPool.h"
 
 PP::PPTCPIOCPServer::PPTCPIOCPServer() {}
 PP::PPTCPIOCPServer::~PPTCPIOCPServer() {}
@@ -102,7 +101,6 @@ int PP::PPTCPIOCPServer::Release() {
 
 	PPSessionManager::GetInstance().clear();
 	PPRecvPacketPool::GetInstance().clear();
-	PPSendPacketPool::GetInstance().clear();
 
 	if (m_socketListen != INVALID_SOCKET) {
 		//shutdown()

@@ -2,7 +2,6 @@
 #include "PPTCPIOCPClient.h"
 #include "PPSessionManager.h"
 #include "PPRecvPacketPool.h"
-#include "PPSendPacketPool.h"
 
 PP::PPTCPIOCPClient::PPTCPIOCPClient() {}
 PP::PPTCPIOCPClient::~PPTCPIOCPClient() {}
@@ -83,7 +82,6 @@ int PP::PPTCPIOCPClient::Release() {
 
 	PPSessionManager::GetInstance().clear();
 	PPRecvPacketPool::GetInstance().clear();
-	PPSendPacketPool::GetInstance().clear();
 
 	//WSACleanup()
 	std::wcout << L"WSACleanup()..." << std::endl;
