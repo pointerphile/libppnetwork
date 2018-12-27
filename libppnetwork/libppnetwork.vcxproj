@@ -154,7 +154,6 @@
     <ClInclude Include="PPReceiver.h" />
     <ClInclude Include="PPRecvPacketPool.h" />
     <ClInclude Include="PPSender.h" />
-    <ClInclude Include="PPSendPacketPool.h" />
     <ClInclude Include="PPServerRecvPacketPool.h" />
     <ClInclude Include="PPSession.h" />
     <ClInclude Include="PPSessionManager.h" />
@@ -171,12 +170,14 @@
     <ClCompile Include="PPReceiver.cpp" />
     <ClCompile Include="PPRecvPacketPool.cpp" />
     <ClCompile Include="PPSender.cpp" />
-    <ClCompile Include="PPSendPacketPool.cpp" />
     <ClCompile Include="PPServerRecvPacketPool.cpp" />
     <ClCompile Include="PPSession.cpp" />
     <ClCompile Include="PPSessionManager.cpp" />
     <ClCompile Include="PPTCPIOCPClient.cpp" />
     <ClCompile Include="PPTCPIOCPServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

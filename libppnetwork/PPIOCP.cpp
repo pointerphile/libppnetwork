@@ -39,64 +39,45 @@ int PP::PPIOCP::Run() {
 		DWORD dwError = WSAGetLastError();
 		//넘겨받은 키 값으로 세션 탐색
 		auto iter = PPSessionManager::GetInstance().find((SOCKET)lpCompletionKey);
+		if (iter == PPSessionManager::GetInstance().end()) {
+			PPSessionManager::GetInstance().erase(lpCompletionKey);
+			continue;
+		}
 		if (isReturn == true) {
-			dwError = WSAGetLastError();
-			if (dwError != WSA_IO_PENDING) {
-				DisplayError(L"GetQueuedCompletionStatus");
-			}
-			if (dwTransferred != 0) {
-				if (lpCompletionKey != 0 && overlapped != nullptr) {
-					if (overlapped->dwFlag == ASYNCFLAG_SEND) {
-						DispatchSend(iter->second, dwTransferred);
-						dwError = WSAGetLastError();
-						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-							DisplayError(L"GetQueuedCompletionStatus");
-						}
-					}
-					else {
-							DispatchRecv(iter->second, dwTransferred);
-							dwError = WSAGetLastError();
-							if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-								DisplayError(L"GetQueuedCompletionStatus");
-							}
-					}
-
-					//switch (overlapped->dwFlag) {
-					//case ASYNCFLAG_RECV: {
-					//	DispatchRecv(iter->second, dwTransferred);
-					//	dwError = WSAGetLastError();
-					//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-					//		DisplayError(L"GetQueuedCompletionStatus");
-					//	}
-					//	break;
-					//}
-					//case ASYNCFLAG_SEND: {
-					//	DispatchSend(iter->second, dwTransferred);
-					//	dwError = WSAGetLastError();
-					//	if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-					//		DisplayError(L"GetQueuedCompletionStatus");
-					//	}
-					//	break;
-					//}
-					//default: {
-					//	std::wcout << lpCompletionKey << L": 예외!!!!!!" << std::endl;
-					//	break;
-					//}
-					//}
-				}
-			}
-			else {
+			if (dwTransferred == 0) {
 				//dwTransferred == 0
 				//세션 종료시 현재 접속자들에게 해당 세션이 접속을 종료하였음을 Broadcast 후
 				//세션 리스트에서 해당 세션 제거 실시
 				dwError = WSAGetLastError();
 				if (dwError != WSA_IO_PENDING) {
+					std::wcout << iter->second.m_socketSession << L": 리턴 = T; 전송량 = 0; 정상종료 처리" << std::endl;
 					DisplayError(L"GetQueuedCompletionStatus");
 				}
-				std::wcout << iter->second.m_socketSession << L": 정상종료 처리" << std::endl;
 				PPSessionManager::GetInstance().erase(lpCompletionKey);
 				continue;
 			}
+			else {
+				if (lpCompletionKey != 0 && overlapped != nullptr) {
+					if (overlapped->dwFlag == ASYNCFLAG_SEND) {
+						DispatchSend(iter->second, dwTransferred);
+						dwError = WSAGetLastError();
+						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+							std::wcout << iter->second.m_socketSession << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_SEND" << std::endl;
+							DisplayError(L"GetQueuedCompletionStatus");
+						}
+					}
+					else {
+						DispatchRecv(iter->second, dwTransferred);
+						dwError = WSAGetLastError();
+						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+							std::wcout << iter->second.m_socketSession << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_RECV" << std::endl;
+							DisplayError(L"GetQueuedCompletionStatus");
+							PPSessionManager::GetInstance().erase(lpCompletionKey);
+						}
+					}
+				}
+			}
+			
 		}
 		else {
 			if (overlapped != nullptr) {
@@ -105,9 +86,9 @@ int PP::PPIOCP::Run() {
 				//세션 리스트에서 해당 세션 제거 실시
 				dwError = WSAGetLastError();
 				if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
+					std::wcout << iter->second.m_socketSession << L": 리턴 = F; 오버랩 != 0 비정상종료 처리" << std::endl;
 					DisplayError(L"GetQueuedCompletionStatus");
 				}
-				std::wcout << L"비정상종료 처리" << std::endl;
 				PPSessionManager::GetInstance().erase(lpCompletionKey);
 			}
 			else {
@@ -134,13 +115,9 @@ HANDLE PP::PPIOCP::BindSocket(HANDLE handle, ULONG_PTR CompletionKey) {
 
 int PP::PPIOCP::DispatchRecv(PPSession Session, DWORD dwTransferred) {
 	int iReturn = 0;
-	LARGE_INTEGER lr;
-	lr.QuadPart = dwTransferred;
 	PPPacketForProcess packetRecv = {};
 	wchar_t wcharBuf[1024] = {};
 
-	Session.m_ovRecv.Offset += lr.LowPart;
-	Session.m_ovRecv.OffsetHigh += lr.HighPart;
 	std::wcout << Session .m_socketSession<< ": "<< dwTransferred << L" Bytes recv." << std::endl;
 	//WSARecv로 가져온 패킷 복사
 	packetRecv.m_Mode = PPPacketMode::RECV;
@@ -164,10 +141,6 @@ int PP::PPIOCP::DispatchRecv(PPSession Session, DWORD dwTransferred) {
 }
 
 int PP::PPIOCP::DispatchSend(PPSession Session, DWORD dwTransferred) {
-	LARGE_INTEGER lr;
-	lr.QuadPart = dwTransferred;
-	Session.m_ovSend.Offset += lr.LowPart;
-	Session.m_ovSend.OffsetHigh += lr.HighPart;
 	std::wcout << Session.m_socketSession << ": " << dwTransferred << L" Bytes send." << std::endl;
 	return 0;
 }

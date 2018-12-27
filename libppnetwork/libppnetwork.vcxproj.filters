@@ -45,9 +45,6 @@
     <ClInclude Include="PPSessionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PPSendPacketPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PPRecvPacketPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -89,9 +86,6 @@
     <ClCompile Include="PPSessionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPSendPacketPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PPRecvPacketPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -113,5 +107,8 @@
     <ClCompile Include="PPItachHunter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

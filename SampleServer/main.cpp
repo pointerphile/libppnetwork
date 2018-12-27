@@ -91,7 +91,13 @@ int StartupClient() {
 	}
 	while (true) {
 		//클라이언트 자체 로직 처리
+		
 		pSender->SendWStringToServer(L"Hello, Server!");
+
+		if (iCount == 10) {
+			break;
+		}
+		iCount++;
 		Sleep(1000);
 	}
 	iReturn = Client->Release();

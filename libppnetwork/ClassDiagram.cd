@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PP::PPClientRecvPacketPool" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPClientRecvPacketPool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPSingleton&lt;T&gt;" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPSingleton.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPIOCP" Collapsed="true">
+    <Position X="2.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAgEAABQCAEAAAAAAABCAAAAAARQgACAFAAAAI=</HashCode>
+      <FileName>PPIOCP.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPItachHunter" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQBAAgAAAAIEAAAACACAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>PPItachHunter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPNetworkObject" Collapsed="true">
+    <Position X="5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAABAEAAAAAAACAAAAEAAAAAAAAAACABEAAAI=</HashCode>
+      <FileName>PPNetworkObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPPacketPool" Collapsed="true">
+    <Position X="1.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAACAAABAAwAAAAIEAAAACAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPPacketPool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPReceiver" Collapsed="true">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAACABEAAAI=</HashCode>
+      <FileName>PPReceiver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPRecvPacketPool" Collapsed="true">
+    <Position X="6.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>PPRecvPacketPool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPSender" Collapsed="true">
+    <Position X="7.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIAACAAAAAAEAAAAAAAECgAAAABABCABAAAAI=</HashCode>
+      <FileName>PPSender.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPServerRecvPacketPool" Collapsed="true">
+    <Position X="9.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPServerRecvPacketPool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPSessionManager" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAiAABAAAAAAIAIAAAQAAAAAAAACAAAAAJIAAA=</HashCode>
+      <FileName>PPSessionManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPTCPIOCPClient" Collapsed="true">
+    <Position X="5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEBAAAAARAAgEAAAABAQIAAAAIAAQQAAiBBQAAAI=</HashCode>
+      <FileName>PPTCPIOCPClient.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PPTCPIOCPServer" Collapsed="true">
+    <Position X="9.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEBAAAAARAAAAAAAABEQIAEAAIAAQQAACABAAAAI=</HashCode>
+      <FileName>PPTCPIOCPServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="PP::PPOVERLAPPED" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>PPOVERLAPPED.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketHeader" Collapsed="true">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacket" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketMessage" Collapsed="true">
+    <Position X="16.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketAccount" Collapsed="true">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAEA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketStartMoveObjectGuestToHost" Collapsed="true">
+    <Position X="19.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAEAAAAAAADgAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketStartMoveObjectHostToGuest" Collapsed="true">
+    <Position X="14.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAEAAAAAAADgAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketStopMoveObjectGuestToHost" Collapsed="true">
+    <Position X="16.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketStopMoveObjectHostToGuest" Collapsed="true">
+    <Position X="18" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketNoticeSessionExit" Collapsed="true">
+    <Position X="18" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPPacketForProcess" Collapsed="true">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAgACAAAAAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PP::PPSession" Collapsed="true">
+    <Position X="19.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIgAAAAAAAACIAAAAAAAAAAAAACAAYAAAAACAA=</HashCode>
+      <FileName>PPSession.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="PP::PPPacketType" Collapsed="true">
+    <Position X="16.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAEAAAAAAAAAEAAABAAABEAAAAEAAAAAGAAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PP::PPPacketMode" Collapsed="true">
+    <Position X="14.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>PPProtocol.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Malgun Gothic" Size="9" />
+</ClassDiagram>
