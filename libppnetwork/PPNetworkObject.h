@@ -7,7 +7,12 @@ namespace PP {
 	private:
 		std::thread m_threadThis;
 	protected:
+#ifdef _DEBUG
+		wchar_t m_wcharVersion[44] = L"libppnetwork [Version 0.1.0004] Debug Mode\n";
+#else
 		wchar_t m_wcharVersion[33] = L"libppnetwork [Version 0.1.0004]\n";
+#endif // DEBUG
+		
 	public:
 		PPNetworkObject();
 		virtual ~PPNetworkObject();
