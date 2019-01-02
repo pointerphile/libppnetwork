@@ -1,7 +1,7 @@
 #include "PPIOCP.h"
 #include "PPSessionManager.h"
-#include "PPServerRecvPacketPool.h"
-#include "PPClientRecvPacketPool.h"
+#include "PPRecvPacketPoolServer.h"
+#include "PPRecvPacketPoolClient.h"
 
 PP::PPIOCP::PPIOCP() {}
 PP::PPIOCP::~PPIOCP() {}
@@ -154,10 +154,10 @@ int PP::PPIOCP::DispatchRecv(PPSession Session, DWORD dwTransferred) {
 	packetRecv.m_socketSession = Session.m_socketSession;
 	memcpy((void*)&packetRecv.m_Packet, Session.m_wsabufRecv.buf, dwTransferred);
 	if (bIsServer) {
-		PPServerRecvPacketPool::GetInstance().push_back(packetRecv);
+		PPRecvPacketPoolServer::GetInstance().push_back(packetRecv);
 	}
 	else {
-		PPClientRecvPacketPool::GetInstance().push_back(packetRecv);
+		PPRecvPacketPoolClient::GetInstance().push_back(packetRecv);
 	}
 
 	if (m_FP != nullptr) {

@@ -1,7 +1,7 @@
 #include "../libppnetwork/PPTCPIOCPServer.h"							//서버 클래스 정의.
-#include "../libppnetwork/PPServerRecvPacketPool.h"						//서버 구동시 필요합니다. 싱글톤 객체.
+#include "../libppnetwork/PPRecvPacketPoolServer.h"						//서버 구동시 필요합니다. 싱글톤 객체.
 #include "../libppnetwork/PPTCPIOCPClient.h"							//클라이언트 클래스 정의.
-#include "../libppnetwork/PPClientRecvPacketPool.h"						//클라이언트 구동시 필요합니다. 싱글톤 객체
+#include "../libppnetwork/PPRecvPacketPoolClient.h"						//클라이언트 구동시 필요합니다. 싱글톤 객체
 #include "../libppnetwork/PPSender.h"									//센더 클래스 정의.
 #include "../libppnetwork/PPSessionManager.h"
 
@@ -9,7 +9,7 @@
 #ifdef _DEBUG
 #pragma comment(lib, "../x64/Debug/libppnetwork_d.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 #else
-#pragma comment(lib, "../x64/Debug/libppnetwork.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
+#pragma comment(lib, "../x64/Release/libppnetwork.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 #endif // DEBUG
 
 
@@ -119,9 +119,9 @@ int ProcessServerPacket() {
 	PP::PPPacketForProcess packetRecv;
 	PP::PPPacketForProcess packetSend;
 	//IOCP 스레드에서 넣엇던 패킷을 담은 패킷풀 접근
-	packetRecv = PP::PPServerRecvPacketPool::GetInstance().front();
+	packetRecv = PP::PPRecvPacketPoolServer::GetInstance().front();
 	//패킷풀 맨 앞 pop()
-	PP::PPServerRecvPacketPool::GetInstance().pop_front();
+	PP::PPRecvPacketPoolServer::GetInstance().pop_front();
 	wchar_t* wcharBuf = nullptr;
 	switch (packetRecv.m_Packet.m_Header.m_type) {
 		//클라이언트에게 문자열 패킷을 수신받을 때 처리하는 소스
@@ -170,8 +170,8 @@ int ProcessClientPacket() {
 	//클라이언트 객체에서 Startup 실행 전 SetFP()를 실행해야 합니다.
 	//std::wcout << "injected ProcessClientPacket()..." << std::endl;
 	//PPRecvPacketPool에서 저장한 수신패킷을 하나 끄집어내서 처리합니다.
-	PP::PPPacketForProcess RecvPacket = PP::PPClientRecvPacketPool::GetInstance().front();
-	PP::PPClientRecvPacketPool::GetInstance().pop_front();
+	PP::PPPacketForProcess RecvPacket = PP::PPRecvPacketPoolClient::GetInstance().front();
+	PP::PPRecvPacketPoolClient::GetInstance().pop_front();
 	wchar_t* wcharBuf = nullptr;
 	switch (RecvPacket.m_Packet.m_Header.m_type) {
 	case PP::PPPacketType::TYPE_STRING: {

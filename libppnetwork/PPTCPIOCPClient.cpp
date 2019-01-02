@@ -1,7 +1,7 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "PPTCPIOCPClient.h"
 #include "PPSessionManager.h"
-#include "PPRecvPacketPool.h"
+#include "PPRecvPacketPoolClient.h"
 
 PP::PPTCPIOCPClient::PPTCPIOCPClient() {}
 PP::PPTCPIOCPClient::~PPTCPIOCPClient() {}
@@ -81,7 +81,7 @@ int PP::PPTCPIOCPClient::Release() {
 	int iReturn = 0;
 
 	PPSessionManager::GetInstance().clear();
-	PPRecvPacketPool::GetInstance().clear();
+	PPRecvPacketPoolClient::GetInstance().clear();
 
 	//WSACleanup()
 	std::wcout << L"WSACleanup()..." << std::endl;

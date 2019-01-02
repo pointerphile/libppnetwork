@@ -54,13 +54,13 @@
     <ClInclude Include="PPPacketPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PPClientRecvPacketPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PPServerRecvPacketPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PPProtocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPRecvPacketPoolClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPRecvPacketPoolServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,10 +95,10 @@
     <ClCompile Include="PPPacketPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPClientRecvPacketPool.cpp">
+    <ClCompile Include="PPRecvPacketPoolClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPServerRecvPacketPool.cpp">
+    <ClCompile Include="PPRecvPacketPoolServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
