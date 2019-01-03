@@ -27,7 +27,7 @@ namespace PP {
 		int SetNumberOfWorkers(unsigned short iNumberOfThreads);
 		HANDLE BindSocket(HANDLE handle, ULONG_PTR CompletionKey);
 		int(*m_FP)();
-		LIBPPNETWORK_API int SetFP(int(*FP)());
+		int SetFP(int(*FP)());
 	};
 }
 

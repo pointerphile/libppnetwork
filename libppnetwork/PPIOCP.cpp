@@ -185,7 +185,7 @@ int PP::PPIOCP::SetNumberOfWorkers(unsigned short iNumberOfThreads) {
 	return 0;
 }
 
-LIBPPNETWORK_API int PP::PPIOCP::SetFP(int(*FP)() = nullptr) {
+int PP::PPIOCP::SetFP(int(*FP)() = nullptr) {
 	m_FP = FP;
 	return 0;
 }
