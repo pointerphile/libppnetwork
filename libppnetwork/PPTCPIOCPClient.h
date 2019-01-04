@@ -23,6 +23,7 @@ namespace PP {
 		virtual int Release();
 	public:
 		int CheckPortNumber();
+		LIBPPNETWORK_API int GetIPv4Address();
 		LIBPPNETWORK_API int Startup();
 		LIBPPNETWORK_API int SetHost(std::string strHostIPv4);
 		LIBPPNETWORK_API int SetPortNumber(unsigned short iPort);

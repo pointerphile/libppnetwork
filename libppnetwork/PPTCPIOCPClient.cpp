@@ -103,6 +103,26 @@ int PP::PPTCPIOCPClient::CheckPortNumber() {
 	return 0;
 }
 
+int PP::PPTCPIOCPClient::GetIPv4Address() {
+	ULONG iResult = 0;
+	ULONG iBufSize = 0;
+	PIP_ADAPTER_ADDRESSES pIPv4 = (PIP_ADAPTER_ADDRESSES)new size_t[16384];
+	*pIPv4 = {};
+	iBufSize = 16384;
+
+	iResult = GetAdaptersAddresses(AF_INET, 0, nullptr, pIPv4, &iBufSize);
+	if (iResult != ERROR_SUCCESS) {
+		MessageBoxW(nullptr, L"오류: 로컬 IPv4 주소 획득 실패", L"오류", 0);
+		return iResult;
+	}
+
+	sockaddr_in* saUnicast = (sockaddr_in*)pIPv4->FirstUnicastAddress->Address.lpSockaddr;
+	char* pcharIPv4 = inet_ntoa(saUnicast->sin_addr);
+	MessageBoxA(0, pcharIPv4, nullptr, 0);
+
+	return 0;
+}
+
 LIBPPNETWORK_API int PP::PPTCPIOCPClient::Startup() {
 	int iReturn = 0;
 	m_IOCP.SetNumberOfWorkers(m_iNumberOfThreads);

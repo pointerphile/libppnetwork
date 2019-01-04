@@ -6,10 +6,12 @@
 #include <thread>
 #include <mutex>
 #include <WinSock2.h>
+#include <iphlpapi.h>
 #include "PPProtocol.h"
 #include "PPOVERLAPPED.h"
 
 #pragma comment(lib, "ws2_32")
+#pragma comment(lib, "Iphlpapi.lib")
 
 #ifdef LIBPPNETWORK_EXPORTS
 #define LIBPPNETWORK_API __declspec(dllexport)

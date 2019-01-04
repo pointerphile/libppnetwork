@@ -4,8 +4,7 @@
 #include "../libppnetwork/PPRecvPacketPoolServer.h"
 #include "../libppnetwork/PPSender.h"
 
-#include <iphlpapi.h>
-#pragma comment(lib, "Iphlpapi.lib")
+
 #ifdef _DEBUG
 #pragma comment(lib, "../x64/Debug/libppnetwork_d.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 #else

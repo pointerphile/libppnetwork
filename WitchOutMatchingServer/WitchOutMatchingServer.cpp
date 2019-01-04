@@ -31,7 +31,7 @@ int PP::WitchOutMatchingServer::GetIPv4Address() {
 	ULONG iResult = 0;
 	ULONG iBufSize = 0;
 	PIP_ADAPTER_ADDRESSES pIPv4 = (PIP_ADAPTER_ADDRESSES)new size_t[16384];
-	//*pIPv4 = {};
+	*pIPv4 = {};
 	iBufSize = 16384;
 
 	iResult = GetAdaptersAddresses(AF_INET, 0, nullptr, pIPv4, &iBufSize);
