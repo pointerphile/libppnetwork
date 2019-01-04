@@ -1,3 +1,4 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "PPTCPIOCPServer.h"
 #include "PPSessionManager.h"
 #include "PPRecvPacketPoolServer.h"
@@ -80,11 +81,14 @@ int PP::PPTCPIOCPServer::Run() {
 			DisplayError(L"accept()");
 			break;
 		}
+		
 		PPSessionManager::GetInstance().insert(Session.m_socketSession, Session);
 		auto iter = PPSessionManager::GetInstance().find(Session.m_socketSession);
 		//CreateIoCompletionPort(): socket 정수 값을 IOCP의 키 값으로 사용함.
 		CreateIoCompletionPort((HANDLE)iter->second.m_socketSession, m_IOCP.m_hIOCP, iter->second.m_socketSession, 0);
+		char* pTemp = inet_ntoa(iter->second.m_saSession.sin_addr);
 
+		std::cout << pTemp << std::endl;
 		iter->second.m_wsabufRecv.buf = iter->second.m_bufRead;
 		iter->second.m_wsabufRecv.len = PACKET_BUFFER_SIZE;
 

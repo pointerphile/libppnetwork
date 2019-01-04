@@ -117,9 +117,9 @@ int PP::PPTCPIOCPClient::GetIPv4Address() {
 	}
 
 	sockaddr_in* saUnicast = (sockaddr_in*)pIPv4->FirstUnicastAddress->Address.lpSockaddr;
-	char* pcharIPv4 = inet_ntoa(saUnicast->sin_addr);
-	MessageBoxA(0, pcharIPv4, nullptr, 0);
+	m_strIPv4 = inet_ntoa(saUnicast->sin_addr);
 
+	delete pIPv4;
 	return 0;
 }
 
