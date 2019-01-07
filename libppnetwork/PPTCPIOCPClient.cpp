@@ -54,6 +54,9 @@ int PP::PPTCPIOCPClient::Init() {
 		return iReturn;
 	}
 
+	//GetIPv4Address
+	GetIPv4Address();
+
 	m_Session.m_ovRecv.dwFlag = ASYNCFLAG_RECV;
 	m_Session.m_ovSend.dwFlag = ASYNCFLAG_SEND;
 
@@ -91,6 +94,7 @@ int PP::PPTCPIOCPClient::Release() {
 		DisplayError(L"WSACleanup()");
 		return iReturn;
 	}
+	m_Session = {};
 	return 0;
 }
 
@@ -103,23 +107,17 @@ int PP::PPTCPIOCPClient::CheckPortNumber() {
 	return 0;
 }
 
-int PP::PPTCPIOCPClient::GetIPv4Address() {
-	ULONG iResult = 0;
-	ULONG iBufSize = 0;
-	PIP_ADAPTER_ADDRESSES pIPv4 = (PIP_ADAPTER_ADDRESSES)new size_t[16384];
-	*pIPv4 = {};
-	iBufSize = 16384;
-
-	iResult = GetAdaptersAddresses(AF_INET, 0, nullptr, pIPv4, &iBufSize);
+int PP::PPTCPIOCPClient::SetIPv4Address() {
+	int iResult = 0;
+	sockaddr_in saClient = {};
+	int iSize = sizeof(saClient);
+	iResult = getsockname(m_Session.m_socketSession, (sockaddr*)&saClient, &iSize);
 	if (iResult != ERROR_SUCCESS) {
-		MessageBoxW(nullptr, L"오류: 로컬 IPv4 주소 획득 실패", L"오류", 0);
+		DisplayError(L"getsockname()");
 		return iResult;
 	}
-
-	sockaddr_in* saUnicast = (sockaddr_in*)pIPv4->FirstUnicastAddress->Address.lpSockaddr;
-	m_strIPv4 = inet_ntoa(saUnicast->sin_addr);
-
-	delete pIPv4;
+	m_strIPv4 = inet_ntoa(saClient.sin_addr);
+	std::cout << "My IP: " << m_strIPv4.c_str() << std::endl;
 	return 0;
 }
 
@@ -151,6 +149,10 @@ LIBPPNETWORK_API int PP::PPTCPIOCPClient::SetPortNumber(unsigned short iPort) {
 LIBPPNETWORK_API int PP::PPTCPIOCPClient::SetNumberOfThreads(unsigned short iNumberOfThreads) {
 	m_iNumberOfThreads = iNumberOfThreads;
 	return 0;
+}
+
+LIBPPNETWORK_API std::string PP::PPTCPIOCPClient::GetIPv4Address() {
+	return m_strIPv4;
 }
 
 LIBPPNETWORK_API int PP::PPTCPIOCPClient::SetFP(int(*FP)()) {

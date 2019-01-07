@@ -23,11 +23,13 @@ namespace PP {
 		virtual int Release();
 	public:
 		int CheckPortNumber();
-		LIBPPNETWORK_API int GetIPv4Address();
 		LIBPPNETWORK_API int Startup();
 		LIBPPNETWORK_API int SetHost(std::string strHostIPv4);
 		LIBPPNETWORK_API int SetPortNumber(unsigned short iPort);
 		LIBPPNETWORK_API int SetNumberOfThreads(unsigned short iNumberOfThreads);
+		LIBPPNETWORK_API int SetIPv4Address();
+		LIBPPNETWORK_API std::string GetIPv4Address();
+	public:
 		int(*m_FP)();
 		LIBPPNETWORK_API int SetFP(int(*FP)());
 	};
