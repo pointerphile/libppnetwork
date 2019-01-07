@@ -53,7 +53,6 @@ int PP::PPTCPIOCPClient::Init() {
 		MessageBoxError(L"WSAConnect()");
 		return iReturn;
 	}
-
 	//GetIPv4Address
 	GetIPv4Address();
 
@@ -67,7 +66,6 @@ int PP::PPTCPIOCPClient::Init() {
 
 	iter->second.m_wsabufRecv.buf = iter->second.m_bufRead;
 	iter->second.m_wsabufRecv.len = PACKET_BUFFER_SIZE;
-
 	iReturn = WSARecv(iter->second.m_socketSession, &iter->second.m_wsabufRecv, 1, nullptr, &dwFlags, &iter->second.m_ovRecv, nullptr);
 	if (iReturn == SOCKET_ERROR) {
 		DisplayError(L"WSARecv()");
@@ -83,6 +81,7 @@ int PP::PPTCPIOCPClient::Run() {
 int PP::PPTCPIOCPClient::Release() {
 	int iReturn = 0;
 
+	m_IOCP.Release();
 	PPSessionManager::GetInstance().clear();
 	PPRecvPacketPoolClient::GetInstance().clear();
 

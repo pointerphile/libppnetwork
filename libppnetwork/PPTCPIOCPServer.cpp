@@ -86,12 +86,9 @@ int PP::PPTCPIOCPServer::Run() {
 		auto iter = PPSessionManager::GetInstance().find(Session.m_socketSession);
 		//CreateIoCompletionPort(): socket 정수 값을 IOCP의 키 값으로 사용함.
 		CreateIoCompletionPort((HANDLE)iter->second.m_socketSession, m_IOCP.m_hIOCP, iter->second.m_socketSession, 0);
-		char* pTemp = inet_ntoa(iter->second.m_saSession.sin_addr);
 
-		std::cout << pTemp << std::endl;
 		iter->second.m_wsabufRecv.buf = iter->second.m_bufRead;
 		iter->second.m_wsabufRecv.len = PACKET_BUFFER_SIZE;
-
 		iResult = WSARecv(iter->second.m_socketSession, &iter->second.m_wsabufRecv, 1, nullptr, &dwFlags, &iter->second.m_ovRecv, nullptr);
 		if (iResult == SOCKET_ERROR) {
 			DisplayError(L"WSARecv()");
