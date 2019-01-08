@@ -36,13 +36,18 @@ int PP::PPIOCP::Run() {
 		DWORD dwError = 0;
 
 		isReturn = GetQueuedCompletionStatus(m_hIOCP, &dwTransferred, &lpCompletionKey, (LPOVERLAPPED*)&overlapped, INFINITE);
-		
+		if (m_hIOCP == 0) {
+			dwError = WSAGetLastError();
+			if (dwError != WSA_IO_PENDING) {
+				DisplayError(L"GetQueuedCompletionStatus");
+			}
+			break;
+		}
 		//넘겨받은 키 값으로 세션 탐색
 		auto iter = PPSessionManager::GetInstance().find((SOCKET)lpCompletionKey);
 		if (iter == PPSessionManager::GetInstance().end()) {
-			dwError = WSAGetLastError();
+			
 			if (dwError != WSA_IO_PENDING) {
-				std::wcout << iter->second.m_socketSession << L": 리턴 = ?; 전송량 = 0; 세션을 찾음" << std::endl;
 				DisplayError(L"GetQueuedCompletionStatus");
 			}
 			PPSessionManager::GetInstance().erase(lpCompletionKey);
@@ -136,12 +141,13 @@ int PP::PPIOCP::Run() {
 			}
 		}
 	}
-
+	std::wcout << L"PPIOCP::run(): exit" << std::endl;
 	return 0;
 }
 
 int PP::PPIOCP::Release() {
 	CloseHandle(m_hIOCP);
+	m_hIOCP = 0;
 	return 0;
 }
 

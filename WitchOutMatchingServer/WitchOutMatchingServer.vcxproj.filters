@@ -21,12 +21,36 @@
     <ClCompile Include="WitchOutMatchingServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PPNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPCompositeNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPSequence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WitchOutMatchingServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPProtocolMatchingServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPCompositeNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPSequence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

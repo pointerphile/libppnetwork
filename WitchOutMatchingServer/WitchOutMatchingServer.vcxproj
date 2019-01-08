@@ -116,10 +116,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PPCompositeNode.cpp" />
+    <ClCompile Include="PPGroup.cpp" />
+    <ClCompile Include="PPNode.cpp" />
+    <ClCompile Include="PPSequence.cpp" />
     <ClCompile Include="WitchOutMatchingServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PPCompositeNode.h" />
+    <ClInclude Include="PPGroup.h" />
+    <ClInclude Include="PPNode.h" />
     <ClInclude Include="PPProtocolMatchingServer.h" />
+    <ClInclude Include="PPSequence.h" />
     <ClInclude Include="WitchOutMatchingServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

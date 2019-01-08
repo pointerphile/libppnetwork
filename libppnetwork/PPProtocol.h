@@ -8,7 +8,6 @@ constexpr auto PACKET_PAYLOAD_SIZE = PACKET_BUFFER_SIZE - PACKET_HEADER_SIZE;
 //4 Bytes	:	int, float, long
 //8 Bytes	:	long long
 namespace PP {
-#pragma pack(push, 1)
 	//패킷 분류를 위한 열거형 변수
 	//PPPacket::m_Header::m_type에 지정합니다.
 	enum PPPacketType : unsigned short {
@@ -24,6 +23,7 @@ namespace PP {
 		RECV,
 		SEND,
 	};
+#pragma pack(push, 1)
 	//패킷 헤더
 	struct PPPacketHeader {
 		unsigned short m_len;				//패킷의 길이 2바이트(헤더 길이(PACKET_HEADER_SIZE)까지 포함해야 함)

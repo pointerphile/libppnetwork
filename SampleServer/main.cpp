@@ -5,7 +5,6 @@
 #include "../libppnetwork/PPSender.h"									//센더 클래스 정의.
 #include "../libppnetwork/PPSessionManager.h"
 
-#include <string>
 #ifdef _DEBUG
 #pragma comment(lib, "../x64/Debug/libppnetwork_d.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
 #else

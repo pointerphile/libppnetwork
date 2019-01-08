@@ -3,6 +3,8 @@
 #include "../libppnetwork/PPTCPIOCPServer.h"
 #include "../libppnetwork/PPRecvPacketPoolServer.h"
 #include "../libppnetwork/PPSender.h"
+#include "PPProtocolMatchingServer.h"
+#include "PPSequence.h"
 
 
 #ifdef _DEBUG
@@ -13,6 +15,8 @@
 
 namespace PP {
 	class WitchOutMatchingServer {
+	private:
+		PPSequence* m_pHead;
 	public:
 		PPTCPIOCPServer* m_pServer;
 		PPSender* m_pSender;
@@ -23,8 +27,6 @@ namespace PP {
 		int Init();
 		int Run();
 		int Release();
-	public:
-		int GetIPv4Address();
 	public:
 		static int ProcessPacket();
 	};

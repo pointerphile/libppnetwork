@@ -11,6 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleServer", "SampleServe
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WitchOutMatchingServer", "WitchOutMatchingServer\WitchOutMatchingServer.vcxproj", "{BFA29A16-2E54-4183-86EB-F3078CA74FB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16} = {17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
