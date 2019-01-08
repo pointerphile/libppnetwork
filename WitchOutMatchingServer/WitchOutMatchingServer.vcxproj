@@ -119,6 +119,7 @@
     <ClCompile Include="WitchOutMatchingServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PPProtocolMatchingServer.h" />
     <ClInclude Include="WitchOutMatchingServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

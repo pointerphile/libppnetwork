@@ -33,12 +33,18 @@ int PP::PPIOCP::Run() {
 		dwTransferred = 0;
 		lpCompletionKey = 0;
 		overlapped = 0;
+		DWORD dwError = 0;
 
 		isReturn = GetQueuedCompletionStatus(m_hIOCP, &dwTransferred, &lpCompletionKey, (LPOVERLAPPED*)&overlapped, INFINITE);
-		DWORD dwError = WSAGetLastError();
+		
 		//넘겨받은 키 값으로 세션 탐색
 		auto iter = PPSessionManager::GetInstance().find((SOCKET)lpCompletionKey);
 		if (iter == PPSessionManager::GetInstance().end()) {
+			dwError = WSAGetLastError();
+			if (dwError != WSA_IO_PENDING) {
+				std::wcout << iter->second.m_socketSession << L": 리턴 = ?; 전송량 = 0; 세션을 찾음" << std::endl;
+				DisplayError(L"GetQueuedCompletionStatus");
+			}
 			PPSessionManager::GetInstance().erase(lpCompletionKey);
 			continue;
 		}

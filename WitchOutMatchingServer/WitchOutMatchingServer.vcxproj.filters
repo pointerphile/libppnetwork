@@ -26,5 +26,8 @@
     <ClInclude Include="WitchOutMatchingServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PPProtocolMatchingServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
