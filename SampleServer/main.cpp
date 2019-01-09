@@ -17,8 +17,6 @@ int ProcessClientPacket();
 int StartupServer();
 int StartupClient();
 
-PP::PPSessionManager* manager = &PP::PPSessionManager::GetInstance();
-
 int main(int argc, char* argv[]) {
 	int iReturn = 0;
 	std::locale::global(std::locale(""));
@@ -71,7 +69,7 @@ int StartupServer() {
 	}
 
 	iReturn = Server->Release();							//서버 종료
-	delete Server;										//동적 서버객체 삭제
+	delete Server;											//동적 서버객체 삭제
 	return 0;
 }
 int StartupClient() {
@@ -80,7 +78,7 @@ int StartupClient() {
 	PP::PPTCPIOCPClient* Client = PP::GetClient();			//동적 클라이언트객체 생성
 	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
 
-	iReturn = Client->SetHost("192.168.0.47");					//서버의 IPv4
+	iReturn = Client->SetHost("192.168.0.47");				//서버의 IPv4
 	iReturn = Client->SetPortNumber(10000);					//서버의 포트 번호
 	iReturn = Client->SetNumberOfThreads(2);				//생성할 IOCP 스레드 개수
 	iReturn = Client->SetFP(ProcessClientPacket);			//패킷을 처리할 함수 포인터 지정
@@ -142,7 +140,7 @@ int ProcessServerPacket() {
 		memcpy(packetSendMsg.m_charMessage, wstrBuf.c_str(), iSizeOfpakcetSendMsg);
 		//보낼 패킷 작성
 		packetSend.m_socketSession = packetRecv.m_socketSession;							//PPPacketForProcess::m_socketSession으로 패킷 수신자 또는 송신자를 지정할 수 있다.
-		packetSend.m_Mode = PP::PPPacketMode::SEND;											//현재 아무 기능에 관여하지 않는 변수다.
+		packetSend.m_Mode = PP::PPPacketMode::SEND;											//수신받은 패킷인지 송신할 패킷인지 지정
 		memcpy(packetSend.m_Packet.m_Payload,												//패킷 적재부 작성
 			(void*)&packetSendMsg, iSizeOfpakcetSendMsg);									//패킷 적재부에 memcpy로 적재할 구조체를 deep copy해서 입력하면 된다.		
 		packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + iSizeOfpakcetSendMsg;		//패킷 헤더길이 4바이트 + 적재부 길이를 합친 총 길이
