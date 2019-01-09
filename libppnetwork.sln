@@ -10,11 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleServer", "SampleServe
 		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16} = {17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WitchOutMatchingServer", "WitchOutMatchingServer\WitchOutMatchingServer.vcxproj", "{BFA29A16-2E54-4183-86EB-F3078CA74FB1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16} = {17601DEA-A9ED-4BC2-BB47-1CAEB78ADB16}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -39,14 +34,6 @@ Global
 		{B5538B9B-BE38-429B-B72E-C3323E0E78A5}.Release|x64.Build.0 = Release|x64
 		{B5538B9B-BE38-429B-B72E-C3323E0E78A5}.Release|x86.ActiveCfg = Release|Win32
 		{B5538B9B-BE38-429B-B72E-C3323E0E78A5}.Release|x86.Build.0 = Release|Win32
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Debug|x64.ActiveCfg = Debug|x64
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Debug|x64.Build.0 = Debug|x64
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Debug|x86.ActiveCfg = Debug|Win32
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Debug|x86.Build.0 = Debug|Win32
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Release|x64.ActiveCfg = Release|x64
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Release|x64.Build.0 = Release|x64
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Release|x86.ActiveCfg = Release|Win32
-		{BFA29A16-2E54-4183-86EB-F3078CA74FB1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
