@@ -4,6 +4,10 @@
 PP::PPSessionManager::PPSessionManager() {}
 PP::PPSessionManager::~PPSessionManager() {}
 
+int PP::PPSessionManager::Init() { return 0; }
+int PP::PPSessionManager::Run() { return 0; }
+int PP::PPSessionManager::Release() { return 0; }
+
 bool PP::PPSessionManager::insert(SOCKET socket, PPSession session) {
 	//std::lock_guard<std::mutex> lock(m_mutex);
 	m_mapSession.insert(std::make_pair(socket, session));

@@ -74,6 +74,7 @@ int PP::PPIOCP::Run() {
 				packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(PPPacketNoticeSessionExit);
 				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
 				m_Sender.Broadcast(packetSend);
+				continue;
 
 				continue;
 			}
@@ -104,6 +105,7 @@ int PP::PPIOCP::Run() {
 							packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(PPPacketNoticeSessionExit);
 							packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
 							m_Sender.Broadcast(packetSend);
+							continue;
 						}
 					}
 				}
@@ -131,6 +133,7 @@ int PP::PPIOCP::Run() {
 				packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + sizeof(PPPacketNoticeSessionExit);
 				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
 				m_Sender.Broadcast(packetSend);
+				continue;
 			}
 			else {
 				dwError = WSAGetLastError();
@@ -153,6 +156,11 @@ int PP::PPIOCP::Release() {
 
 HANDLE PP::PPIOCP::BindSocket(HANDLE handle, ULONG_PTR CompletionKey) {
 	return CreateIoCompletionPort(handle, m_hIOCP, CompletionKey, 0);
+}
+
+int PP::PPIOCP::SetFP(std::function<int()> FP) {
+	m_FP = FP;
+	return 0;
 }
 
 int PP::PPIOCP::DispatchRecv(PPSession Session, DWORD dwTransferred) {
@@ -197,7 +205,7 @@ int PP::PPIOCP::SetNumberOfWorkers(unsigned short iNumberOfThreads) {
 	return 0;
 }
 
-int PP::PPIOCP::SetFP(int(*FP)() = nullptr) {
-	m_FP = FP;
-	return 0;
-}
+//int PP::PPIOCP::SetFP(int(*FP)() = nullptr) {
+//	m_FP = FP;
+//	return 0;
+//}

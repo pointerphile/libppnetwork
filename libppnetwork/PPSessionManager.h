@@ -2,15 +2,19 @@
 #include "PPNetworkObject.h"
 #include "PPSingleton.h"
 namespace PP {
-	class PPSessionManager : public PPSingleton<PPSessionManager> {
+	class PPSessionManager : public PPNetworkObject, public PPSingleton<PPSessionManager> {
 	private:
 		friend class PPSingleton<PPSessionManager>;
 	public:
 		std::map<SOCKET, PP::PPSession> m_mapSession;
-		std::mutex m_mutex;
+		
 	public:
 		PPSessionManager();
 		virtual ~PPSessionManager();
+	public:
+		int Init();
+		int Run();
+		int Release();
 	public:
 		bool insert(SOCKET socket, PPSession session);
 		bool erase(SOCKET socket);

@@ -168,7 +168,7 @@ int PP::PPTCPIOCPServer::SetNumberOfThreads(unsigned short iNumberOfThreads) {
 	return 0;
 }
 
-LIBPPNETWORK_API int PP::PPTCPIOCPServer::SetFP(int(*FP)()) {
+LIBPPNETWORK_API int PP::PPTCPIOCPServer::SetFP(std::function<int()> FP) {
 	m_FP = FP;
 	m_IOCP.SetFP(m_FP);
 	return 0;

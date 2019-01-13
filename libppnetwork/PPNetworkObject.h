@@ -1,12 +1,13 @@
 #pragma once
 #include "PPInclude.h"
 #include "PPSession.h"
-
+static std::mutex m_mutex;
 namespace PP {
 	class PPNetworkObject {
 	private:
 		std::thread m_threadThis;
 	protected:
+		
 #ifdef _DEBUG
 		wchar_t m_wcharVersion[44] = L"libppnetwork [Version 0.1.0005] Debug Mode\n";
 #else

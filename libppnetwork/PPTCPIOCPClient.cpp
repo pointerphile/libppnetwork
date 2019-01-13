@@ -154,7 +154,7 @@ LIBPPNETWORK_API std::string PP::PPTCPIOCPClient::GetIPv4Address() {
 	return m_strIPv4;
 }
 
-LIBPPNETWORK_API int PP::PPTCPIOCPClient::SetFP(int(*FP)()) {
+LIBPPNETWORK_API int PP::PPTCPIOCPClient::SetFP(std::function<int()> FP) {
 	m_FP = FP;
 	m_IOCP.SetFP(m_FP);
 	return 0;

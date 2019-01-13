@@ -26,8 +26,10 @@ namespace PP {
 		int SetServer(bool boolean);
 		int SetNumberOfWorkers(unsigned short iNumberOfThreads);
 		HANDLE BindSocket(HANDLE handle, ULONG_PTR CompletionKey);
-		int(*m_FP)();
-		int SetFP(int(*FP)());
+		//int(*m_FP)();
+		//int SetFP(int(*FP)());
+		std::function<int()> m_FP;
+		int SetFP(std::function<int()> FP);
 	};
 }
 

@@ -22,8 +22,8 @@ namespace PP {
 		LIBPPNETWORK_API int Startup();
 		LIBPPNETWORK_API int SetPortNumber(unsigned short iPort);
 		LIBPPNETWORK_API int SetNumberOfThreads(unsigned short iNumberOfThreads);
-		int(*m_FP)();
-		LIBPPNETWORK_API int SetFP(int(*FP)());
+		std::function<int()> m_FP;
+		LIBPPNETWORK_API int SetFP(std::function<int()> FP);
 	};
 
 	LIBPPNETWORK_API PP::PPTCPIOCPServer* GetServer();

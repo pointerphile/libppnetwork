@@ -30,8 +30,10 @@ namespace PP {
 		LIBPPNETWORK_API int SetIPv4Address();
 		LIBPPNETWORK_API std::string GetIPv4Address();
 	public:
-		int(*m_FP)();
-		LIBPPNETWORK_API int SetFP(int(*FP)());
+		//int(*m_FP)();
+		//LIBPPNETWORK_API int SetFP(int(*FP)());
+		std::function<int()> m_FP;
+		LIBPPNETWORK_API int SetFP(std::function<int()> FP);
 	};
 
 	LIBPPNETWORK_API PP::PPTCPIOCPClient* GetClient();

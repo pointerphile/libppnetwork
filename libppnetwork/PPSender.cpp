@@ -40,6 +40,7 @@ int PP::PPSender::SendWStringToServer(std::wstring wstrMessage) {
 }
 
 int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
+	//std::lock_guard<std::mutex> lock(m_mutex);
 	int iReturn = 0;
 	DWORD dwBytesWritten = 0;
 	DWORD dwError = 0;
@@ -61,10 +62,13 @@ int PP::PPSender::Broadcast(PPPacketForProcess packetSend) {
 			dwError = WSAGetLastError();
 			if (dwError != WSA_IO_PENDING) {
 				DisplayError(L"WSASend()");
-				//PPItachHunter::GetInstance().push_back(iter->second.m_socketSession);
 			}
 		}
+		if (PPSessionManager::GetInstance().m_mapSession.empty()) {
+			break;
+		}
 	}
+	
 	return iReturn;
 }
 

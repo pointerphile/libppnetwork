@@ -6,6 +6,8 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <functional>
+
 #include <WinSock2.h>
 #include <iphlpapi.h>
 #include "PPProtocol.h"
