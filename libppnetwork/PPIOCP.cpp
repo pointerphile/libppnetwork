@@ -164,6 +164,7 @@ int PP::PPIOCP::SetFP(std::function<int()> FP) {
 }
 
 int PP::PPIOCP::DispatchRecv(PPSession Session, DWORD dwTransferred) {
+	DWORD dwError = 0;
 	int iReturn = 0;
 	PPPacketForProcess packetRecv = {};
 	wchar_t wcharBuf[1024] = {};
@@ -184,6 +185,7 @@ int PP::PPIOCP::DispatchRecv(PPSession Session, DWORD dwTransferred) {
 		m_FP();
 	}
 
+	dwError = WSAGetLastError();
 	//WSAReceive ½Ç½Ã
 	iReturn = m_Receiver.Recv(Session, PACKET_BUFFER_SIZE);
 
