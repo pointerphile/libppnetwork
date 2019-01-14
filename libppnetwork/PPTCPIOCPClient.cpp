@@ -81,7 +81,7 @@ int PP::PPTCPIOCPClient::Run() {
 int PP::PPTCPIOCPClient::Release() {
 	int iReturn = 0;
 
-	m_IOCP.Release();
+	
 	PPSessionManager::GetInstance().clear();
 	PPRecvPacketPoolClient::GetInstance().clear();
 
@@ -94,6 +94,7 @@ int PP::PPTCPIOCPClient::Release() {
 		return iReturn;
 	}
 	m_Session = {};
+	m_IOCP.Release();
 	return 0;
 }
 
