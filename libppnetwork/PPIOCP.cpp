@@ -75,12 +75,11 @@ int PP::PPIOCP::Run() {
 				packetSend.m_Packet.m_Header.m_type = PPPacketType::TYPE_NOTICE_SESSION_EXIT;
 				m_Sender.Broadcast(packetSend);
 				continue;
-
-				continue;
 			}
 			else {
 				if (lpCompletionKey != 0 && overlapped != nullptr) {
 					if (overlapped->dwFlag == ASYNCFLAG_SEND) {
+						dwError = WSAGetLastError();
 						DispatchSend(iter->second, dwTransferred);
 						dwError = WSAGetLastError();
 						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
@@ -89,6 +88,7 @@ int PP::PPIOCP::Run() {
 						}
 					}
 					else {
+						dwError = WSAGetLastError();
 						DispatchRecv(iter->second, dwTransferred);
 						dwError = WSAGetLastError();
 						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
