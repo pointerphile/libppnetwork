@@ -16,7 +16,9 @@ namespace PP {
 		TYPE_STRING_HOST_TO_GUEST,
 		TYPE_STRING_GUEST_TO_HOST,
 		TYPE_NOTICE_SESSION_EXIT,
-		TYPE_REQ_BROADCAST_EXCEPT_ME
+		TYPE_REQ_BROADCAST_EXCEPT_ME,
+		TYPE_REQ_SOCKET,
+		TYPE_ACK_SOCKET
 	};
 	//수신받은 패킷인지 송신할 패킷인지 표시하는 열거형 변수
 	enum PPPacketMode : unsigned short {
@@ -44,6 +46,9 @@ namespace PP {
 		char m_charPassword[16];			//비밀번호 16바이트
 	};
 	struct PPPacketNoticeSessionExit {
+		SOCKET m_socketSession;
+	};
+	struct PPPacketNoticeSession {
 		SOCKET m_socketSession;
 	};
 #pragma pack(pop)

@@ -120,6 +120,18 @@ int PP::PPTCPIOCPClient::SetIPv4Address() {
 	return 0;
 }
 
+LIBPPNETWORK_API int PP::PPTCPIOCPClient::ReqSocketNumber() {
+	int iReturn = 0;
+
+	PPPacketForProcess packetSend = {};
+	packetSend.m_Mode = PP::PPPacketMode::SEND;
+	packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE;
+	packetSend.m_Packet.m_Header.m_type = PP::PPPacketType::TYPE_REQ_SOCKET;
+	m_Sender.SendToServer(packetSend);
+
+	return iReturn;
+}
+
 LIBPPNETWORK_API int PP::PPTCPIOCPClient::Startup() {
 	int iReturn = 0;
 	m_IOCP.SetNumberOfWorkers(m_iNumberOfThreads);

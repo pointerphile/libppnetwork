@@ -93,7 +93,7 @@ int StartupClient() {
 		//클라이언트 자체 로직 처리
 		
 		pSender->SendWStringToServer(L"Hello, Server!");
-
+		Client->ReqSocketNumber();
 		//if (iCount == 10) {
 		//	break;
 		//}
@@ -149,6 +149,21 @@ int ProcessServerPacket() {
 		pSender->Broadcast(packetSend);														//PPSessionManager에 있는 모든 세션들을 순회하여 send를 실시함.
 		break;
 	}
+	case PP::PPPacketType::TYPE_REQ_SOCKET: {
+		PP::PPPacketNoticeSession packetSession = {};
+		int iSizeOfPayload = sizeof(packetSession);
+		packetSession.m_socketSession = packetRecv.m_socketSession;
+		packetSend.m_socketSession = packetRecv.m_socketSession;
+		packetSend.m_Mode = PP::PPPacketMode::SEND;
+		memcpy(packetSend.m_Packet.m_Payload,												//패킷 적재부 작성
+			(void*)&packetSession, iSizeOfPayload);									//패킷 적재부에 memcpy로 적재할 구조체를 deep copy해서 입력하면 된다.		
+		packetSend.m_Packet.m_Header.m_len = PACKET_HEADER_SIZE + iSizeOfPayload;		//패킷 헤더길이 4바이트 + 적재부 길이를 합친 총 길이
+		packetSend.m_Packet.m_Header.m_type = PP::PPPacketType::TYPE_ACK_SOCKET;
+
+		pSender->Send(packetSend);
+		break;
+	}
+
 	default:
 		//정의되지 않은 패킷 처리부입니다.
 		wcharBuf = (wchar_t*)&packetRecv;
@@ -186,6 +201,11 @@ int ProcessClientPacket() {
 		wstrBuf.append(L"[공지] 탈주한 세션번호(소켓번호): ");
 		wstrBuf.append(std::to_wstring(packetRecvNotice->m_socketSession));
 		std::wcout << wstrBuf << std::endl;
+		break;
+	}
+	case PP::PPPacketType::TYPE_ACK_SOCKET: {
+		PP::PPPacketNoticeSession* packetSession = (PP::PPPacketNoticeSession*)RecvPacket.m_Packet.m_Payload;
+		std::wcout << packetSession->m_socketSession << std::endl;
 		break;
 	}
 	default:
