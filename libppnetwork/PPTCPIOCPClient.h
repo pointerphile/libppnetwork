@@ -11,8 +11,8 @@ namespace PP {
 		unsigned short m_iNumberOfThreads;
 	private:
 		PPSession m_Session;
-		PPSender m_Sender;
 	public:
+		PPSender m_Sender;
 		PPIOCP m_IOCP;
 	public:
 		PPTCPIOCPClient();
