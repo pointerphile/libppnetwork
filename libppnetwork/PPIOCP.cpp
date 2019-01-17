@@ -83,7 +83,7 @@ int PP::PPIOCP::Run() {
 						DispatchSend(iter->second, dwTransferred);
 						dwError = WSAGetLastError();
 						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-							std::wcout << iter->second.m_socketSession << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_SEND" << std::endl;
+							std::wcout << lpCompletionKey << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_SEND" << std::endl;
 							DisplayError(L"GetQueuedCompletionStatus");
 						}
 					}
@@ -92,7 +92,7 @@ int PP::PPIOCP::Run() {
 						DispatchRecv(iter->second, dwTransferred);
 						dwError = WSAGetLastError();
 						if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-							std::wcout << iter->second.m_socketSession << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_RECV" << std::endl;
+							std::wcout << lpCompletionKey << L": 리턴 = T; 전송량&키&오버랩 != 0; ASYNCFLAG_RECV" << std::endl;
 							DisplayError(L"GetQueuedCompletionStatus");
 							PPSessionManager::GetInstance().erase(lpCompletionKey);
 							//탈주닌자 공지
@@ -119,7 +119,7 @@ int PP::PPIOCP::Run() {
 				//세션 리스트에서 해당 세션 제거 실시
 				dwError = WSAGetLastError();
 				if (dwError != WSA_IO_PENDING && dwError != ERROR_SUCCESS) {
-					std::wcout << iter->second.m_socketSession << L": 리턴 = F; 오버랩 != 0 비정상종료 처리" << std::endl;
+					std::wcout << lpCompletionKey << L": 리턴 = F; 오버랩 != 0 비정상종료 처리" << std::endl;
 					DisplayError(L"GetQueuedCompletionStatus");
 				}
 				PPSessionManager::GetInstance().erase(lpCompletionKey);
