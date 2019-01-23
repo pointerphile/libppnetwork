@@ -40,11 +40,6 @@ namespace PP {
 	struct PPPacketMessage {
 		char m_charMessage[PACKET_PAYLOAD_SIZE];	//최대 2048 바이트의 문자열 전송 가능
 	};
-	//사용자명, 비밀번호 전송을 위한 구조체
-	struct PPPacketAccount {
-		char m_charUsername[16];			//사용자명 16바이트
-		char m_charPassword[16];			//비밀번호 16바이트
-	};
 	struct PPPacketNoticeSessionExit {
 		SOCKET m_socketSession;
 	};

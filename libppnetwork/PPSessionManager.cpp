@@ -11,7 +11,7 @@ int PP::PPSessionManager::Release() { return 0; }
 bool PP::PPSessionManager::insert(SOCKET socket, PPSession session) {
 	//std::lock_guard<std::mutex> lock(m_mutex);
 	m_mapSession.insert(std::make_pair(socket, session));
-	std::wcout << L"PPSessionManager : push_back()..." << std::endl;
+	std::wcout << L"PPSessionManager : push_back()..." << socket << std::endl;
 	OutputDebugStringW(L"PPSessionManager : push_back()...\n");
 	return true;
 }

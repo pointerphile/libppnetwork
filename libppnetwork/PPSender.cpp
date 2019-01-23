@@ -19,6 +19,9 @@ LIBPPNETWORK_API int PP::PPSender::Send(PPPacketForProcess packetSend) {
 	wsabufSend.len = packetSend.m_Packet.m_Header.m_len;
 
 	auto iter = PPSessionManager::GetInstance().find(packetSend.m_socketSession);
+	if (iter == PPSessionManager::GetInstance().m_mapSession.end()) {
+		return -1;
+	}
 
 	iReturn = WSASend(iter->second.m_socketSession, &wsabufSend, 1, nullptr, 0, &iter->second.m_ovSend, nullptr);
 	if (iReturn == SOCKET_ERROR) {
