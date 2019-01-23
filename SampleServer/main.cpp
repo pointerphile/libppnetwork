@@ -4,6 +4,7 @@
 #include "../libppnetwork/PPRecvPacketPoolClient.h"						//클라이언트 구동시 필요합니다. 싱글톤 객체
 #include "../libppnetwork/PPSender.h"									//센더 클래스 정의.
 #include "../libppnetwork/PPSessionManager.h"
+#include <fstream>
 
 #ifdef _DEBUG
 #pragma comment(lib, "../x64/Debug/libppnetwork_d.lib")					//서버 라이브러리의 lib 로드. 실행시 libppnetwork.dll이 반드시 필요합니다.
@@ -50,6 +51,7 @@ int ProcessClientPacket();
 
 int StartupServer() {
 	int iReturn = 0;
+
 	std::wcout << L"서버를 시작합니다." << std::endl;
 	PP::PPTCPIOCPServer* Server = PP::GetServer();			//동적 서버객체 생성
 	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
@@ -74,11 +76,17 @@ int StartupServer() {
 }
 int StartupClient() {
 	int iReturn = 0;
+	std::string strIPv4;
+	std::ifstream ifIPv4;
+	ifIPv4.open("IPv4.txt");
+	ifIPv4 >> strIPv4;
+	ifIPv4.close();
+
 	std::wcout << L"클라이언트를 시작합니다.";
 	PP::PPTCPIOCPClient* Client = PP::GetClient();			//동적 클라이언트객체 생성
 	PP::PPSender* pSender = PP::GetSender();				//동적 패킷전송객체 생성
 
-	iReturn = Client->SetHost("192.168.0.47");				//서버의 IPv4
+	iReturn = Client->SetHost(strIPv4.c_str());				//서버의 IPv4
 	iReturn = Client->SetPortNumber(10000);					//서버의 포트 번호
 	iReturn = Client->SetNumberOfThreads(2);				//생성할 IOCP 스레드 개수
 	iReturn = Client->SetFP(ProcessClientPacket);			//패킷을 처리할 함수 포인터 지정
@@ -93,11 +101,6 @@ int StartupClient() {
 		//클라이언트 자체 로직 처리
 		
 		pSender->SendWStringToServer(L"Hello, Server!");
-		Client->ReqSocketNumber();
-		//if (iCount == 10) {
-		//	break;
-		//}
-		//iCount++;
 		Sleep(1000);
 	}
 	iReturn = Client->Release();
