@@ -94,6 +94,7 @@ int StartupClient() {
 
 	int iCount = 0;
 	if (iReturn != 0) {
+		std::wcout << L"½ÇÆĞ" << iReturn << std::endl;
 		std::system("pause");
 		return iReturn;
 	}

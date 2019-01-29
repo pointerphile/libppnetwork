@@ -174,6 +174,6 @@ LIBPPNETWORK_API int PP::PPTCPIOCPServer::SetFP(std::function<int()> FP) {
 	return 0;
 }
 
-LIBPPNETWORK_API PP::PPTCPIOCPServer * PP::GetServer() {
+PP::PPTCPIOCPServer* PP::GetServer() {
 	return new PP::PPTCPIOCPServer();
 }
