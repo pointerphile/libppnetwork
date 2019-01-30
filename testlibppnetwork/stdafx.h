@@ -12,8 +12,6 @@
 #include <windows.h>
 // Requires ws2_32.lib
 #include <WinSock2.h>
-// Requires Iphlpapi.lib
-//#include <iphlpapi.h>
 // reference additional headers your program requires here
 #include <iostream>
 #include <chrono>
@@ -25,6 +23,10 @@
 #include <vector>
 #include <list>
 #include <map>
+
+#include "PPOVERLAPPED.h"
+#include "PPProtocol.h"
+#include "PPSession.h"
 
 #ifdef TESTLIBPPNETWORK_EXPORTS
 #define LIBPPNETWORK_API __declspec(dllexport)

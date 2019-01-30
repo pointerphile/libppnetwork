@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PP::IOCP" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAABAAAAAAAAAAACAAgABAAAAAAAAgAAAAAEAAAAY=</HashCode>
+      <FileName>IOCP.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::NetworkObject" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAABAAAAABAAAAAAgAAAAAAgAAAAAAAAAAAAI=</HashCode>
+      <FileName>NetworkObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::PacketMgr" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAABgA=</HashCode>
+      <FileName>PacketMgr.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP::TCPIOCPServer" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABQAAAAAAAAAAAAAAAAIAAAAAABIBAAAAI=</HashCode>
+      <FileName>TCPIOCPServer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Receiver" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Receiver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sender" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Sender.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Malgun Gothic" Size="9" />
+</ClassDiagram>

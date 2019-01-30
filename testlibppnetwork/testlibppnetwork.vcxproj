@@ -151,6 +151,9 @@
     <ClInclude Include="IOCP.h" />
     <ClInclude Include="NetworkObject.h" />
     <ClInclude Include="PacketMgr.h" />
+    <ClInclude Include="PPOVERLAPPED.h" />
+    <ClInclude Include="PPProtocol.h" />
+    <ClInclude Include="PPSession.h" />
     <ClInclude Include="Receiver.h" />
     <ClInclude Include="Sender.h" />
     <ClInclude Include="stdafx.h" />
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="TCPIOCPServer.cpp" />
     <ClCompile Include="testlibppnetwork.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,6 +39,15 @@
     <ClInclude Include="Receiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PPProtocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPOVERLAPPED.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -68,5 +77,8 @@
     <ClCompile Include="Receiver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
