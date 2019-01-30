@@ -18,6 +18,7 @@ namespace PP {
 	public:
 		int SetProcessPacket(const std::function<int()>& fnParam);
 		int SetIOCP();
+		void SetThread(const unsigned int uiNumThreads);
 		const HANDLE GetIOCPHandle();
 	};
 }

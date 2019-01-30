@@ -2,7 +2,10 @@
 #include "TCPIOCPServer.h"
 
 
-PP::TCPIOCPServer::TCPIOCPServer()
+PP::TCPIOCPServer::TCPIOCPServer() :
+	bEnable(false),
+	m_socketListen(0),
+	m_usPortNumber(0)
 {
 }
 
@@ -13,6 +16,7 @@ PP::TCPIOCPServer::~TCPIOCPServer()
 
 int PP::TCPIOCPServer::Init()
 {
+	std::wcout << L"PP::TCPIOCPServer::Init()" << std::endl;
 	WSADATA wsa;
 	int iReturn = 0;
 	//WSAStartup()
@@ -87,6 +91,7 @@ int PP::TCPIOCPServer::Run()
 
 int PP::TCPIOCPServer::Release()
 {
+	bEnable = false;
 	return 0;
 }
 
@@ -101,6 +106,8 @@ int PP::TCPIOCPServer::SetPort(const short& usPortNumber)
 
 int PP::TCPIOCPServer::Startup()
 {
-	LaunchThread(1);
+	bEnable = true;
+	m_IOCP.Init();
+	Init();
 	return 0;
 }

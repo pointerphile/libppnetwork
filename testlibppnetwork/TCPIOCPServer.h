@@ -7,6 +7,7 @@ namespace PP{
 		public NetworkObject
 	{
 	private:
+		bool bEnable;
 		SOCKET m_socketListen;
 		sockaddr_in m_saListen;
 		unsigned short m_usPortNumber;

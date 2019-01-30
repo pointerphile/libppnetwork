@@ -17,7 +17,7 @@ PP::IOCP::~IOCP()
 int PP::IOCP::Init()
 {
 	int iReturn = 0;
-	std::wcout << L"PP::IOCP::IOCP()" << std::endl;
+	std::wcout << L"PP::IOCP::Init()" << std::endl;
 
 	iReturn = SetIOCP();
 	if (iReturn != 0) {
@@ -28,6 +28,7 @@ int PP::IOCP::Init()
 
 int PP::IOCP::Run()
 {
+	std::wcout << L"PP::IOCP::Run()" << std::endl;
 	return 0;
 }
 
@@ -53,6 +54,11 @@ int PP::IOCP::SetIOCP()
 		return -1;
 	}
 	return 0;
+}
+
+void PP::IOCP::SetThread(const unsigned int uiNumThreads)
+{
+	m_uiNumThreads = uiNumThreads;
 }
 
 const HANDLE PP::IOCP::GetIOCPHandle()
