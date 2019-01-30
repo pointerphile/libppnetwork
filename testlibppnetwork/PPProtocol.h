@@ -1,7 +1,7 @@
 #pragma once
-constexpr auto PACKET_BUFFER_SIZE = 2048;
-constexpr auto PACKET_HEADER_SIZE = 4;
-constexpr auto PACKET_PAYLOAD_SIZE = PACKET_BUFFER_SIZE - PACKET_HEADER_SIZE;
+constexpr unsigned short PACKET_BUFFER_SIZE = 2048;
+constexpr unsigned short PACKET_HEADER_SIZE = 4;
+constexpr unsigned short PACKET_PAYLOAD_SIZE = PACKET_BUFFER_SIZE - PACKET_HEADER_SIZE;
 //List of Data Types
 //1 Byte	:	bool, char
 //2 Bytes	:	short, wchar_t(Windows)
