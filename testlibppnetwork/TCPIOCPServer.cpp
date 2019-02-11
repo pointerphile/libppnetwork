@@ -60,6 +60,7 @@ int PP::TCPIOCPServer::Init()
 
 int PP::TCPIOCPServer::Run()
 {
+	std::wcout << L"PP::TCPIOCPServer::Run()" << std::endl;
 	while (true) {
 		int iResult = 0;
 		DWORD dwFlags = 0;
@@ -95,19 +96,30 @@ int PP::TCPIOCPServer::Release()
 	return 0;
 }
 
+int PP::TCPIOCPServer::CheckPort(const short & usPortNumber)
+{
+	if (usPortNumber <= 1024) {
+		return -1;
+	}
+	return 0;
+}
+
 int PP::TCPIOCPServer::SetPort(const short& usPortNumber)
 {
-	if (usPortNumber < 1024) {
-		return usPortNumber;
-	}
 	m_usPortNumber = usPortNumber;
 	return 0;
 }
 
 int PP::TCPIOCPServer::Startup()
 {
-	bEnable = true;
+	int iReturn = 0;
+
+	iReturn = CheckPort(m_usPortNumber);
+	if (iReturn != 0) {
+		return iReturn;
+	}
 	m_IOCP.Init();
 	Init();
+	bEnable = true;
 	return 0;
 }

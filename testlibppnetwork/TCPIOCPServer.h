@@ -20,6 +20,8 @@ namespace PP{
 		virtual int Init() override;
 		virtual int Run() override;
 		virtual int Release() override;
+	private:
+		int CheckPort(const short& usPortNumber);
 	public:
 		LIBPPNETWORK_API int SetPort(const short& usPortNumber);
 		LIBPPNETWORK_API int Startup();
